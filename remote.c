@@ -1558,7 +1558,7 @@ void end_comp(channel)
 int channel;
 {
   int flag;
-  char ans_str[10];
+  char ans_str[11];
   int ans_len;
 
   if ((channel < 1) || (channel > tnc_channels)) return;

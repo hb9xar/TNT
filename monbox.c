@@ -2013,9 +2013,7 @@ int monbox_ch;
 }
 
 /* put buffer to xmon */
-void write_monbox(monbox_ch,buffer)
-int monbox_ch;
-char *buffer;
+void write_monbox(int monbox_ch, char *buffer)
 {
   unsigned short x;
   short size;

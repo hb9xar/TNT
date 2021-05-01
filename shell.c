@@ -70,7 +70,7 @@ extern char rem_tnt_str[];
 extern char rem_inv_str[];
 extern char rem_newlin_str[];
 extern char ok_text[];
-extern is_root;
+extern int is_root;
 extern int file_paclen;
 extern int use_select;
 

@@ -744,9 +744,7 @@ int channel;
   }
 }
 
-void connect_update(channel,buffer,len)
-int channel;
-char *buffer;
+void connect_update(int channel, char *buffer, int len)
 {
   int was_active;
   

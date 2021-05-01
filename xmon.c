@@ -35,7 +35,7 @@ extern void cancel_monbox(int xmon_ch,int monbox_ch);
 #endif
 extern int decstathuf(char *src,char *dest);
 #ifdef USE_IFACE
-extern write_monbox(int monbox_ch,char *buffer);
+extern void write_monbox(int monbox_ch,char *buffer);
 extern int check_monbox(char *buffer);
 #endif
 extern void cmd_display(int flag,int channel,char *buffer,int cr);
