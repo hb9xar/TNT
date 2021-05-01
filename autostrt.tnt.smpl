@@ -1,0 +1,12 @@
+# sample autostart file
+# format:
+# <callsign+SSID> <tnt command>
+#
+# connect dl4ybg-5 -> start convers user-client
+dl4ybg-5 convers
+# connect dl4ybg-12 -> get a channel status
+dl4ybg-12 cs
+# connect dl4ybg-13 -> get a unix shell
+dl4ybg-13 shell
+# connect dl4ybg-14 -> connect to convers-server
+dl4ybg-14 socket unix:/tcp/sockets/convers

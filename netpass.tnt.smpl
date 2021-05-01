@@ -1,0 +1,14 @@
+# netpass.tnt - file
+# Syntax is:
+# CALL PASSWORD AUTOCONNECT-CALL LEVEL
+#
+# Examples
+#
+# Next line sets user/pass=dl7zzz/geheim, no default connect, level=9
+dl7zzz geheim none 9
+#
+# Next line sets user/pass=dl7zzy/secret, autoconnects
+# to DB0ZZZ-8 always, and he has command-access-level=3
+# This autoconnect-callsign means that dl7zzy CAN'T connect
+# any other station than DB0ZZZ-8 ! - Excluding if he has level=9 !
+dl7zzy secret DB0ZZZ-8 3

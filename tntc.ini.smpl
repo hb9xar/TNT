@@ -1,0 +1,4 @@
+# main directory
+tntc_dir /work/tnt/
+# socket for frontend
+frontend_socket unix:tntsock

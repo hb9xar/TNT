@@ -1,0 +1,8 @@
+# sample file for remote commands disabling
+# format:
+# <callsign with SSID>
+#
+DB0GR
+DB0BLO-8
+DB0JES-3
+DB0TEM-8

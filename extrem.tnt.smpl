@@ -1,0 +1,8 @@
+# sample file for extended remote commands
+# format:
+# <remote command> <access level> <significant chars> <tnt command>
+#
+# //SCONvers : connect convers (Unix-)socket
+sconvers 0 4 socket unix:/tcp/sockets/convers
+# //AXSERv : connect local ax25 server on port 2001 (only for sysop)
+axserv 1 5 socket localhost:2001

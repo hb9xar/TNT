@@ -1,0 +1,13 @@
+#
+# additional strings to detect the end of a mailbox-message
+#
+# format: 'xy string'
+# x: 1 = message complete, 2 = message aborted
+# y: value from 1 to 4 (up to 4 strings) 
+#
+# one prompt of baycom-box
+11 Help Dir Read Erase Check REPly Send Alter Quit
+# prompt of diebox, if message read cancelled
+21 (H)elp (C)heck (L)ist (R)ead (S)end (E)rase (D)ir (U)sage (Q)uit
+# flexnet-reconnect
+22 *** reconnected to

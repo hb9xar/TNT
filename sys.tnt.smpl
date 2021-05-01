@@ -1,0 +1,8 @@
+# sample access restriction and sysop authentification file
+# format:
+# <callsign> <password-file> <sysop-level>
+#
+# DL7ZZZ with root access
+DL7ZZZ /work/tnt/dl7zzz.pw 1
+# DL7ZZY with no root access
+DL7ZZY /work/tnt/dl7zzy.pw 0

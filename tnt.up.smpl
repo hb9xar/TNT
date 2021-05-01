@@ -1,0 +1,22 @@
+# connect-text
+ctext 1 Put here your connect text !
+# monitor
+m iusc
+# number of connects
+y 10
+# bell for every received packet
+infobell on
+# no umlaut
+umlaut off
+# logfile append
+append on
+# execute word-wrap at end of line
+wordwrap on
+# send whole line
+wholelin on
+# timestamp
+k 2
+# set time in tnc
+timeset
+# set date in tnc
+dateset

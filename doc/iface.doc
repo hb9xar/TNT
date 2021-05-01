@@ -1,0 +1,746 @@
+
+Description of Socket-Interface-Protocol Rev.2
+----------------------------------------------
+
+Mark Wahl, DL4YBG
+Created: 26.11.94
+Last Update: 13.04.96
+
+
+0. General Layout
+-----------------
+
+Indicator (1 Byte)
+Channel   (2 Byte)
+Usernr    (2 Byte)
+Length    (2 Byte)
+Data      (Length Bytes)
+
+1. Commands
+-----------
+
+1.1 Activate Program
+--------------------
+(PR->Program)
+On the specified channel the linked program (defined by used socket)
+shall be activated (the interface will be opened).
+If channel is 0, the activation is started from the operator console
+instead of a packet channel.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  NO_USERNR
+Length    (2 Byte)
+  LEN_SIMPLE + (strlen(callsign) + 1)
+Command   (4 Byte)
+  CMD_ACTIVATE
+Callsign  ((strlen(callsign) + 1) Byte)
+  char callsign[]
+
+
+1.2 Deactivate Program
+----------------------
+(PR->Program)
+On the specified channel the linked program (defined by used socket)
+shall be deactivated (the interface will be closed).
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE
+Command   (4 Byte)
+  CMD_DEACTIVATE
+
+
+1.3 Connect
+-----------
+(Program->PR)
+A free channel shall be used to build up a connection. QRG, Sourcecall, 
+Destinationcall and a connection-build-up-timeout must be specified.
+The connection will be build up using xconnect-feature, therefore no
+digipeaterpath is allowed.
+The user 'usernr' will be informed about the result of the connect,
+successful or not.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_CONNECT + (strlen(sourcecall) + 1) + (strlen(destcall) + 1)
+Command   (4 Byte)
+  CMD_CONNECT
+Timeout   (4 Byte)
+  int timeout
+Qrg       (20 Byte)
+  char qrg[20]
+Sourcecall (strlen(sourcecall) + 1)
+  char sourcecall[]
+Destcall (strlen(destcall) + 1)
+  char destcall[]
+
+
+1.4 Disconnect
+--------------
+(Program->PR)
+The connection on the specified channel shall be disconnected.
+
+Indicator (2 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE
+Command   (4 Byte)
+  CMD_DISCONNECT
+
+
+1.5 Finish Program
+------------------
+(Program->PR)
+If the program was started directly (using special SSID), the connection
+will be disconnected.
+Otherwise a reconnection to the last used command processor will occur
+(reconnect to terminal/node-software).
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE
+Command   (4 Byte)
+  CMD_FINISH
+
+
+1.6 Channel Status
+------------------
+(PR->Program)
+If the number of frames in the TX-buffer (Program and TNC) has changed
+on a channel linked to a program, a channel status message with the
+new number of frames in TX-buffer will be sent.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_CSTATUS
+Command   (4 Byte)
+  CMD_CSTATUS
+Number of frames in TX-buffer (4 Bytes)
+  int snd_frames
+  
+
+1.7 Blocking
+------------
+(Program->PR, PR->Program)
+If blocking is received, the sending side has reached maximum byte count
+and is waiting for an unblocking message. Otherwise no data will be
+transmitted.
+This is a simple handshake to avoid an overrun of the socket.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  NO_USERNR
+Length    (2 Byte)
+  LEN_SIMPLE
+Command   (4 Byte)
+  CMD_BLOCK
+
+
+1.8 Unblocking
+--------------
+(Program->PR, PR->Program)
+unblock restarts the transmitter on the other side of the interface.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  NO_USERNR
+Length    (2 Byte)
+  LEN_SIMPLE
+Command   (1 Byte)
+  CMD_UNBLOCK
+
+
+1.9 Sort new mail
+-----------------
+(PR->DPBox)
+A mail was collected from monitor or during connect with a mailbox.
+Pattern is the filename of the used file, Rcall is the callsign of
+the mailbox where this file was fetched (or an empty string). Not
+used for S&F connects, only for monitoring features.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE + (strlen(pattern_) + 1) + (strlen(rcall) + 1)
+Command   (4 Byte)
+  CMD_SORT_NEW_MAIL
+Pattern   ((strlen(pattern_) + 1) Bytes)
+  char pattern_[]
+Rcall     ((strlen(rcall) + 1) Bytes)
+  char rcall[]
+
+
+1.10 SF Rx EMT
+--------------
+(PR->DPBox)
+A mail for folder 'E', 'M' or 'T' was received. These mails consist only
+of one line. This line will be sent directly in Eingabe. Not used for
+S&F connects, only for monitoring features.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE + (strlen(eingabe_) + 1)
+Command   (4 Byte)
+  CMD_SF_RX_EMT
+Eingabe   ((strlen(eingabe_) + 1) Bytes)
+  char eingabe_[]
+
+
+1.11 Connect for Store and Forward
+----------------------------------
+(DPBox->PR)
+A free channel shall be used to build up a connection for Store and
+Forward. Sourcecall, Destinationcall and a connection-build-up-timeout
+must be specified.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  NO_USERNR
+Length    (2 Byte)
+  LEN_BOXPBOXSF + (strlen(sourcecall) + 1) + (strlen(destcall) + 1)
+Command   (4 Byte)
+  CMD_BOXPBOXSF
+Timeout   (4 Byte)
+  int timeout
+Sourcecall (strlen(sourcecall) + 1)
+  char sourcecall[]
+Destcall (strlen(destcall) + 1)
+  char destcall[]
+
+
+1.12 Disconnect
+---------------
+(DPBox->PR)
+The connection on the specified channel shall be disconnected.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE
+Command   (4 Byte)
+  CMD_BOXPRDISC
+
+
+1.13 Abort Store and Forward
+----------------------------
+(DPBox->PR)
+Store and Forward shall be cancelled. If Immediate is not 0, outstanding
+TX-Packet must be cancelled, too.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (4 Byte)
+  LEN_BOXPABORTSF
+Command   (4 Byte)
+  CMD_BOXPABORTSF
+Immediate (4 Byte)
+  int immediate
+
+
+1.14 Abort Routing
+------------------
+(PR->DPBox)
+A Connect command for Store and Forward sent by DPBox (CMD_BOXPBOXSF) was
+not successful.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  NO_USERNR
+Length    (2 Byte)
+  LEN_SIMPLE + (strlen(callsign) + 1)
+Command   (4 Byte)
+  CMD_ABORT_ROUTING
+Callsign  ((strlen(callsign) + 1) Byte)
+  char callsign[]
+
+
+1.15 Start Store and Forward
+----------------------------
+(PR->DPBox)
+A Connect command for Store and Forward sent by DPBox (CMD_BOXPBOXSF) was
+successful and S&F can begin.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  NO_USERNR
+Length    (2 Byte)
+  LEN_SIMPLE + (strlen(callsign) + 1)
+Command   (4 Byte)
+  CMD_START_SF
+Callsign  ((strlen(callsign) + 1) Byte)
+  char callsign[]
+
+
+1.16 Finish Program
+-------------------
+(PR->Program)
+The Program connected to the socket shall terminate the execution.
+This is used to kill daemon-processes.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  NO_USERNR
+Length    (2 Byte)
+  LEN_SIMPLE
+Command   (4 Byte)
+  CMD_FINISH_PRG
+
+
+1.17 Activation Response
+------------------------
+(Program->PR)
+If a program was activated via CMD_ACTIVATE or CMD_START_SF, the resulting
+usernr will be returned in this message. If the usernumber is equal 0,
+then the activation was not successful.
+In the response string additional information about the activation can
+be transferred.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE + (strlen(response) + 1)
+Command   (4 Byte)
+  CMD_FINISH_PRG
+Response  ((strlen(response) + 1) Byte)
+  char response[]
+
+
+1.18 AutoBIN-File to Box
+------------------------
+(PR->Program)
+On the current channel a file was received with AutoBIN-protocol.
+Erase defines if the file shall be deleted afterwards, error indicates
+a wrong CRC-checksum and buffer contains the filename of the file.
+No more supported by DPBOX, DPBOX handles AutoBIN itself.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_ABINFILETOBOX + (strlen(buffer) + 1)
+Command   (4 Byte)
+  CMD_ABINFILETOBOX
+Erase     (4 Byte)
+  int erase
+Error     (4 Byte)
+  int error
+Buffer    ((strlen(buffer) + 1) Byte)
+  char buffer[]  
+  
+
+1.19 Huffman Status
+-------------------
+(PR->Program) (Program->PR)
+If huffman coding is enabled or disabled this message will inform the other
+side about the new status. 1 means huffman coding is active, 0 means
+inactive. Huffman encoding/decoding has to be done by PR.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_HUFFSTAT
+Command   (4 Byte)
+  CMD_HUFFSTAT
+Huffstat  (4 Byte)
+  int huffstat
+  
+
+1.20 Frequency Information
+--------------------------
+(PR->Program)
+With this message all frequencies handled by the PR-program are sent to
+the program. This information is used to find the right interface for
+S&F by DPBox.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_QRGINFO
+Command   (4 Byte)
+  CMD_QRGINFO
+Frequency  (220 Byte)
+  char qrg[MAXQRGS+1][20] (MAXQRGS = 10)
+  
+
+1.21 Bulletin-ID query and answer
+---------------------------------
+(PR->DPBox)(DPBox->PR)
+With this message the program can query if a mail is already available
+in the DPBox by checking the bulletin ID. DPBox will answer in 'Found'
+(0: not found, 1: found) and will return the bullid, too. Not used for
+S&F connects, only for monitoring features and similar.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_BULLID
+Command   (4 Byte)
+  CMD_BULLID
+Found     (4 Byte)
+  int found
+Bullid    (13 Byte)
+  char bullid[BULLIDLEN+1] (BULLIDLEN = 12)
+ 
+
+1.22 Start AutoBIN-receive
+--------------------------
+(DPBox->PR)
+This message instructs TNT to prepare AutoBIN reception on the current
+channel. The filename of the file to open will be given as parameter
+(null-terminated string in buffer).
+No more supported by DPBOX, DPBOX handles AutoBIN itself.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE + (strlen(buffer) + 1)
+Command   (4 Byte)
+  CMD_STARTABIN
+Buffer    ((strlen(buffer) + 1) Byte)
+  char buffer[]  
+  
+
+1.23 Update Box-timeout
+--------------------------
+(PR->DPBox)
+During AutoBIN-receive TNT informs DPBox by this message that the user is
+still active.
+No more supported by DPBOX.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE
+Command   (4 Byte)
+  CMD_BOXTOUCH
+
+
+1.24 Set Read/write Mode
+------------------------
+(DPBox->PR)
+This message informs TNT if during a boxconnect the AutoBIN-header shall be
+analysed (rwmode = 0) or not (rwmode = 1). 
+No more supported by DPBOX, DPBOX handles AutoBIN itself.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SETRWMODE
+Command   (4 Byte)
+  CMD_SETRWMODE
+Rwmode    (4 Byte)
+  int rwmode
+  
+
+1.25 Box Is Busy
+----------------
+(DPBox->PR)
+This message informs TNT if DPBox is busy and connects shall be rejected.
+(boxisbusy = 0, connects allowed; boxisbusy = 1, no connects allowed)
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  NO_USERNR
+Length    (2 Byte)
+  LEN_BOXISBUSY
+Command   (4 Byte)
+  CMD_BOXISBUSY
+Boxisbusy (4 Byte)
+  int boxisbusy
+
+  
+1.26 Start Box Broadcast
+------------------------
+(DPBox->PR)
+This message instructs TNT to start a broadcast transmission of a file.
+The broadcast-header is contained in a file, the filename of this file is
+stored in buffer.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  NO_USERNR
+Length    (2 Byte)
+  LEN_SIMPLE + (strlen(buffer) + 1)
+Command   (4 Byte)
+  CMD_STARTBOXBC
+Buffer    ((strlen(buffer) + 1) Byte)
+  char buffer[]  
+
+
+1.27 Broadcast Callback
+-----------------------
+(PR->DPBox)
+If the broadcast transmission of a file is finished, DPBox will be informed
+by this message. The file is identified by the file_id contained in the
+message.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  NO_USERNR
+Length    (2 Byte)
+  LEN_BCCALLBACK
+Command   (4 Byte)
+  CMD_BCCALLBACK
+File_id   (4 Byte)
+  long file_id
+
+
+1.28 Set Unproto Destination
+----------------------------
+(DPBox->PR)
+This message sets the unproto destination for the following unproto data.
+The destination is stored independently for every interface.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  NO_USERNR
+Length    (2 Byte)
+  LEN_SETUNPROTO + (strlen(buffer) + 1)
+Command   (4 Byte)
+  CMD_SETUNPROTO
+Qrg       (20 Byte)
+  char qrg[20]
+Address   ((strlen(address) + 1) Byte)
+  char address[]  
+
+
+1.29 Connect Not Successful
+---------------------------
+(PR->Program)
+A connect, initiated by user 'usernr' was not successful.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE
+Command   (4 Byte)
+  CMD_NOSUCCESSCON
+
+
+1.30 Connect Successful
+-----------------------
+(PR->Program)
+A connect, initiated by user 'usernr' was successful and the link between
+the two connects shall be established. The channel of the new connection is
+contained in channel.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE + (strlen(callsign) + 1)
+Command   (4 Byte)
+  CMD_SUCCESSCON
+Callsign  ((strlen(callsign) + 1) Byte)
+  char callsign[]
+
+
+1.31 TNT-Command
+----------------
+(Program->PR)
+This command contains a command string, which shall be parsed and executed
+by the TNT command processor. 'channel' is used as channel used for the
+command. 'usernr' is the user, which must be informed about the result.
+Only used in DPBOX for the TNTCOMM command.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE + (strlen(buffer) + 1)
+Command   (4 Byte)
+  CMD_TNTCOMMAND
+Buffer    ((strlen(buffer) + 1) Byte)
+  char buffer[]  
+
+
+1.32 TNT-Response
+-----------------
+(PR->Program)
+This message contains the response to the command given by CMD_TNTCOMMAND
+(1.31 TNT-Command). 'follows' indicates, if other responses to the command
+will follow, 'follows' == 0 indicates the last response.
+'channel' is the given channel for the command and 'usernr' is the user,
+who requested the command.
+Only used in DPBOX for the TNTCOMM command.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE + (strlen(buffer) + 1)
+Command   (4 Byte)
+  CMD_TNTRESPONSE
+Follows   (4 Byte)
+  follows
+Buffer    ((strlen(buffer) + 1) Byte)
+  char buffer[]  
+
+
+1.33 Abort Connect
+------------------
+(Program->PR)
+A connect request started by 'usernr' shall be aborted.
+
+Indicator (1 Byte)
+  IF_COMMAND
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  LEN_SIMPLE
+Command   (4 Byte)
+  CMD_ABORTCON
+
+
+
+2. Data
+-------
+
+Indicator (1 Byte)
+  IF_DATA
+Channel   (2 Byte)
+  channel
+Usernr    (2 Byte)
+  usernr
+Length    (2 Byte)
+  1 - 256
+Data      (Length Bytes)
+  char data[]
+
+
+
+3. Unproto
+----------
+The data will be sent to the destination last defined by CMD_SETUNPROTO.
+
+Indicator (1 Byte)
+  IF_UNPROTO
+Channel   (2 Byte)
+  NO_CHANNEL
+Usernr    (2 Byte)
+  NO_USERNR
+Length    (2 Byte)
+  1 - 256
+Data      (Length Bytes)
+  char data[]

@@ -1,0 +1,13 @@
+<IF 438.300>
+N>DB0XYZ Digi xyz
+B>DB0XYZ-8 Box xyz
+N>DB0XYY Digi xyy; N>DB0XYZ N>DB0XYY
+N>DB0XYW Digi xyw; N>DB0XYZ N>DB0XYW
+<END>
+<IF LINK23CM>
+N>DB0XYX Digi xyx
+N>DB0XYW Digi xyw; N>DB0XYX N>DB0XYW
+<END>
+# Now destinations independent of QRG
+N>DB0XYV Digi xyv; N>DB0XYW N>DB0XYV
+B>DB0XYV-3 Box xyv; N>DB0XYV B>DB0XYV-3

@@ -1,0 +1,87 @@
+#
+# Definition of F6FBB-Fileheaders for the MonitorCut-Feature of DP
+# YOU WILL HAVE TO ALTER THESE SETTINGS!
+# BUT: NEVER CHANGE THE ORDER OF THE DEFINITIONS!
+# Unfortunately, the f6fbb-soft has two basic types of fileheaders
+# The first one consists of 5 lines, the second (and newer one) of 7.
+# Additionally those headers exist in many different lingual versions.
+# Therefore you are obliged to setup this file for your personal use...
+#
+# If the Header Format of your local F6FBB doesn't match to these,
+# please write me a msg.
+#
+# THE '#' STARTS A COMMENT LINE... THE FIRST FOUR UNCOMMENTED LINES
+# ARE KEPT AS THE KEYWORDS, THE FOLLOWING 12 UNCOMMENTED LINES ARE
+# THE MONTH IDENTIFIERS AS USED IN YOUR LOCAL F6FBB-BOX
+#
+#
+# An old-style (and dutch language) fbb-header may look like this:
+#
+# Van : DC6OQ  voor IBM   @DL      
+# Type/Status : B$
+# Datum/tijd  : 21-Mrt 13:55
+# Bericht #   : 72618 
+# Titel       : hilfe aastor
+#
+# Now the definitions:
+#
+# first word in header (all signs until the senders callsign):
+Van :
+# third word in header
+voor
+#
+#
+# A new-style (and german language) fbb-header may look like this:
+#
+# Von        : DG8NBR
+# Nach       : YAESU @EU      
+# Typ/Status : B$
+# Datum      : 18-Jun 06:44
+# BID/MID    : 17630BDB0BOX
+# Meldung #  : 85385
+# Titel      : info > FT 530
+#
+# Now the definitions:
+#
+# Denotator in first line:
+#Von        : 
+# Denotator in second line:
+#Nach       : 
+#
+#
+#
+# A new-style (and german language) fbb-header may look like this:
+#
+#Von         : DG1RFG
+#An          : WINGT@DL
+#Typ/Status  : BF
+#Datum/Zeit  : 28-Apr 08:26
+#BID (MID)   : DQKBUMDB0BLO
+#Msg #       : 457242
+#Titel       : TNX ! WinGT und Passwort wer...
+#
+# Now the definitions:
+#
+# Denotator in first line:
+Von         : 
+# Denotator in second line:
+An          : 
+#
+#
+#
+# month identifiers as used in your local f6fbb-bbs:
+# (they depend on the selected language, too)
+#
+Jan
+Feb
+Mar
+Apr
+Mai
+Jun
+Jul
+Aug
+Sep
+Okt
+Nov
+Dez
+

@@ -1,0 +1,6 @@
+# sample file for ignoring Flexnet connection quality checks
+# format:
+# <callsign with SSID>
+#
+DB0BNO
+DB0BLN

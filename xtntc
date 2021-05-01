@@ -1,0 +1,1 @@
+rxvt -T TNTC -8 -sl 0 -geometry 80x35 -font 8x13 -secure '.' -bg black -fg white -e tntc &

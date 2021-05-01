@@ -1,0 +1,3137 @@
+TNT - Un programme Terminal pour le Packet-Radio sous UNIX
+----------------------------------------------------------
+(Derniere modification : 02/02/96)
+
+Traduction en francais : F1IRW et F1RMB.
+  F1IRW @ F5KMR.FRHA.FRA.EU (Ham Radio)
+  F1RMB @ F5KMR.FRHA.FRA.EU (Ham Radio) / oops@ibs.ibs.fr (internet)
+
+
+
+Index
+-----
+
+0. Introduction
+
+0.1 Licence, copies, garantie
+0.2 Sur le Packet Radio et TNT
+0.3 Pourquoi ce programme ?
+0.4 Configuration requise
+0.5 Programme de Messagerie DPBox
+
+
+1. Description
+
+1.1.  Ecrans virtuels
+1.2.  Ligne de statut principale
+1.3.  Commandes clavier
+     1.3.1. Mouvement du curseur et divers
+     1.3.2. Mouvement et controle des fenetres
+     1.3.3. Bascule des ecrans
+     1.3.4. Macros clavier
+1.4  Commandes en mode commande
+     1.4.1. Commandes TNC
+     1.4.2. Commandes externes
+            1.4.2.1.  Reception de donnees dans un fichier
+            1.4.2.2.  Envoyer un fichier
+            1.4.2.3.  Shell, run et redirection
+            1.4.2.4.  Repertoires
+            1.4.2.5.  Divers
+            1.4.2.6.  Scripts de routage
+            1.4.2.7.  Moniteur etendu et liste de messagerie
+            1.4.2.8.  Commandes interface
+            1.4.2.9.  Commandes de l'interface DPBox
+            1.4.2.10. Commandes de generation de mot de passe
+            1.4.2.11. Autorisation et niveau d'acces des commandes distantes  
+            1.4.2.12. Emission/reception de Broadcast
+
+2. Fonctions speciales
+
+2.1.  Commandes Distantes
+      2.1.1. Niveau d'acces par defaut pour les commandes a distance
+      2.1.2. Validation du mot de passe Sysop (//SYSOP)
+      2.1.3. Shell avec l'autorisation du root (//ROOTSH)
+      2.1.4. La commande dangereuse //ECHO
+2.2.  Conversion des umlaut
+      2.2.1. Affichage
+      2.2.2. Envoi d'un texte
+      2.2.3. Reception de fichiers
+      2.2.4. Envoi de fichiers
+2.3.  Utilisation des fonctions UNIX
+      2.3.1. Shell login et redirection
+      2.3.2. Programmes run
+      2.3.3. Interface socket
+2.4.  AutoBIN : transfert de fichier
+2.5.  Texte d'accueil special et fichiers avec macros, base de donnee de noms
+2.6.  Scripts de routage
+2.7.  Actualisation des indicatifs
+2.8.  Carnet de trafic
+2.9.  Macros clavier
+2.10. Liste de messagerie
+      2.10.1. Description generale
+      2.10.2. Utilisation de la liste de messagerie
+      2.10.3. Utilisation des macros clavier
+      2.10.4. Reconnaissance de formats
+2.11. Moniteur etendu
+2.12. Utilisation de DPBox
+      2.12.1. Description generale
+      2.12.2. Utilisation de l'interface socket UNIX
+      2.12.3. Ecran de messagerie
+      2.12.4. Utilisation de DPBox via packet radio
+      2.12.5. Fonctions Autobox et monbox
+2.13. Generation automatique des mots de passe
+      2.13.1. Description generale
+      2.13.2. DIEBOX
+      2.13.3. FlexNet
+      2.13.4. TheNet
+2.14. Compression Huffman
+2.15. Maniement des connexions de test de qualite de FlexNet
+2.16. Utilisation de plusieurs logiciels avec le meme indicatif
+
+3. Installation
+
+3.1.  Fichier de configuration
+      3.1.1. Configuration generale et port serie
+      3.1.2. Securite
+      3.1.3. Repertoires et fichiers
+      3.1.4. Lignes des ecrans virtuels
+      3.1.5. Configuration de l'affichage
+      3.1.6. Attributs d'ecran
+             3.1.6.1. Attributs couleurs
+             3.1.6.2. Attributs monochromes
+      3.1.7. Timeout de l'assemblage des paquets 
+      3.1.8. Options supplementaires
+3.2.  Fichiers de configuration du TNC
+3.3.  Fichier cookie
+3.4.  Fichier pour les commandes distantes
+3.5.  Fichier pour le texte d'accueil
+3.6.  Fichiers pour la base de donnee des noms et des scripts de routage
+      3.6.1. Base de donnee des noms
+      3.6.2. Base de donnee de routage
+3.7.  Identificateur utilisateur et securite
+3.8.  Fichier log pour les resyncronisations
+3.9.  Fichier pour les macros clavier
+3.10. Fichier pour la generation des mots de passe
+3.11. Fichier pour l'authentification sysop
+3.12. Fichier pour inhiber les commandes distantes
+
+4. Options de demarrage
+
+5. Fonctionnement sous X11
+
+6. Portage de TNT
+
+7. Conclusion
+
+A. Annexe
+
+A.1 Table de compression statique Huffman
+
+
+
+
+
+
+
+0. Introduction
+---------------
+
+0.1. Licence, copie et garantie
+-------------------------------
+
+TNT est Copyright (C) 1993-1996 par Mark Wahl, DL4YBG
+
+Ce programme est gratuit; vous pouvez le redistribuer et/ou le modifier
+suivant les termes de la licence generale publique GNU comme publie par la
+Free Software Foundation (fondation de logiciels gratuits).
+
+Ce programme est distribue dans l'espoir qu'il soit utile, mais SANS AUCUNE
+GARANTIE ; sans meme une garantie implicite de COMMERCIALISATION ou QUOI QUE
+CE SOIT DANS CE SENS. Allez voir la licence generale publique GNU pour plus 
+de details (contenue dans le fichier 'licence').
+
+Vous devez avoir recu une copie de la licence generale publique GNU avec ce
+logiciel ; si ce n'est pas la cas, ecrivez a :
+ Free Software Foundation, Inc.
+ 675 Mass Ave
+ Cambridge, MA 02139
+ USA.
+
+
+0.2 Sur le Packet Radio et TNT
+------------------------------
+
+Le Packet Radio est un mode special utilise par les Radio Amateurs pour 
+transferer du texte et des donnees. C'est oriente paquets et utilise le
+protocole AX.25 (une version speciale de l'X.25 pour les besoins des radio
+amateurs).
+
+Il existe des petits ordinateurs qui implementent le protocole AX.25 et
+contiennent l'interface modem avec l'emetteur radio. Le terminal ou
+l'ordinateur avec un programme terminal est connecte par l'interface RS232.
+Ces petits ordinateurs sont appelles Terminal Node Controller (TNC).
+
+Pour la plupart de ces TNCs, un logiciel special est disponible (logiciel 
+WA8DED ou The Firmware par NORD><LINK) qui peut basculer sur un protocole 
+special (hostmode) a l'interface RS232. Si le hostmode est selectionne, 
+il n'est pas possible d'operer le TNC en utilisant un simple terminal, 
+un ordinateur avec un programme de terminal special est alors necessaire.
+
+L'avantage du hostmode est que le programme terminal peut implementer des
+ecrans virtuels pour chaque connexion differente, le mode commande et le
+mode moniteur. Tout ceci, s'ils sont affiches ensemble sur un simple terminal
+peut conduire l'operateur a faire des confusions.
+
+TNT est un programme terminal de ce type (TNT pour "TNc Terminalprogram"). 
+
+
+0.3. Pourquoi ce programme ?
+----------------------------
+
+Il y a des implementations du protocole AX.25 disponibles sous UNIX (KA9Q, 
+WAMPES, ...).
+
+Ils utilisent tous le TNC comme un simple modem (mode KISS) et ont le
+protocole TCP/IP implemente (utilisant l'AX.25).
+
+Mais l'interface utilisateur est assez pauvre, il n'y a pas d'ecran virtuel
+et de buffer pour revenir en arriere.
+
+D'ou mon intention d'ecrire programme qui aurait une tres bonne interface
+utilisateur et utiliserai le TNC non pas comme simple modem mais comme un
+veritable Terminal Node Controller.
+
+
+0.4. Configuration requise
+--------------------------
+
+Le programme est developpe pour LINUX et un terminal compatible VT100. Il 
+necessite un TNC avec logiciel WA8DED ou The Firmware par NORD><LINK connecte
+a un port serie de l'ordinateur.
+
+The Firmware par NORD><LINK est disponible pour les TNC2 et tous ces clones,
+pour les PK232 et PK88 d'AEA. Le logiciel WA8DED est disponible pour les
+TNC-1 TAPR.
+
+Si vous n'avez pas de TNC avec The Firmware ou si vous ne voulez pas changer
+le logiciel de votre TNC, TFKISS doit etre utilise. TFKISS est un programme
+qui tourne sous LINUX, qui emule un TNC avec The Firmware. Il n'a seulement
+besoin que d'un TNC en mode KISS ou d'un peripherique qui travaille comme un 
+TNC en mode KISS.
+
+TFKISS supporte les standards KISS, KISS avec checksum (SMACK) et KISS avec
+checksum utilisee dans les repeteurs Flexnet (RMNC-KISS).
+
+Bien que LINUX soit une plate-forme de developpement, un portage de TNT sur
+d'autres plate-formes UNIX doit etre possible car aucune fonction speciale
+n'est utilisee. D'autres terminaux peuvent etre utilises s'ils ont au moins
+l'insertion de ligne et l'effacement de ligne et une entree dans le
+fichier /etc/termcap.
+
+
+0.5. Programme de messagerie DPBox
+----------------------------------
+
+Joachim, DL8HBS a ecrit un superbe programme packet radio qui se nome DigiPoint
+pour ordinateurs ATARI. Il contient un programme terminal packet radio pour 
+hostmode, un de calcul pour satellite et un serveur messagerie.
+
+Le BBS contient toutes les commandes de la plupart des systemes connus de
+BBS et est capable de stocker et de forwarder avec n'importe quelle autre
+systeme, incluant le forward compresse avec les BBS F6FBB. De plus, il peut
+etre charge simplement en monitorisant la frequence. Donc vous allez avoir
+une liste du BBS a jour sans aucune emission de votre part !
+
+Donc, j'ai decide d'essayer de porter la partie messagerie de DP sur Linux.
+Joachim m'a donne des sources en Pascal et je les ai traduites avec P2C par 
+Dave Gillespie (contenu dans la plupart des distributions de Linux) en C. P2C 
+a fait un travail incroyable, merci Dave ! Seulement quelques petits travaux de
+preparation ont ete necessaires sur les sources et P2C crea la plupart des 
+codes executables. Une interface socket UNIX a ete ajoute sur les deux
+parties, les premiers tests de TNT et DPBox se sont passes avec succes.
+
+Beaucoup d'ameliorations ont ete faites depuis, meme la diffusion PACSAT 
+emission/reception est maintenant incluse. La combinaison TNT et DPBox,
+tournant couramment sur quelques BBS allemandes 24H/24H, semble bonne et 
+stable. Pour plus d'informations, consultez la documentation de DPBox.
+
+
+1. Description
+--------------
+
+1.1. Ecrans Virtuels
+--------------------
+
+Il est possible d'operer plusieurs connexions sur la meme frequence.
+Pour cela, un ecran virtuel est cree a chaque fois qu'une connexion est
+demandee. Chaque ecran est divise en deux parties, ou tout ce qui est envoye
+et tout ce qui est recu sont affiches separement. Une ligne de statut avec
+toutes les informations sur la connexion est situee entre ces deux parties.
+
+Pour changer les parametres ou pour envoyer une commande au TNC, un ecran de
+commande est disponible. Pour simplifier les operations, on peut aussi
+executer toutes les commandes sur un ecran de connexion, en utilisant les
+deux points (:) comme premier caractere.
+
+Il est possible de voir toute l'activite des autres stations sur la
+frequence. Pour voir ces informations, un ecran de moniteur est disponible.
+
+Or en realite un seule ecran n'est disponible, l'operateur doit choisir lequel
+des divers ecrans virtuels il veut voir. Il peut basculer de l'un a l'autre
+en utilisant un code special ou des touches speciales sur le clavier.
+
+Pour voir quel ecran et quelle voie sont actifs et pour donner une
+information globale, une ligne de statut est affichee en haut de l'ecran.
+
+Tous les ecrans virtuels (ou les deux parties d'un ecran de connexion)
+peuvent etre configures plus largement que l'affichage reel a l'ecran. Donc,
+une petite fenetre de l'ecran virtuel est affichee. La fenetre peut etre
+deplacee par l'operateur.
+
+De plus, il existe des ecrans supplementaires pour des fonctions speciales.
+Il existe un ecran de liste des stations entendues, un ecran pour le
+moniteur etendu, un ecran pour l'aide en ligne et un ecran pour la lecture
+du bbs.
+Si une liaison est active avec DPBox, il existe alors aussi un ecran pour les 
+operations sur le bbs.
+
+
+1.2. Ligne de statut principale
+-------------------------------
+
+La ligne de statut en haut de l'ecran affiche les statut principaux du
+programme. Elle montre le type d'ecran virtuel utilise (connexion, commande
+ou moniteur) et la voie actuelle utilisee. De plus, tout fichier ouvert
+(reception ou envoi) sur la voie utilisee sera affiche dans la ligne
+de statut inferieure.
+
+Lorsque la compression Huffman est active sur la voie utilisee CONNECT est
+remplace par CONN(H) et EXTMONI par EXTM(H).
+
+De plus, un "P" sera affiche si l'envoi de donnees vers l'exterieur est en 
+pause, un "I" si le mode insertion est actif. Si la synchronisation hostmode
+est perdue, un "S" sera affiche. Si le TNC etait occupe et qu'un envoie de
+donnees de l'ordinateur est effectue, un "B" sera affiche. Si un script de
+routage est actif, un "X" sera affiche.
+
+Si des donnees sont recues sur une voie qui n'est pas affichee le numero de
+la voie sera affiche jusqu'a ce que l'ecran virtuel de cette voie soit
+affiche. Si une connexion est active sur une voie, un "+" sera affiche sur
+la position de la voie.
+
+Si un fichier est ouvert sur la voie courante, un identificateur du type de
+fichier a deux caracteres ainsi que le nom du fichier (seulement les 14
+derniers caracteres) seront affiches sur la ligne de statut.
+Les fichiers qui recoivent des donnees seront affichees dans le premier champ
+de fichier, les fichiers qui transmettent des donnees seront affiches dans 
+le second champ de fichier. L'identificateur de type de fichier a deux caracteres
+est decrit au chapitre sur les commandes fichiers.
+
+
+1.3. Commandes clavier
+----------------------
+
+Notes :
+
+La combinaison d'une touche avec la touche Alt genere le code <ESC> en mode
+console normal.
+Sous X la touche Alt n'est pas supportee dans ce cas.
+Alors, par exemple pour activer l'ecran moniteur avec X, vous devez d'abord
+frapper la touche <ESC> et ensuite M a la place de Alt-M.
+
+(*1) : Partie d'entree dans les ecrans de connexion ou de messagerie.
+(*2) : Ecran de commande et partie d'entree de l'ecran de moniteur etendu.
+(*3) : Ecrans moniteur, de reception d'une connexion, de moniteur etendus
+       ou de messagerie.
+(*4) : Ecrans de commande, de liste de messagerie, d'ecoute et d'aide.
+(*5) : Seulement sur l'ecran moniteur.
+
+1.3.1. Mouvement du curseur et divers
+-------------------------------------
+CR, LF, <Ctrl>M, <Ctrl>J :
+  Les caracteres depuis le debut de la ligne jusqu'a la position du curseur 
+  sera transmise sur la voie courante (*1) ou seront transferes a 
+  l'interpreteur de commande (*2). Si le premier caractere de la ligne (*1) 
+  est un deux points (":"), la ligne sera transmise a l'interpreteur de 
+  commande (sans les deux points). Un deux point (':') comme premier caractere
+  de (*2) sera ignore et supprime.
+  Si WHOLElin est defini a ON, le ligne entiere sera prise en compte et
+  la position du curseur sera ignoree.
+ 
+Fleche a gauche, <Ctrl>S :
+  Deplace le curseur d'un caractere vers la gauche, s'il n'est pas deja en
+  debut de ligne (*1,*2).
+
+Fleche a droite, <Ctrl>D :
+  Deplace le curseur d'un caractere vers la droite, s'il n'est pas deja en
+  fin de ligne (*1,*2).
+
+Fleche en haut, <Ctrl>E :
+  Deplace le curseur d'une ligne vers le haut, s'il n'est pas deja en haut
+  de l'ecran (*1,*2,*4).
+
+Fleche en bas, <Ctrl>X :
+  Deplace le curseur d'une ligne vers le bas, s'il n'est pas deja sur la
+  derniere ligne (*1,*2,*4).
+
+<Ctrl>A :
+  Deplace le curseur au debut de la ligne (pour l'ecran de commande et la
+  partie envoie d'un ecran de connexion).
+
+<Ctrl>F :
+  Deplace le curseur jusqu'au prochain caractere qui ne soit pas un
+  espace (pour l'ecran de commande et la partie envoie d'un ecran de 
+  connexion).
+
+INSERT, <Ctrl>N :
+  Bascule le mode insertion. Si le mode insertion est actif, un "I" sera
+  affiche sur la ligne de statut inferieure. En mode normal, tout caractere
+  sera reecrit, en mode insertion, tout caractere depuis la position du
+  curseur jusqu'a la fin de la ligne sera deplace d'une colonne vers la droite
+  (*1,*2).
+
+
+DEL, <Ctrl>H :
+  Efface le caractere directement a droite du curseur et deplace le curseur
+  d'une colonne vers la gauche. Si le mode insertion est actif, tous les
+  caracteres depuis la position du curseur jusqu'a la fin de la ligne seront
+  deplaces d'une colonne vers la gauche (*1,*2).
+
+<Ctrl>L :
+  Le caractere sous le curseur sera efface, tous les caracteres a droite du
+  curseur jusqu'a la fin de la ligne seront deplaces d'une colonne vers la
+  gauche (*1,*2).
+
+<Ctrl>Y :
+  Efface tout les caracteres depuis la position du curseur jusqu'a la fin
+  de la ligne (*1,*2).
+
+<Ctrl>V :
+  Caractere de passage. Si par exemple vous voulez envoyer un Ctrl-T sur la
+  voie connectee, faites d'abord Ctrl-V puis un "T". Un attribut different du
+  caractere montrera qu'il s'agit d'un caractere de controle (*1).
+
+1.3.2. Mouvement et controle des fenetres
+-----------------------------------------
+
+<Ctrl>R, Fleche en haut (*5) :
+  Deplace la fenetre d'affichage de l'ecran virtuel d'une ligne vers la haut, 
+  si ce n'est pas le haut de l'ecran virtuel (*3).
+
+<Ctrl>C, Fleche en bas (*5) :
+  Deplace la fenetre d'affichage de l'ecran virtuel d'une ligne vers la bas, 
+  si ce n'est pas le bas de l'ecran virtuel (*3).
+
+Page haut, <Ctrl>W :
+  Deplace la fenetre d'affichage de l'ecran virtuel d'une page vers le haut,
+  si ce n'est pas le haut de l'ecran virtuel (*3,*4).
+
+Page bas, <Ctrl>Z :
+  Deplace la fenetre d'affichage de l'ecran virtuel d'une page vers le bas,
+  si ce n'est pas le bas de l'ecran virtuel (*3,*4).
+
+HOME :
+  Va au debut de la fenetre (*3,*4).
+
+END :
+  Va a la fin de la fenetre (*3,*4).
+
+<Ctrl>P, <ALT>P, <ESC>P :
+  Bascule d'arret de reception de caracteres sur l'ecran actuel, possible 
+  uniquement sur un ecran de connexion ou l'ecran moniteur. L'arret est 
+  indique par un "P" sur la ligne de statut inferieure (ecran moniteur et 
+  partie reception d'un ecran de connexion).
+
+1.3.3. Bascule des ecrans
+-------------------------
+
+F1 - F9 :
+  Bascule vers l'ecran de connexion des voies 1 a 9. Si la touche est
+  appuyee une seconde fois, et que la voie selectionnee plus 10 existe, 10 est
+  ajoute au numero de la voie actuelle (deux fois F1 passe a la voie 11).
+
+F10 :
+  Bascule sur l'ecran de connexion de la voie 0 (voie unproto). Si la touche
+  est appuyee une autre fois, bascule vers les voies 10, 20, ... si elles 
+  existent.
+
+F11, <ALT>M, <ESC>M :
+  Bascule sur l'ecran moniteur, si on est deja en ecran moniteur, revient
+  sur l'ecran de connexion precedant.
+
+F12, <ALT>C, <ESC>C :
+  Bascule sur l'ecran de commande.
+
+<ALT>Q, <ESC>Q :
+  Bascule vers l'ecran de connexion de la voie courante.
+
+TAB, <Ctrl>I :
+  Selectionne une nouvelle voie, un "??" indiquera cela a la place du numero
+  de voie sur la ligne de statut. Un nombre entre 00 et 99 pour les voies 00
+  a 99 devra etre entre. Seulement les voies existantes sont acceptees. Si
+  le moniteur etendu est actif, le numero de la voie du moniteur etendu 
+  (0 a 4) est selectionne a la place de la voie connectee.
+
+<ALT>X, <ESC>X :
+  Bascule vers l'ecran de moniteur.
+
+<ALT>S, <ESC>S :
+  Mets a jour et affiche la liste des stations entendues.
+
+<ALT>L, <ESC>L :
+  Bascule le generateur de lecture de BBS (seulement actif sur la voie
+  courante). Si vous etiez deja en generateur de lecture, l'ecran revient
+  comme avant.
+
+<ALT>B, <ESC>B :
+  Si DPBox est connecte, bascule sur la console d'operateur du BBS.
+
+1.3.4. Macros clavier
+---------------------
+
+<ALT>0 - <ALT>9, <ESC>0 -<ESC>9 :
+  Touches de fonctions parametrables par l'utilisateur pour ses textes ou
+  commandes.
+
+
+
+1.4. Commandes en mode commande
+-------------------------------
+
+
+1.4.1. Commandes TNC
+--------------------
+
+Beaucoup de commandes en hostmode se composent d'un seul caractere. Il est
+souvent difficile de se souvenir du caractere d'une commande que l'on 
+n'utilise pas souvent. Donc, pour chaque commande TNC, un nom parlant 
+existe. Mais il est toujours possible d'utiliser la commande originale 
+faite d'un seul caractere.
+Uniquement les commandes connues ont ete implementees, Si vous avez un 
+logiciel TNC qui possede des commandes supplementaires, la commande "TNC" doit 
+etre utilisee (cf : 1.4.2.5.).
+
+Plus d'information sur les commandes peut etre trouvee dans la documentation
+du logiciel du TNC (Commandes TNC de NORD><LINK The Firmware 2.6a).
+Certaines de ces commandes n'existent plus dans la nouvelle version (TF 2.7).
+
+DAMAdis,"B"     : Timeout DAMA.
+Version,"V"     : Affiche la version du logiciel TNC.
+CHeck,"@T3"     : Timer de connexion T3.
+Connect,"C"     : Commence une connexion.
+CText,"U"       : Texte d'accueil si le TNC recoit une demande de connexion.
+DIGIpeat,"R"    : Fonction repeteur.
+Disconne,"D"    : Termine une connexion (deconnecte).
+DAYTIme,"K"     : Fonctions date et heure.
+Frack,"F"       : Temps entre l'envoi d'une trame et la confirmation du
+                  correspondant.
+FUlldup,"@D"    : Fullduplex sur la partie modem.
+MAXframe,"O"    : Nombre maximum de trames emises en un seul passage.
+Monitor,"M"     : Fonctions de moniteur.
+MYcall,"I"      : Indicatif de l'operateur local.
+                  avec MYCALL l'indicatif est defini de facon permanente sur
+                  cette voie, avec "I" il est defini jusqu'a la prochaine
+                  deconnexion.
+                  Un MYCALL permanent peut etre enleve en utilisant le signe
+                  "$" a la place de l'indicatif.
+Persist,"P"     : Valeur du persist.
+RESptime,"@T2"  : Delai avant qu'une trame d'information ne soit confirmee
+                  (timer T2).
+REtry,"N"       : Nombre maximum de retries.
+SLottime,"W"    : Valeur du slottime.
+Txdelay,"T"     : Temps entre le passage du TX en emission et l'envoi des
+                  paquets de donnees.
+USers,"Y"       : Nombre de voies ouvertes a la connexion.
+Xmitok,"X"      : Blocage de l'emetteur a l'emission.
+BUFfers,"@B"    : Buffers libres du TNC.
+A1SRTT,"@A1"    : Valeur du timer A1.
+A2SRTT,"@A2"    : Valeur du timer A2.
+A3SRTT,"@A3"    : Valeur du timer A3.
+IPOll,"@I"      : Longueur d'un packet avec l'utilisation du mode I-Poll.
+VALcall,"@V"    : Verifie l'indicatif en mode connecte.
+
+Toutes ces commandes peuvent etre abregees par les caracteres en majuscule.
+
+
+1.4.2. Commandes externes
+-------------------------
+
+La plupart de ces commandes peuvent etre abregees par les caracteres en 
+majuscule.
+
+
+1.4.2.1. Sauver des donnees dans un fichier
+-------------------------------------------
+LOGQso <nom_fichier> :
+  Un fichier sera ouvert et toutes les donnees transmises et recues sur la
+  voie selectionnee seront y seront sauvees.
+  Si aucun repertoire n'est specifie, le fichier sera sauve dans le
+  repertoire 'download_dir'.
+  Si 'download_dir' est vide, le repertoire courant sera utilise. Un CR sera
+  transcrit en LF et tous les caracteres de controles en ^X.
+  La conversion des Umlaut sera aussi active. L'identificateur du type de 
+  fichier sera 'RN', reception normale.
+
+LOGRec <nom_fichier> :
+  Identique a LOGQSO mais seules les donnees recues seront sauvees.
+  L'identificateur du type de fichier sera 'RN', reception normale.
+
+LOGSnd <nom_fichier> :
+  Identique a LOGQSO mais seules les donnees transmises seront sauvees.
+  L'identificateur du type de fichier sera 'RN', reception normale.
+
+READ <nom_fichier> :
+  Un fichier sera ouvert et toutes les donnees recues y seront sauvees.
+  Si aucun repertoire n'est specifie, le fichier sera sauve dans le
+  repertoire 'download_dir'.
+  Si 'download_dir' est vide, le repertoire courant sera utilise. Seule la
+  conversion de CR en LF sera faite. READ devra etre utilisee pour la
+  reception de fichiers 7PLUS.
+  L'identificateur du type de fichier sera 'RP', reception pleine.
+
+READBin <nom_fichier> :
+  Identique a READ mais aucune conversion de caractere ne sera faite.
+  L'identificateur du type de fichier sera 'RB', reception binaire.
+
+READAbin <nom_fichier> :
+  Commence a recevoir un fichier en utilisant le protocole AutoBIN.
+  Si aucun repertoire n'est specifie, le fichier sera sauve dans le
+  repertoire 'download_dir'.
+  Si 'download_dir' est vide, le repertoire courant sera utilise.
+  L'identificateur du type de fichier sera 'RA', reception AutoBIN.
+
+LOGAbin <nom_fichier> :
+  Identique a READABIN sauf qu'a la fin de la transmission, les donnees
+  statistiques sur le transfert seront uniquement affichees mais pas envoyees
+  (utile lors de la reception de fichier binaire venant de BBS qui n'aimeront
+  pas ce type d'envoi !)
+  L'identificateur du type de fichier sera 'RQ', reception AutoBIN en 
+  mode silencieux.
+
+CLose :
+  Ferme le fichier de reception actif.
+
+LOGMon <nom_fichier> :
+  Un fichier sera ouvert et toute donnee recue sur l'ecran moniteur sera
+  sauvee.
+  Si aucun repertoire n'est specifie, le fichier sera sauve dans le repertoire
+  'download_dir'.
+  Si 'download_dir' est vide, le repertoire courant sera utilise.
+  Un CR sera transforme en LF et les caracteres de controle en ^X.
+  La conversion des Umlaut sera aussi active. L'identificateur du type de 
+  fichier sera 'RN', reception normale.
+
+RDMON <nom_fichier> :
+  Identique a LOGMON. Seule la conversion des CR en LF sera faite.
+  L'identificateur du type de fichier 'RP', reception pleine.
+
+RDMONBin <nom_fichier> :
+  Identique a RDMON aucune conversion de caractere ne sera faite.
+  L'identificateur du type de fichier sera 'RB', reception binaire.
+
+CLOSEMon :
+  Ferme le fichier actif sur l'ecran moniteur.
+
+LOGXmon <nom_fichier> (sur l'ecran moniteur etendu),
+LOGXmon <voie-xmon> <nom_fichier> (sur les autres ecrans) :
+  Un fichier sera ouvert et toutes les donnes recues sur le moniteur etendu
+  courant (sur l'ecran moniteur etendu) ou sur l'ecran specifie (sur les
+  autres ecrans) seront sauvees.
+  Si aucun repertoire n'est specifie, le fichier sera sauve dans le repertoire 
+  'download_dir'.
+  Si 'download_dir' est vide, le repertoire courant sera utilise.
+  Un CR sera transcrit en LF et les caracteres de controle en ^X.
+  La conversion des Umlaut sera aussi active.
+  L'identificateur du type de fichier sera 'RN', reception normale. 
+
+RDXMON <nom_fichier> (sur l'ecran moniteur etendu),
+RDXMON <voie-xmon> <nom_fichier> (sur les autres ecrans) :
+  Identique a LOGXMON mais seule la transcription des CR en LF sera faite.
+  L'identificateur du type de fichier sera 'RP', reception pleine.
+
+RDXMONBi <nom_fichier> (sur l'ecran moniteur etendu),
+RDXMONBi <voie-xmon> <nom_fichier> (sur les autres ecrans) :
+  Identique a RDXMON mais aucune conversion ne sera faite.
+  L'identificateur du type de fichier sera 'RB', reception binaire.
+
+CLOSEXmo (sur l'ecran moniteur etendu),
+CLOSEXmo <voie-xmon> (sur les autres ecrans) :
+  Ferme le fichier de reception actif sur le moniteur etendu courant (sur 
+  l'ecran moniteur etendu) ou sur l'ecran specifie (sur les autres ecrans).
+
+APPend [ON/OFF] :
+  Possibilite de rajouter les chaines dans un fichier existant (valide 
+  uniquement pour LOGQSO, LOGREC, LOGSND, LOGMON et LOGXMON).
+
+AUTOBIn [ON/OFF] :
+  Drapeau pour savoir si le reception AutoBIN doit demarrer automatiquement 
+  lors de la reception d'une entete AutoBIN valide (la reception AutoBIN est
+  lancee en mode silencieux comme si elle etait recue avec la commande 
+  LOGABIN).
+
+1.4.2.2. Envoyer un fichier
+---------------------------
+SEND <nom_fichier> :
+  Envoi d'un fichier sur la voie selectionnee, un LF sera transcrit en CR.
+  Si aucun repertoire n'est specifie, le fichier sera pris dans le repertoire 
+  'upload_dir'. Si 'upload_dir' est vide, le repertoire courant sera utilise.
+  SEND devrai etre utilise pour l'envoi de fichiers en 7PLUS.
+  L'identificateur du type de fichier sera 'TP', transmission pleine.
+
+SENDLog <nom_fichier> :
+  Identique a SEND mais les caracteres de controle seront transcrit en ^X et
+  la conversion des Umlaut sera faite.
+  L'identificateur du type de fichier sera 'TN', transmission normale.
+
+SENDBin <nom_fichier> :
+  Identique a SEND mais aucune conversion de LF en CR sera faite.
+  L'identificateur du type de fichier sera 'TB', transmission binaire.
+
+SENDAbin <nom_fichier> :
+  Envoi d'un fichier en utilisant le protocole AutoBIN.
+  Si aucun repertoire n'est specifie, le fichier sera pris dans le repertoire 
+  'upload_dir'. Si 'upload_dir' est vide, le repertoire courant sera utilise.
+  L'identificateur du type de fichier sera 'TA', transmission AutoBIN.
+
+SENDQbin <nom_fichier> :
+  Identique a SENDAbin, mais il n'attend pas #OK# apres la transmission de
+  l'entete #BIN# et les statistiques ne sont pas transmises.
+  L'identificateur du type de fichier sera 'TQ', transmission AutoBIN, en 
+  mode silencieux.
+
+BReak :
+  Arrete l'envoi d'un fichier.
+
+FPACLen :
+  Longueur maximale d'un paquet pour l'envoi d'un fichier. Si SENDLog est
+  utilise, la longueur est divisee par deux, cela est du a des restrictions 
+  de la conversion des Umlauts.
+  Les valeurs admises peuvent etre comprises entre 20 et 256 caracteres.
+  Si la compression statique Huffman est activee, la valeur maximale est
+  reduite a 255 caracteres. Tout changement est global.
+
+1.4.2.3. Shell, run et redirection
+----------------------------------
+SHell [trans] :
+  (Cette commande est uniquement utilisable si c'est le root qui a lance
+  TNT).
+  Ouvre un shell sur la voie courante.
+  Toute les donnees recus sur la voie courante seront transmises dans le
+  shell, toutes les donnees venant du shell seront transmises sur la voie
+  courante. Si aucun parametre n'est specifie, tout caractere LF (0x0A) 
+  envoye par le shell sera transcrit en CR (0x0D). Tout caractere CR (0x0D) 
+  recu d'une station distante sera transcrit en LF (0x0A) avant d'etre envoye
+  au shell.
+  Le parametre 'trans' annule cette conversion, tous les caracteres seront
+  passes de facon transparente.
+
+ENDShell :
+  Termine le shell sur la voie courante.
+
+RUN <programme> :
+  Sur la voie courante, le programme specifie sera execute.
+  Toutes les donnees recus sur la voie courante seront utilisees de facon
+  standard comme entree dans le programme, toute donnees retournees par le
+  programme seront envoyes sur la voie courante. Seuls les programmes
+  contenus dans le repertoire 'run_dir' pourront etre executes.
+  Un caractere LF (0x0A) envoye par le programme sera transcrit en CR (0x0D). 
+  Un caractere CR (0x0D) recu de la station distante sera d'abord transcrit en 
+  LF (0x0A) avant d'etre envoye au programme.
+
+RUNT <programme> :
+  Identique a RUN, mais aucune conversion de LF et de CR ne sera faite (comme 
+  avec le parametre 'trans' du shell).
+
+ENDRun :
+  Arrete l'execution d'un programme sur la voie courante.
+
+REDir <device> :
+  Redirige les entrees/sorties.
+  Toute donnee recu sur la voie courante sera envoyee a <device>, toute
+  donnee recu de <device> sera envoye sur la voie courante.
+
+ENDRedir :
+  Termine la redirection sur la voie courante.
+
+SOCket <numero_port> :
+  Sur la voie courante, un serveur est demarre acceptant les connexions sur
+  un socket internet avec le numero de port specifie.
+
+ENDSock :
+  Termine le serveur de socket sur la voie courante.
+
+1.4.2.4. Repertoires
+--------------------
+CD <repertoire> :
+  Change le repertoire de travail pour <repertoire>. Si <repertoire> est vide,
+  le repertoire HOME sera utilise.
+
+CWD :
+  Affiche repertoire de travail actuel.
+
+1.4.2.5. Divers
+---------------
+TNC <commande> :
+  <commande> est envoye au TNC sans aucune conversion.
+
+CHANnel <x> ou S <x> :
+  Bascule sur l'ecran de connexion de la voie x.
+  Si elle est incluse dans un script, aucun changement d'ecran ne sera 
+  effectue, cela specifie simplement la voie utilisee pour les prochaines 
+  commandes.
+
+CONCall <indicatif> :
+  Si la mise a jour de l'indicatif dans la ligne de statut est errone, du
+  a un texte de connexion, l'indicatif peut etre restaure par cette
+  commande.
+
+CStatus :
+  Liste de toutes les voies connectees avec l'heure de debut de la connexion 
+  ainsi que l'indicatif.
+
+SENDCom <nom_fichier> :
+  Execute un fichier contenant des commandes TNC ou externes (script de
+  commande).
+
+CBell [ON/OFF/OTHER] :
+  Sonne si le statut d'une connexion change (Connect Bell). Si "OTHER"
+  (autre), alors la sonnerie sera generee seulement si une station se connecte 
+  a une voie differente de celle en cours.
+
+INFObell [ON/OFF/OTHER] :
+  Sonne si un nouveau paquet est recu sur n'importe quel voie (INFOrmation 
+  bell). Si "OTHER" (autre), alors la sonnerie sera generee seulement si un 
+  nouveau paquet est recu sur une voie differente de celle en cours.
+
+COOKie [ON/OFF] :
+  Envoi un cookie si une station distante se connecte.
+
+UMLaut [ON/OFF] :
+  Conversion des Umlaut (cf 2.2.).
+
+CONText [ON/OFF] :
+  Envoi un texte special a la connexion, utilisant les macros (cf 2.5.), 
+  prioritaire par rapport aux "COOKIE".
+
+TXEcho [ON/OFF] :
+  Repete toute les donnees de la fenetre envoi dans la fenetre de reception.
+
+PTYEcho [ON/OFF] :
+  Repete toutes les donnees recues et envoyees sur une voie ou un SHELL, RUN,
+  SOCKET ou REDIR est actif.
+
+NAME <nom> :
+  Defini le nom correspondant a l'indicatif sur la voie courante comme <nom>, 
+  si <nom> n'est pas specifie, le nom enregistre est affiche (seulement si 
+  la voie est connectee).
+
+STIme :
+  Envoi la date et l'heure sur la voie active.
+
+SCOokie :
+  Envoi un cookie sur la voie active.
+
+TIMESET :
+  Envoi l'heure de l'ordinateur au TNC.
+
+DATESET :
+  Envoi la date de l'ordinateur au TNC.
+
+RESYnc :
+  Affiche le nombre de resynchronisations hostmode effectue depuis le
+  demarrage du programme, et si c'est applicable, quelques informations
+  concernant le probleme.
+
+LAYer3 [ON/OFF] :
+  Active ou desactive l'analyse des trames des NETROM/TheNet (pid CF) dans
+  le moniteur.
+
+HEArd [ON/OFF] :
+  Active ou desactive la liste d'ecoute. Si OFF, le liste d'ecoute n'est pas
+  mise a jour.
+
+KMAcro :
+  Recharge en memoire le fichier de macros clavier 'func_key_file' defini 
+  dans le fichier d'initialisation.
+
+MSEnd <nom_fichier> :
+  Envoi d'un fichier utilisant les macros (cf 2.5.). Le fichier est celui
+  defini dans le fichier d'initialisation comme 'macrotext_dir'.
+
+WORDWrap [ON/OFF] :
+  Active la fonction cesure ('wordwrap'). Un mot incomplet a la fin d'une 
+  ligne sera automatiquement copie en debut de ligne suivante.
+
+WHOLElin [ON/OFF] :
+  Si ON, toute la ligne sera transmise, si OFF, seule la partie allant du
+  debut jusqu'a la position du curseur sera transmise.
+
+LINelen <valeur> :
+  Defini la longueur d'une ligne a partir de laquelle toute entree de 
+  caractere supplementaire sera ignoree ou que la cesure sera executee. Cette
+  valeur devrai normalement etre definie a 80 caracteres.
+  La valeur par defaut peut etre specifiee par 'input_linelen' dans le fichier
+  d'initialisation.
+
+MONLines <valeur> :
+  Si vous aimez voir une partie de l'ecran moniteur sur un ecran de 
+  connexion, le nombre de lignes de moniteur peut etre specifie ici.
+  Mettre a 0 si vous ne voulez aucune ligne moniteur.
+  La valeur par defaut peut etre specifiee par 'lines_moncon' dans le
+  fichier d'initialisation.
+
+CONDiv <valeur> :
+  Change le ratio de lignes d'entree/sortie sur l'ecran de connexion. Pour 
+  plus d'informations, voir 'scr_divide' dans le fichier d'initialisation.
+
+XMONDiv <valeur> :
+  Change le ratio de lignes d'entree/sortie sur l'ecran moniteur. Pour plus 
+  d'informations, voir 'xmon_scr_divide' dans le fichier d'initialisation.
+
+MBOXDiv <valeur> :
+  Change le ratio de lignes d'entree/sortie sur l'ecran de messagerie. Pour 
+  plus d'informations, voir 'mbscr_divide' dans le fichier d'initialisation.
+
+COMP [ON/OFF] :
+  Activation de la compression Huffman sur la voie courante. 'CONN(H)' sur
+  la ligne de statut du haut indique que la compression Huffman est active. 
+  Si aucune valeur n'est donnee, la ligne de statut d'origine est reaffichee.
+  Pour synchroniser la bascule en compression Huffman entre la station 
+  distante et la station local, la commande distante //COMP doit etre
+  utilisee.
+
+BSCRHold [ON/OFF] :
+  Si actif, aucun retour dans les ecrans d'affichage ne sera possible si 
+  la derniere ligne du buffer d'ecran n'est pas affichee (retour en arriere
+  actif) et que la premiere ligne affichee est deja dans le buffer d'ecran.
+
+TABExp [ON/OFF] :
+  Si actif, un caractere TAB est insere a la position du curseur jusqu'a la
+  prochaine marque de tabulation. Une marque de tabulation est definie tout
+  les 8 caracteres. Si desactive, un '^I' est affiche a la place.
+
+FREE :
+  Cette commande affiche la valeur du nombre de buffers TNC libres. La
+  commande n'execute pas la commande "@B", mais affiche la valeur du dernier
+  des sondages periodique.
+
+EXit :
+  Quitte TNT.
+
+1.4.2.6. Scripts de routage
+---------------------------
+XConnect [portheader:]<indicatif> :
+  Demarre un script de routage pour l'indicatif specifie, plus
+  d'informations peuvent etre trouvees au chapitre 2.6. Un script actif peut
+  etre termine en utilisant "OFF" comme indicatif.
+  Si un script de routage est actif, un "X" sera affiche sur la ligne de
+  statut inferieure.
+  Si l'indicatif n'est pas trouve dans la base de donnee des routages, une
+  connexion en direct est tentee.
+  Si un TNC multiport est utilise, une entete de port valide avec la
+  commande QRG peut etre utilisee avant l'indicatif pour selectionner le
+  port ou la premiere demande de connexion doit etre utilisee.
+  L'utilisation de cette commande autorise l'allocation de SSIDs libres de
+  l'indicatif original. Donc les connexions multiples au meme node sont
+  possibles.
+
+QRG [<port> <frequence>] [portheader:] :
+  Defini avec cette commande, la frequence utilisee par le programme.
+  La frequence specifiee est utilisee pour selectionner la route valide dans
+  la base de donnees de routage.
+  <frequence> peut etre une chaine de 19 caracteres.
+  Pour les TNCs utilisant le port 0 comme <port> et omettant le 
+  <portheader:> : QRG 0 438.300
+  Pour les TNCs multiports utilisant une frequence et un portheader par port,
+  ce doit etre defini comme il suit :
+    QRG 0 438.300 1:
+    QRG 1 430.900 2:
+  Sans argument, la frequence courante sera alors affichee.
+
+LSNOTOWN :
+  Cette commande affiche tous les indicatifs pour lesquels une entree vide dans
+  le fichier 'tnt_notownfile' a ete trouvee. Ces indicatifs ne peuvent pas
+  etre utilises comme source pour une connexion automatique. Vous devez
+  alors definir les SSID's de votre indicatif que TNT ne pourra jamais
+  utiliser (necessaire si plusieurs logiciels sont operes avec le meme 
+  indicatif : node, BBS, TCP/IP, etc... ).
+
+LDNOTOWN :
+  Si 'tnt_notownfile' a ete change alors que TNT tournait, il peut etre
+  recharge en memoire avec cette commande. Cette operation est necessaire car
+  TNT ne lit seulement le fichier qu'au demarrage et stocke alors les donnees
+  en memoire.
+
+1.4.2.7. Moniteur etendu et liste de messagerie
+-----------------------------------------------
+XMON [ON/OFF] :
+  Active ou desactive les fonctions de moniteur etendu. Si OFF, les trames
+  entendues ne seront jamais analysees.
+
+EXTmon <call1> <call2> [<call3> <call4>] (ecran de moniteur etendu),
+EXTmon <voie-xmon> <call1> <call2> [<call3> <call4>] (autres ecrans) :
+  Sur l'ecran moniteur etendu courant ou sur l'ecran specifie (pour les
+  autres) une connexion espionnee devrai etre monitorisee.
+  Si seulement <call1> et <call2> sont specifies, les trames de <call1> vers
+  <call2> et de <call2> vers <call1> sont monitorisees, sinon, les trames de 
+  <call1> vers <call2> et <call3> vers <call4>.
+
+EXTAmon <call1> <call2> [<call3> <call4>] :
+  Identique a EXTMON sauf que la prochaine voie espionne sera utilisee.
+  La voie selectionnee automatiquement sera affichee comme reponse a la
+  commande.
+
+ENDEXtm (ecran de moniteur etendu),
+ENDEXtm <voie-xmon> (autres ecrans) :
+  L'ecran moniteur etendu sur l'ecran courant (ecran de moniteur etendu) ou
+  la voie specifie (autres ecrans) sera ferme. Cette connexion ne sera plus
+  espionnee.
+
+EXTComp [ON/OFF] :
+  La compression Huffman est activee/desactivee sur l'ecran moniteur etendu
+  courant. 'EXTM(H)', sur la ligne de statut superieure, indique que la 
+  fonction est active. Si aucune valeur n'est donnee, la ligne de statut 
+  actuelle est renvoyee.
+
+LOGBlist :
+  Sur la voie courante ou l'ecran de messagerie, un fichier est ouvert et
+  toutes les donnees recues sont sauvees. La commande est similaire a LOGREC
+  sauf qu'un nom de fichier unique est genere (dans le repertoire /tmp) et
+  que le fichier sera efface a la prochaine sortie de TNT.
+
+BLIst [<nom_fichier>] :
+  Sur la voie courante ou l'ecran de messagerie, le dernier fichier actif est
+  utilise pour l'ecran de liste du BBS. Si le fichier n'etait pas clos
+  jusque la, il le sera.
+  En option, on peut definir un nom de fichier. Dans ce cas, ce fichier sera
+  charge dans l'ecran de liste du BBS.
+
+XBList :
+  Fini la liste du BBS et ferme l'ecran de liste du BBS sur la voie active.
+
+1.4.2.8. Commandes interface
+----------------------------
+IFAce <nom_socket> :
+  Monte une connexion via un socket a un programme externe via un socket 
+  UNIX <nom_socket>.
+
+ENDIFace <nom_socket> :
+  Termine la connexion a un programme externe via le socket UNIX <nom_socket>.
+
+FINIFace <nom_socket> :
+  Identique a ENDIFACE, sauf que le programme externe prend la commande pour
+  terminer sont execution.
+
+ACTIf <nom_socket> :
+  Active le programme externe sur la voie courante en utilisant toujours la
+connexion montee sur le socket.
+
+DEACtif <nom_socket> :
+  Desactive le programme externe sur la voie courante.
+
+SNOCONN <chaine de caracteres> :
+  Chaine de caracteres qui sera renvoyee apres l'echec de l'execution
+  d'un programme, active a distance via l'interface.
+
+1.4.2.9. Commandes de l'interface DPBox
+---------------------------------------
+ACTBox :
+  Active la connexion DPBox via un socket UNIX specifie par 
+  'box_socket' dans le fichier d'init.
+
+DEACTBox :
+  Desactive la connexion socket de DPBox.
+
+FINBox :
+  Desactive la connexion socket de DPBox et termine l'execution de DPBox.
+
+BOX :
+  Active DPBox sur la voie courante en utilisant la connexion socket
+  existante.
+
+ENDBox :
+  Desactive la DPBox sur la voie courante.
+
+AUTOBOx [ON/OFF] :
+  Si active, toutes les connexions scannent pour un message. Un message
+  valide mene a la sauvegarde du message suivant. Si l'arret est demande, le
+  message sera envoye via l'interface a DPBox.
+
+MONBox [ON/OFF] :
+  Si active, Toutes les trames seront scannees pour un message personnel.
+  Un message personnel valide mene a monitoriser la connexion pour le
+  message personnel. Si aucune trame n'est perdue et si la fin du message est
+  atteinte, le message monitorise sera envoye a l'interface de DPBox.
+
+LMONbox :
+  Tous les messages qui sont couramment recus en utilisant la fonction MONBOX
+  sont affiches.
+
+SNOBOX <chaine de caracteres> :
+  Chaine de caracteres qui sera envoyee si l'execution de DPBox a distance 
+  echoue. 
+
+SCANMBEA [<source> <destination> <indicatif_source> <indicatif_destination> 
+         [<timeout>]] [$] :
+  TNT peut monitoriser les balises de messages personnels et si il trouve le
+  votre, il peut activer la sauvegarde et le forward pour prendre votre
+  nouveau message.
+  Pour activer cette fonction, vous devez donner la source et la destination
+  de la balise a espionner (qui devraient etre l'indicatif de votre BBS
+  comme source et MAIL pour destination), votre indicatif personnel
+  (cet indicatif sera recherche dans le texte de la balise) et l'indicatif a
+  connecter avec un timeout optionnel. La connexion sera etablie grace a la
+  connexion automatique en donnant l'indicatif a connecter ainsi qu'un
+  eventuel timeout comme parametre.
+  Si la connexion est etablie le stockage et le forward peuvent commencer.
+  La commande sans parametre prendra les parametres actuels.
+  Si vous voulez desactiver cette fonction, placer un "$" comme simple
+  parametre.
+
+1.4.2.10. Commandes de generation de mots de passe 
+--------------------------------------------------
+PRIV :
+  Cette commande demarre la fonction de generation de mots de passe. Cette
+  commande est rejetee si la voie n'est pas connectee ou si l'indicatif de
+  la station connectee n'est pas contenu dans le fichier 'tnt_pwfile'.
+  L'action qui s'en suivra dependra du type de generation de mot de passe
+  qui est definie pour l'indicatif.
+
+LISTPRIV :
+  Cette commande liste tous les indicatifs pour lesquels une entree existe
+  dans le fichier 'tnt_pwfile'. De plus, pour chaque indicatif le type de
+  generation de mot de passe et le contenu du mot de passe sera specifie.
+
+LOADPRIV :
+  Si 'tnt_pwfile' a ete change pendant que TNT tournait, il peut etre
+  recharge en memoire avec cette commande. Une relecture de ce fichier est 
+  necessaire car TNT lit et stocke le fichier uniquement au demarrage.
+
+1.4.2.11. Autorisation et niveau d'acces des commandes distantes  
+----------------------------------------------------------------
+REMOte [ON/OFF] :
+  Active et desactive les commandes distantes pour toutes les voies. Les
+  commandes ayant le statut ALWAYS ne pourront pas etre activees.
+
+REMAllow [ON/OFF] :
+  Active et desactive les commandes distantes pour la voie courante. Les
+  commandes avec le statut ALWAYS pourront etre activees. Cette commande 
+  n'est autorisee que si la voie est connectee. De plus, le statut actuel 
+  est change pour une nouvelle connexion en accord avec le fichier 
+  'tnt_noremfile'.
+
+SETACC <commande-distante> [NORMAL/SYSOP/ROOT/ALWAYS] :
+  Defini quel niveau d'acces une station distante a besoin pour executer la
+  commande distante. NORMAL veut dire que la commande est accessible a tous,
+  les commandes avec le statut SYSOP ne pourront etre executees qu'apres
+  avoir franchi avec succes la commande '//sys'. Si le drapeau d'etat du
+  root a ete defini dans le fichier tnt_sysfile, les commandes avec le
+  statut ROOT ne seront utilisables qu'apres validation. Le statut ALWAYS
+  signifie que la commande est utilisable meme si la station se trouve dans
+  le fichier tnt_noremfile.
+
+NOACC [ON/OFF] :
+  Si ON, seules les stations distantes specifiees dans le fichier
+  'tnt_sysfile' peuvent se connecter. Tout autre station recevra une chaine
+  de caractere definie par SNOACC et sera ensuite deconnectee.
+
+SNOACC <chaine de caracteres> :
+  Defini la chaine de caracteres qui sera envoyee a une station non
+  autorisee a se connecter.
+
+LISTSYS :
+  Cette commande liste tous les indicatifs pour lesquels une entree est trouvee
+  dans le fichier 'tnt_sysfile'. De plus, pour chaque indicatif le contenu 
+  des donnees du mot de passe du fichier est affichee et le statut de sysop
+  peut etre acquit apres la validation du mot de passe (0: sysop non root, 
+  1: sysop root).
+
+LOADSYS :
+  Si 'tnt_sysfile' a ete change pendant que TNT tournait, il peut etre 
+  recharge en memoire avec cette commande. Une relecture de ce fichier est 
+  necessaire car TNT lit et stocke le fichier en memoire uniquement au 
+  demarrage.
+
+LSTNOREM :
+  Cette commande liste tous les indicatifs pour lesquels une entree a ete
+  trouvee dans le fichier 'tnt_noremfile'. Pour ces indicatifs les commandes
+  distantes sont inhibees sauf pour celles qui ont le statut ALWAYS. La
+  desactivation de commandes distantes reste valide meme apres une
+  deconnexion, donc connecter ou reconnecter une station differente ne
+  rendra pas les commandes distantes actives.
+  Un changement est possible en utilisant la commande REMALLOW.
+
+LDNOREM :
+  Si 'tnt_noremfile' a ete change pendant que TNT tournait, il peut etre 
+  recharge en memoire avec cette commande. Une relecture de ce fichier est 
+  necessaire car TNT lit et stocke en memoire le fichier uniquement au 
+  demarrage.
+
+LSTFLCHK :
+  Cette commande liste tous les indicatifs pour lesquels une entree a ete
+  trouvee dans le fichier 'tnt_flchkfile'. Une connexion venant d'un de ces
+  indicatifs enverra le texte de non connexion, aucun acces distant et
+  aucun acces a DPBox ni a un autre programme utilisant cette interface sera 
+  autorise. De plus, aucune entree ne sera incluse dans le fichier de carnet
+  de trafic.
+
+LDFLCHK :
+  Si 'tnt_flchkfile' a ete change pendant que TNT tournait, il peut etre 
+  recharge en memoire avec cette commande. Une relecture de ce fichier est 
+  necessaire car TNT lit et stocke en memoire le fichier uniquement au 
+  demarrage.
+
+
+1.4.2.12. Emission/reception de Broadcast
+-----------------------------------------
+SENDBC <nom_fichier> :
+  Le fichier specifie sera utilise avec le protocole de diffusion PACSAT.
+
+BCRQST [ON/OFF] :
+  Si ON, la requete de broadcast pour les donnees manquantes est generee, si  
+  OFF, attends la retransmission.
+  
+SHPACSAT [ON/OFF] :
+  Si ON, les trames broadcast sont affichees, si OFF, aucun affichage n'est
+  effectue.
+
+DECBCAST [ON/OFF] :
+  Si ON, les trames broadcast sont decodees. Si OFF, les trames broadcast ne
+  sont pas decodees. 
+
+
+
+2. Fonctions speciales
+----------------------
+
+2.1. Commandes distantes
+-----------------------
+
+Si les commandes distantes sont autorisees (cf 1.4.2.11.), la station
+distante peut faire executer des commandes au programme. Toutes ces commandes 
+distantes commencent par un double slash "//". Ce double slash doit etre 
+entre directement en debut de ligne, sinon, la commande n'est pas reconnue
+comme telle.
+
+Les commandes suivantes sont reconnues :
+
+ //COMP on/off               marche/arret de la compression Huffman,
+ //NAME <nom>                sauve le nom dans la base de donnee,
+ //CSTAT                     affiche toutes les connexions en cours,
+ //SHELL [trans]             lance une session shell UNIX,
+ //RUN <programme>           execute un programme,
+ //RUNT <programme>          execute un programme sans conversion des CR/LF,
+ //RUN                       affiche tous les programmes executables,
+ //BOX                       lance la messagerie DigiPoint,
+ //COOKIE                    envoi d'un cookie,
+ //DIR <filtre>              affiche le contenu du repertoire,
+ //DIRLONG <filtre>          affiche le contenu du repertoire en format long,
+ //FREE                      affiche l'espace disque restant,
+ //INFO                      informations sur la station,
+ //HELP                      affiche cette aide,
+ //NEWS                      affiche les nouvelles de la station,
+ //READ <fichier>            lis un fichier,
+ //BREAK                     arret de la lecture d'un fichier,
+ //WRITE <fichier>           ecrit un fichier sur le disque,
+ //CLOSE                     termine l'ecriture d'un fichier,
+ //WPRG <fichier>            ecrit un fichier sur le disque en utilisant le
+                             protocole AUTOBIN,
+ //WPRG <fichier> <rfichier> idem, mais retourne la commande //RPRG <rfichier>,
+ //RPRG <fichier>            lit un fichier en utilisant le protocole AUTOBIN,
+ //RPRG <fichier> <rfichier> idem, mais retourne la commande //WPRG <rfichier>,
+ //VERSION                   affiche la version de ce logiciel,
+ //ECHO <texte>              renvoi le texte,
+ //TIME                      donne l'heure,
+ //QUIT                      quitte le logiciel,
+ //DISC                      deconnecte "violemment".
+
+ //SYSOP                     lance la validation du mot de passe sysop,
+ //ROOTSH [trans]            lance un shell avec le statut root,
+ //COMMAND <commande>        execute une commande TNT valide.
+
+N'oubliez pas le "//" en debut de commande et de ligne !
+
+
+2.1.1. Niveau d'acces par defaut des commandes distantes
+--------------------------------------------------------
+
+Toutes les commandes distantes sont autorisees a tous (statut NORMAL) sauf
+pour les commandes //SHELL, //ECHO, //COMMAND (statut SYSOP) et //ROOTSH 
+(statut ROOT). La commande //COMP est autorisee meme si les commandes
+distantes sont interdites sur la voie courante (statut ALWAYS). Cette
+configuration par defaut peut etre changee avec la commande SETACC.
+
+2.1.2. Validation du mot de passe sysop  (//SYSOP)
+--------------------------------------------------
+
+Si la commande distante //sys est recue, la sequence de validation du mot de
+passe sysop est demarree. TNT va prendre 5 nombres au hasard avec des valeurs 
+superieures a la longueur de la chaine de caracteres du mot de passe de la
+station distante. La station distante doit repondre avec les 5 caracteres
+correspondants.
+Les caracteres peuvent avoir n'importe quelle position dans la chaine
+aleatoire pour accroitre la difficulte de pirater le mot de passe. De plus,
+il n'y a pas de reponse signalant si la commande //SYS a ete passee
+correctement, le statut est change seulement en interne.
+Pour cela, il est conseille d'envoyer 3 fois ou meme plus la commande //sys 
+avec une seule reponse correcte pour brouiller les pistes. Cela rendra le
+piratage du mot de passe presque impossible. L'algorithme du mot de passe est 
+compatible avec celui utilise par TheNet.
+
+2.1.3. Shell avec l'autorisation du root (//ROOTSH)
+---------------------------------------------------
+
+Cette commande est tres dangereuse, verifiez qu'elle n'est accessible qu'au
+bonnes personnes apres la validation du mot de passe.
+Si vous ne voulez pas autoriser cette commande, definissez la avec le statut 
+ROOT et definissez le drapeau sysop root pour tous les indicatifs a 0 dans
+le fichier tnt_sysfile.
+
+2.1.4. La commande dangereuse //ECHO
+------------------------------------
+
+Il existe des bulletins pirates se promenant sur le reseau des BBS qui
+utilisent la commande distante //ECHO pour vous faire envoyer un bulletin
+avec un contenu offensant.
+Pour cela, j'ai change le niveau d'acces de la commande //ECHO au niveau 
+SYSOP. Si vous nommez tous les BBS sur lesquels vous travaillez dans le
+fichier 'tnt_noremfile' ou si vous desactivez toutes les commandes distantes 
+avec la commande REMALLOW pour le canal avec lequel vous connecter les BBS,
+vous pouvez remettre le niveau d'acces de la commande distante //ECHO a 
+NORMAL.
+Mais faites tres attention avec cette commande ! Sinon, il se pourrait qu'un
+message offensant soit forwarde mondialement avec VOTRE indicatif !!!
+
+
+2.2. Conversion des umlaut
+--------------------------
+
+2.2.1. Affichage
+----------------
+
+Si les codes de controle console de LINUX sont utilises, a l'affichage les
+codes de caracteres IBM sont utilises. Aucune conversion des umlaut ne sera
+faite. Si un termcap est utilise un umlaut IBM sera converti suivant le
+parametre UMLAUT.
+Si UMLAUT est ON, l'umlaut IBM est converti en umlaut Latin-1 8-bit.
+Si UMLAUT est OFF, il est converti en une representation a deux caracteres 
+("ae").
+
+2.2.2. Envoi d'un texte
+-----------------------
+
+Si UMLAUT est OFF, tous les umlauts entres seront convertis en une
+representation a deux caracteres ("ae"). Si UMLAUT est ON, les umlauts ne 
+seront pas convertis et seront envoyes comme un umlaut IBM.
+
+2.2.3. Reception de fichiers
+----------------------------
+
+Seuls les fichiers log (LOGREC, LOGSND, LOGQSO, LOGMON et LOGXMON) sont
+affectes par la conversion des umlaut. Si UMLAUT est ON, l'umlaut IBM est
+converti en un umlaut Latin-1 8-bit. Si UMLAUT est OFF, il est converti en
+une representation a deux caracteres ("ae").
+
+2.2.4. Envoi de fichiers
+------------------------
+
+Seuls les fichiers log (SENDLOG) sont affectes par la conversion des umlaut.
+Si UMLAUT est ON, l'umlaut Latin-1 8-bit est converti en un umlaut IBM. 
+Si UMLAUT est OFF, il est converti en une representation a deux caracteres 
+("ae").
+
+
+2.3. Utilisation des fonctions UNIX
+-----------------------------------
+
+2.3.1. Shell login et redirection
+---------------------------------
+
+TNT permet aux utilisateurs distants de se loguer sous UNIX comme un
+utilisateur normal. Toute reception de donnee est traitee comme un entree
+dans le shell, toute donnee venant du shell est transmise a la station
+distante.
+Pour utiliser le login shell, il est necessaire de demander la permission au
+superutilisateur root de TNT.
+Sinon, le login shell est desactive.
+Le shell peut etre demande par l'operateur en utilisant la commande SHELL ou 
+par la station distante en utilisant la commande distante //SHELL.
+Il est possible d'executer tous les programmes qui sont autorises a
+l'utilisation depuis un shell.
+Au moment du login, il est recherche si l'indicatif de la station distante
+a un identificateur-utilisateur valide. Si il n'existe pas, dependant du 
+parametre 'unix_new_user' dans le fichier init, un nouvel identificateur-
+utilisateur est cree ou un specifie par 'remote_user' est utilise.
+Dans tous les cas, l'indicatif est sauve dans la variable d'environnement 
+'CALLSIGN'.
+
+Si vous commencez un shell sur un systeme distant, tout programme qui
+utilise un terminal special posera des problemes pour la sortie ecran. Pour
+cela, il est possible de rediriger vers une console virtuelle (ou tout autre 
+device, fichier, pipe, etc...).
+Les codes de controle pour le terminal sont interpretes correctement par la 
+console virtuelle et toute donnee entree sera transmise.
+L'utilisation de cette fonction ecran oriente programme peut etre execute
+sur le systeme distant utilisant TNT comme moyen de transport.
+Si vous voulez utiliser cette fonction soyez sur de donner le parametre 
+'trans' avec la commande SHELL. Sinon, il y aura une conversion des CR/LF
+active qui causera des problemes en utilisant les programmes orientes.
+
+Pour augmenter les performances, pour le shell et la redirection, toute
+donnee venant du shell ou de la console redirigee sera bufferisee.
+Cela signifie que les donnees ne sont pas renvoyees directement, mais si le
+buffer contient 256 Octets (la longueur maximum des paquets en AX25) ou que
+pendant un temps specifique aucune donnee n'a ete recue. Ce temps peut etre
+configure dans le fichier d'init.
+
+2.3.2. Programmes run
+---------------------
+
+Pour les utilisateurs qui ne sont pas a l'aise avec UNIX, l'utilisation d'un
+shell est assez compliquee. Pour cela, des commandes run sont implementees, 
+qui executent un programme specifique utilisant un shell.
+Si vous n'aimez pas faire tourner TNT en permission root et que le login
+shell est desactive, les commandes run permettent d'executer un programme
+specifique par la station distante.
+Un repertoire specifique 'run_dir' contient toutes les commandes
+executables. Les programmes dans les autres repertoires ne pourront pas etre
+executes grace a cette commande.
+Comme aucun login n'est etabli, le programme est execute en utilisant
+l'utilisateur par defaut specifie par 'remote_user'.
+Si TNT n'a pas ete lance par le superutilisateur root, l'utilisateur ne
+pourra pas etre change.
+Dans ce cas, le programme est sous la permission de l'identificateur-
+utilisateur avec lequel TNT a ete lance.
+L'indicatif de l'utilisateur est enregistre dans les variables d'environnement 
+'CALLSIGN' et 'LOGNAME'.
+Dans la plupart des cas, il est demande de convertir les LF UNIX en CR Packet
+Radio et vice versa. Si aucune conversion de caracteres a l'envoi ou a la
+reception n'est faite, la commande RUNT doit etre utilisee.
+
+2.3.3. Interface socket
+-----------------------
+
+Si votre systeme est utilise par plusieurs personnes ou fait parti d'un
+reseau, vous voulez peut etre donner acces au packet radio a ces utilisateurs.
+Pour permettre ca, l'interface socket est implementee. Avec la commande 
+SOCKET <numero_port> un serveur est installe sur le socket internet
+avec le numero de port specifie. Maintenant un utilisateur local peut
+connecter depuis ce serveur en faisant 'telnet localhost <numero_port>'. 
+Alors, un login avec indicatif et mot de passe sera execute. Apres un login
+reussi, une voie du TNC pourra etre utilisee pour les connexions.
+Les informations du login sont conservees dans le fichier 'sock_passfile' et
+dependent du fichier passwd.
+
+
+2.4. AutoBIN : transfert de fichier
+-----------------------------------
+
+Pour transferer facilement des fichiers binaires sans trop d'entetes mais
+avec un controle de securite, le protocole AUTOBIN a ete cree.
+Il est implemente dans beaucoup de programmes packet radio. C'est pour cela
+qu'il l'est aussi dans TNT. Pour utiliser l'autobin,, les commandes
+SENDABIN, READABIN et LOGABIN sont disponibles pour l'operateur et //WPRG et 
+//RPRG pour l'utilisateur distant. De plus, le protocole AUTOBIN demarre
+automatiquement apres une reception valide des entetes AUTOBIN.
+A la fin d'un transfert reussi, le temps passe et le Baudrate effectif sont
+affiches. Si un fichier a ete recu, le checksum recu et le checksum calcule
+seront aussi affiches. Normalement ces informations statistiques sont aussi
+envoyees a la station distante. Dans le cas ou LOGABIN ou AUTOBIN sont actives
+les informations statistiques seront uniquement affiches (pour eviter toute
+confusion sur des BBSs).
+Si le transfert est interrompu, la connexion perdu ou que le calcul
+du checksum n'est pas egal au checksum recu, le fichier recu sera place dans
+un repertoire special : 'abin_dir'. De plus, le nom est change en un nom unique.
+Il est utile de nettoyer le repertoire de temps en temps.
+La plupart du temps, ces fichiers corrompus n'ont aucun interet, dans les 
+rares cas ou ils sont utiles, ils sont conserves dans ce repertoire.
+
+
+2.5. Texte d'accueil special et fichiers de macros, base de donnee de noms
+--------------------------------------------------------------------------
+
+Pour pouvoir envoyer un texte d'accueil special a une station se connectant,
+les macros peuvent etre utilisees dans ce texte.
+Le fichier du texte d'accueil sera envoye a une connexion entrante si CONTEXT
+a ete defini ON.
+Par defaut le fichier du texte d'accueil (tnt_ctextfile) dans le repertoire de
+TNT sera utilise, mais vous pouvez, pour certains utilisateurs, creer un
+texte d'accueil personnel dans le repertoire de texte de connexion 
+(ctext_dir). Les fichiers doivent etre nommes <indicatif>.ctx .
+
+De plus, un fichier contenant des macros peut etre envoye a chaque fois que
+vous le desirez, et pas seulement a la connexion (commande MSEND). Tous ces
+fichiers doivent se trouver dans le repertoire de texte de macros 
+'macrotext_dir'.
+
+
+Pour etre plus personnel et pour permettre de se souvenir du nom de votre
+correspondant, une base de donnee de noms est incluse a TNT.
+Un nom peut etre entree par l'operateur en utilisant la commande NAME ou
+avec la commande //NAME pour l'operateur distant.
+Si aucun nom n'est specifie apres la commande, le nom actuel sera donne.
+
+Les macros suivantes sont autorisees, si elles se situent dans le texte
+d'accueil ou dans un fichier macro :
+
+%v: version de TNT,
+%c: indicatif de l'autre station,
+%n: nom de l'autre station (pris dans la base de donnee des noms),
+%y: indicatif de la station,
+%k: numero de la voie,
+%t: heure actuelle,
+%d: date actuelle,
+%b: sonnerie (^G),
+%i: inclus le fichier news ('news_file_name'),
+%z: zone de l'heure,
+%_: CR/LF,
+%o: inclus un cookie,
+%?: envoi un message si le nom de la station n'a pas ete trouve dans la base
+    des donnee des noms,
+%%: le signe '%'.
+
+
+2.6. Scripts de routage
+-----------------------
+
+La structure du Reseau Packet Radio est tres differente compare a internet.
+Sur internet, vous pouvez specifier directement votre destination et le
+routage se fait alors automatiquement.
+Sur le Reseau Packet Radio, il existe differents systemes avec des mecanismes
+de routage incompatibles. Pour se connecter a une destination, il est
+necessaire d'executer plusieurs pas. Supposons l'exemple suivant :
+
+Vous voulez connecter DL7ZZZ qui est en ecoute sur la frequence du repeteur
+DB0LUC. Votre repeteur local est DB0BLO.
+Donc, votre premiere commande sera de connecter DB0BLO (:c db0blo). Si la
+connexion a ete fructueuse, vous enverrez alors la ligne 'c db0ber' au
+repeteur qui etablira alors la connexion pour DB0BER, qui est le
+repeteur suivant vers DB0LUC. Si la connexion est etablie, DB0BLO vous
+enverra alors le message : '*** connected to DB0BER'. 
+Maintenant vous entrerez la ligne 'c db0luc db0bln', qui veut dire que vous
+demandez la connexion a DB0LUC depuis DB0BER via DB0BLN. DB0BLN n'est pas
+connecte, car il utilise un acknowledge hop-to-hop a la place d'un simple
+repeteur.
+Si la connexion a ete reussie, vous recevrez la ligne : 
+'BSUED:DB0BER> Connected to DB0LUC via DB0BLN' et vous pourrez alors essayer
+de connecter votre destination avec la ligne 'c dl7zzz'. Un connexion
+fructueuse sera indiquee par la ligne '*** connected to DL7ZZZ'.
+
+Si vous faites ca manuellement, vous devez faire attention a ce qui arrive
+sur votre ecran et apres chaque connexion fructueuse, vous devez entrer
+chaque nouvelle ligne.
+
+Le script de connexion facilite les choses (commande XCONNECT). Maintenant,
+il fait toutes les etapes automatiquement, si vous avez donne les
+informations de routage au programme.
+
+Les informations de routage seront recherchees dans le fichier de base de 
+donnees de routage (route_file_name) et seront lues par exemple comme suit :
+
+T>DL7ZZZ Joe; N>DB0LUC T>DL7ZZZ
+N>DB0LUC Digi Luckau; N>DB0BER F>DB0BLN N>DB0LUC
+N>DB0BER Digi Tempelhof; N>DB0BLO N>DB0BER
+N>DB0BLO Digi 9K6
+
+Comme vous pouvez le voir, les entrees de routage sont recursives, vous
+n'avez pas a specifier tout le routage pour la destination.
+Les caracteres avant les indicatifs donne des informations au script de 
+connexion, s'il doit connecter un repeteur( N> ) ou si le repeteur doit
+etre utilise comme via dans le cheminement ( F>, D> ).
+Pour identifier un utilisateur normal, T> est utilise, pour les messageries B>
+peut etre utilise.
+
+Quelques programmes utilises par des utilisateurs normaux permettent une
+connexion avec la commande //c <indicatif>. Si vous voulez utiliser des
+utilisateurs de ce type dans votre cheminement, placez un T> devant
+l'indicatif, alors une ligne '//c <indicatif>' sera generee par le script
+de routage.
+
+Si vous changez frequemment de frequence, vous devrez utiliser frequemment la
+commande QRG et definir les donnees de routage pour qu'elles soient valides
+pour une frequence donnee ('<IF xxxx> <END>'-clause).
+
+
+2.7. Actualisation des indicatifs
+---------------------------------
+
+Si vous utilisez un script de routage ou si vous connectez manuellement au
+travers de nombreux repeteurs, vous pouvez facilement perdre votre
+orientation, d'ou vous etes.
+Pour cela, chaque ligne 'connected to' actualisera l'indicatif affiche dans
+la ligne de statut.
+
+Un ligne 'reconnected to' actualisera aussi l'indicatif dans la ligne de 
+statut, mais le script de routage n'enverra pas la commande suivante et le
+fichier carnet de trafic pour l'indicatif ne sera pas remis a jour.
+
+Si l'indicatif est change par 'connected to' en texte normal, il peut etre
+remis a jour avec la commande CONCALL.
+
+
+2.8. Carnet de trafic
+---------------------
+
+Toute connexion effectuee par la station est ecrite dans un fichier carnet
+de trafic. Chaque ligne contient l'heure de debut et l'heure de fin de la
+connexion et l'indicatif de la station distante. Si la destination a ete
+connectee en direct, seul cet indicatif est memoirise.  Si la destination a
+ete connectee en utilisant plusieurs repeteurs ou un script de routage,
+l'indicatif du premier repeteur est aussi memorise.
+Le nom du fichier carnet de trafic peut etre specifie dans le fichier
+d'initialisation 'inittnt_logbookfile'.
+
+Exemple:
+
+   Starttime   |    Endtime     |          Callsign
+-------------------------------------------------------------------------------
+16.03.94 18:08 | 16.03.94 18:09 | DB0BLO
+17.03.94 21:32 | 17.03.94 21:37 | GEHREN:DB0LUC, Uplink: DB0BLO
+
+
+2.9. Macros clavier
+-------------------
+
+Avec la fonction macro clavier, les commandes qui sont souvent utilisees ou
+les textes les plus souvent envoyes peuvent etre executees ou envoyees en
+une seule commande.
+Vous pouvez definir jusqu'a 10 commandes clavier (<ALT>0 a <ALT>9 ou <ESC>0 a 
+<ESC>9) avec le texte correspondant ou les commandes TNT en les specifiant
+dans un fichier defini par 'func_key_file' dans le fichier d'init.
+
+Chaque ligne  doit commencer par deux caracteres numeriques specifiant la
+commande clavier et un espace. (01: pour <ALT>1 / <ESC>1, 
+10: pour <ALT>0 / <ESC>0).
+La ligne de texte doit suivre immediatement l'espace. Si le dernier caractere
+de la ligne est un asterisque '*' un CR sera envoye a la place de celui ci, 
+sinon, aucun CR ne sera envoye.
+Une commande doit etre precedee par un autre espace, un CR est toujours
+envoye avec une ligne de commande.
+La longueur de la commande ou du texte ne doit pas depasser la longueur de
+la ligne. 
+
+Si la longueur de la ligne n'est pas suffisante pour votre texte ou si vous
+voulez envoyer un texte contenant des macros comme l'heure ou l'indicatif
+vous devez specifier la commande 'send' ou 'msend' a la place de la ligne de
+texte. Le fichier de macros clavier est charge en memoire au demarrage de
+TNT. Si vous changez ce fichier durant l'execution de TNT, vous pouvez
+recharger le fichier avec la commande 'kmacro'.
+
+
+2.10. Liste de messagerie
+-------------------------
+
+2.10.1. Description generale
+----------------------------
+
+Si vous avez une liste de messages du BBS, vous avez a ecrire les messages qui
+vous interessent ou vous avez a sauver la liste dans un fichier et regarder
+dans ce fichier apres. Dans les deux cas, vous avez a ecrire les numeros ou 
+noms des messages pour aller les prendre dans le BBS.
+
+La fonction liste de BBS vous permet d'aller chercher dans le BBS en
+selectionnant les messages (avec les fleches) depuis la liste en appuyant
+simplement sur la touche entree.
+
+Si une connexion interface a DPBox est active et qu'une commande 'check'
+est envoyee avec les ID des bulletins, tous les bulletins qui sont dans la
+liste des ID des bulletins sont affiches avec un attribut de couleur
+special. Cela veut dire que vous avez une vue generale des bulletins
+contenus dans votre BBS.
+
+2.10.2. Utilisation de la liste de messagerie
+---------------------------------------------
+
+Comment ca marche ?
+
+a. Avant la requete de la liste, ouvrez un fichier. Si vous n'etes pas
+   interesse pour conserver la liste, utilisez simplement la commande 
+   'logblist'. Un fichier temporaire avec un nom unique sera utilise. Ce
+   fichier sera efface quand vous sortirez de TNT. Si vous voulez conserver
+   cette liste utilisez la commande 'logrec <nom_fichier>'.
+
+b. Si la fin de la liste est recue, utilisez la commande 'blist'.
+   Cette commande ferme le fichier et le charge dans l'ecran de liste de BBS.
+   Si aucun fichier n'a ete ouvert, le dernier fichier enregistre sera
+   affiche sur l'ecran de liste de BBS.
+
+c. Utilisez <ALT>L ou <ESC>L pour basculer de l'ecran de liste de BBS a
+   l'ecran de connexion. Sur l'ecran de liste de BBS, vous pouvez utiliser
+   les fleches pour selectionner le message. Pressez CR pour envoyer une
+   commande de lecture au BBS. Tout message deja pris sera affiche avec un
+   autre attribut de couleur.
+
+d. Si vous avez lu tous les fichiers que vous vouliez sur la liste du BBS,
+   vous pouvez fermer l'ecran avec la commande 'xblist'.
+
+2.10.3. Utilisation des macros clavier
+--------------------------------------
+
+Pour permettre de ne pas frapper les commande a chaque fois, il est autorise
+d'utiliser les macros clavier. Par exemple :
+<ALT>8 / <ESC>8 : 'logblist'
+<ALT>9 / <ESC>9 : 'blist'
+<ALT>0 / <ESC>0 : 'xblist'
+Ces macros clavier sont deja incluses dans le fichier d'exemple de macros 
+clavier.
+
+2.10.4. Reconnaissance de formats
+---------------------------------
+
+Pour le moment, les formats de liste reconnus sont :
+
+a. DIEBOX check
+
+    7 DL4BCU > TERMINE...16 24.09.94 DL      2214   5 2m Mobilfuchsjagd I05 08.
+ 
+-> R TERMINE 16
+
+
+b. DIEBOX list
+
+ 263 DL1ZAX 02.11.94 18:03   6763  DL-RUNDSPRUCH NR. 39/94
+
+-> R 263
+
+
+c. DIEBOX checklist avec BID
+
+   85 DH3FBI > KENWOOD..423 055514DB0GV  DL   851   5 LF & VLF Empfang mit TS-5
+
+-> R KENWOOD 423
+
+ 
+d. RUN C avec l'option D=CRD$@L
+
+DG0XC  DIGI......17 28.04.95 2845DB0BALWE DL      1 DB0BRO-1 wieder ok.
+
+-> R DIGI 17
+ 
+2.11. Moniteur etendu
+---------------------
+
+La fonction moniteur etendue permet de monitoriser des connexions
+specifiques sur la frequence en enlevant automatiquement les entetes et
+toutes les trames repetees.
+Il y a 5 (0 a 4) voies moniteur etendu differentes possibles.
+<ALT>X ou <ESC>X basculera vers un ecran moniteur etendu et TAB permettra de
+changer de voie.
+
+La commande EXTMON est utilisee pour activer le moniteur etendu. Si vous
+avez execute cette commande depuis un ecran de moniteur etendu, la voie
+actuelle sera prise. Sur les autres ecrans vous devez specifier le numero de
+la voie que vous voulez utiliser et ce avant les indicatifs.
+La premiere voie de moniteur etendu sera prise si le commande EXTAMON est
+employee.
+
+Comme parametres de commande, vous devez specifier les indicatifs de la
+connexion que vous voulez espionner. Normalement cela devrai etre 2
+indicatifs et les deux directions seront visualisees.
+
+L'utilisation de repeteurs comme les NETROM/TheNet ou les RMNC/FlexNet
+fait qu'une connexion est en fait etablie sur deux connexions. D'abord,
+la connexion de la station 1 au repeteur (DL9xxx <> DB0xxx) et en second la
+connexion du repeteur a la station 2 (DL9xxx-15 <> DG1xxx). Dans la
+plupart des cas, vous ne pourrez monitoriser que les trames du repeteur. 
+Dans ces ca la, vous pouvez specifier jusqu'a 4 indicatifs 
+(DB0xxx DL9xxx DL9xxx-15 DG1xxx) et les deux directions de la connexion
+seront visualisee dans l'ecran de moniteur etendu.
+
+Si la connexion monitorisee est codee en compression Huffman, le decodage
+peut se faire avec la commande EXTCOMP. 
+
+Le moniteur etendu peut etre terminee par la commande ENDEXTM.
+
+
+2.12. Utilisation de DPBox
+--------------------------
+
+2.12.1. Description generale
+----------------------------
+
+DPBox est un daemon qui est totalement independent de TNT. Le daemon doit etre
+lance avant d'utiliser quelque commande DPBox de TNT.
+
+2.12.2. Utilisation de l'interface socket UNIX
+----------------------------------------------
+
+Pour faire la connexion entre TNT et DPBox, la commande 'actbox' doit etre
+utilisee. Si la connexion doit etre fermee, la commande 'deactbox' doit
+etre utilisee.
+
+La commande 'finbox' ne fait pas que fermer la connexion comme 'deactbox',
+mais elle donne aussi l'ordre d'arret au daemon de DPBox.
+
+Le nom du socket UNIX de DPBox doit etre defini par 'box_socket' dans le
+fichier d'init.
+
+2.12.3. Ecran de messagerie
+---------------------------
+
+Si la connexion a DPBox est active, l'ecran de messagerie (<ALT>B ou <ESC>B)
+peut etre lance et une console sysop sera lancee avec la commande 'box'.
+
+Vous pouvez arreter votre session sysop avec la commande 'quit' ou aussi 
+'endbox'.
+
+Toutes les fonctions d'un ecran de connexion normal sont aussi incluses dans
+la liste de BBS. En mode liste de BBS, il existe une fonction speciale. Si
+vous selectionnez un message et que vous pressez 'e' puis entree, le fichier
+sera efface. 'k' pour kill et 'l' pour list sont aussi utilisables. 't' genere
+une ligne de transfert ou vous pouvez ajouter un nouveau nom de repertoire, 
+'0' defini la duree de vie des messages depuis 0.
+
+2.12.4. Utilisation de DPBox via packet radio
+---------------------------------------------
+
+DPBox peut etre activee sur une voie de connexion normale avec la commande 
+'BOX', par la commande distante //box ou encore en connectant une voie qui a
+un SSID de l'indicatif identique a 'tnt_box_ssid' dans le fichier d'int.
+
+DPBox est activee uniquement si la voie est connectee.
+
+Les commandes 'endbox', 'quit' sur le BBS ou une deconnexion terminera la
+session messagerie.
+
+2.12.5. Fonctions Autobox et monbox
+-----------------------------------
+
+Si vous definissez 'autobox' a ON, tout message que vous recevrez sur
+n'importe quelle voie sera envoye a DPBox et sera sauve dans le repertoire
+correspondant.
+Cela inclus les messages personnels et les bulletins.
+
+Si vous definissez 'monbox' a ON et que 'xmon' est ON, toutes les trames
+monitorisees rechercheront un entete mail. Si on en trouve un, il tente 
+de receptionner les messages, de la meme facon qu'avec la fonction
+moniteur etendu. Si des paquets sont perdus, ou si une autre erreur est
+apparue, le message ne sera pas accepte.
+Si le message a ete correctement recu il sera envoye a DPBox et sera sauve 
+dans le repertoire correspondant.
+Tous les bulletins et tous les messages personnels qui contiennent un
+indicatif dans 'autobox_dir' comme expediteur ou comme receveur sera traite
+de la sorte.
+Tous les messages qui seront recus pourront etre affiches avec la commande 
+'lmonbox'.
+
+
+2.13. Generation automatique des mots de passe
+----------------------------------------------
+
+2.13.1. Description generale
+----------------------------
+
+Sur le reseau packet radio beaucoup de systemes de mot de passe sont
+utilises pour le moment. Pour cela, un fichier de configuration 'tnt_pwfile'
+est utilise. Dans ce fichier, pour tout indicatif avec son SSID, il est
+defini un type de mot de passe et un fichier contenant le mot de passe.
+Suivant le type de mot de passe utilise, une action differente est effectuee
+et le contenu du fichier mot de passe est aussi different.
+
+Jusqu'a present beaucoup de systemes de mot de passe sont implementes dans 
+TNT, mais il est prevu d'augmenter le nombre de systemes reconnus. Si vous
+avez ajoute un systeme de mot de passe, participez dans ce sens !!!
+
+2.13.2. DIEBOX
+--------------
+
+Si le type de mot de passe est DIEBOX, apres une connexion a l'indicatif 
+specifie, chaque texte est scanne pour le texte 'Login: '. Si le texte est
+trouve, la date et l'heure qui suivront seront enregistrees et le scan
+pour le texte sera stoppe.
+
+Si vous activez la commande 'priv', un mot de passe a 4 caracteres sera genere
+avec l'heure de login et votre fichier de mot de passe et le resultat 
+'PRIV xxxx' sera envoye (xxxx pour le mot de passe genere).
+
+Le fichier de mot de passe doit etre identique au fichier utilise par DIEBOX, 
+il DOIT contenir CR et LF entre chaque ligne.
+
+2.13.3. FlexNet
+---------------
+
+Si le type de mot de passe est FLEXNET et que la connexion a la station voulu
+est etablie, la commande 'priv' lance la sequence de mot de passe. Une
+chaine de caractere contenant 'SYS' est envoyee a la station distante qui
+devrai repondre par une chaine de type '(xyz) abcde>'. La reponse a donner est
+calculee en fonction de cette reponse et du mot de passe specifie. La
+reponse sera alors envoyee et le statut sysop de la station distante sera
+alors disponible.
+
+Differemment des autres systemes de mot de passe, la troisieme valeur dans le
+fichier de configuration n'est pas le nom du fichier ou est stocke la mot de
+passe mais directement le mot de passe.
+
+2.13.4. TheNet
+--------------
+
+Si le type de mot de passe est TheNet et que la connexion a la station
+distante voulue est etablie, la commande 'priv' lance la sequence de mot de
+passe. Une chaine de caracteres definie par la cinquieme valeur dans le
+fichier de configuration est envoyee a la station distante qui devrai 
+repondre par une chaine de type 'NODE:NO1DE: a b c d e' ou simplement par 
+'a b c d e'. Cette reponse defini quels caracteres du mot de passe doivent
+etre renvoyes en reponse.
+Cette reponse est generee et est envoyee a la station distante et le statut
+sysop sera alors disponible.
+
+La troisieme valeur dans le fichier de configuration definie le fichier ou
+est stocke le mot de passe.
+
+La quatrieme valeur dans le fichier de configuration definie si des
+fonctions supplementaires doivent etre utilises. Si le bit est a 0, la
+generation du mot de passe sera faire trois fois, mais seule une des trois
+fois au hasard sera correcte. Les deux autres fois, une chaine prise au
+hasard est envoyee a la place de la bonne reponse. Si le bit est a 1, la
+reponse sera dissimulee dans une chaine de 72 caracteres.
+
+La generation du mot de passe de type TheNet est aussi utilisee par d'autres
+logiciels (par exemple Baycom et DigiPoint).
+
+
+2.14. Compression Huffman
+-------------------------
+
+La compression de donnees Huffman implementee dans d'autres programmes est
+aussi disponible. Elle peut etre activee par la station distante avec la 
+commande //COMP ou via la commande COMP. La compression permet une reduction
+des donnees envoyees de 30% environ pour les texte ASCII. Pour les fichiers
+binaires la compression n'est pas utile.
+
+Pour lire un contact en moniteur etendu qui utilise la compression de
+donnees Huffman, la commande EXTComp doit etre utilisee.
+
+La compression n'est disponible que si 'tnt_comp' dans le fichier de
+configuration est definie.
+Dans ce cas, la taille maximum des paquets ('file_paclen' dans le fichier de 
+configuration, commande FPACLEN) pour l'envoi de fichier est de 255 Octets.
+
+La methode //comp a d'abord ete utilisee par DK4NB dans SP 9.00, la table de
+conversion est de lui.
+
+
+2.15. Maniement des connexions de test de qualite de FlexNet
+-------------------------------------------------------------
+
+Le protocole des repeteurs FlexNet utilise les connexions pour determiner
+la qualite et la validite des connexions. Ces connexions menent a une
+activation non necessaire du texte de connexion de DPBox ou de tout autre
+programme connecte a cet interface. De plus, le carnet de trafic serai plein
+rien qu'avec ces connexions.
+
+Donc, TNT dispose d'un fichier ou les indicatifs des repeteurs FlexNet
+effectuant cette connexion de test de qualite peuvent etre sauves 
+(tnt_flchkfile). Si un indicatif est trouve dans le fichier se connecte, il 
+n'aura aucun texte d'accueil, aucune commande distante et aucune connexion
+via l'interface ne sera executee. Le fichier de carnet de trafic ne sera pas
+complete avec cette connexion.
+
+Le contenu de ce fichier peut etre affiche par la commande LSTFLCHK. Si le 
+fichier a ete mis a jour alors que TNT est en marche, il pourra etre relu en
+utilisant la commande LDFLCHK.
+
+
+2.16. Utilisation de plusieurs logiciels avec le meme indicatif
+---------------------------------------------------------------
+
+Si vous voulez operer des logiciels differents avec le meme indicatif, vous 
+devez definir quels SSID's de votre indicatif TNT ne doit pas utiliser.
+Cela doit etre fait dans le fichier defini par 'tnt_notownfile'. Les
+indicatifs contenus dans ce fichier ne seront jamais utilises pour une
+connexion utilisant un script de routage.
+
+Le contenu de ce fichier peut etre affiche avec la commande LSNOTOWN. Lorsque
+le fichier a ete mis a jour, il peut etre relu avec la commande LDNOTOWN.
+
+
+
+3. Installation
+---------------
+
+
+3.1. Fichier de configuration
+-----------------------------
+
+La configuration du programme se fait par le fichier de configuration.
+Ce fichier de nomme 'tnt.ini'. Il se trouve soit dans le repertoire courant 
+soit au repertoire home de l'utilisateur (d'autres noms peuvent etre definis
+en utilisant l'option -i au demarrage).
+
+exemple pour tnt.ini:
+
+# defini si select() doit etre utilise, normalement a 1, mettre a 0, si vous 
+# utilisez un vieux noyau (select() produit ici un chargement CPU plus 
+# rapide).
+use_select 1
+
+# --------------------------------------------------------------------------
+
+# 0 pour un TNC reel sur le port serie, 1 pour TFKISS sur un socket UNIX
+soft_tnc 0
+
+# port serie sur lequel le TNC est connecte ou le socket UNIX avec TFKISS
+device /dev/cua0
+
+# fichier de blocage pour le port serie ou TFKISS
+tnt_lockfile /usr/spool/uucp/LCK..cua0
+
+# Vitesse de la RS232 utilisee, seulement si un TNC est connecte au port serie
+speed 19200
+
+# parametres de temps pour l'interface a tfkiss (soft_tnc est a 1)
+# 1: temps d'attente fixe (10ms) entre chaque paquet hostmode envoye a tfkiss
+fixed_wait 1
+# si fixed_wait == 0, nombre de caractere envoyes a tfkiss avant que TNT ne
+# fasse sont temps d'attente de 10ms 
+amount_wait 20
+
+# --------------------------------------------------------------------------
+
+# nombre de voies du TNC
+tnc_channels 10
+
+# premiere voie avec un buffer de retour reduit
+r_channels 4
+
+# --------------------------------------------------------------------------
+
+# active la table de compression statique Huffman (//COMP)
+tnt_comp 1
+
+# taille des paquets pour le transfert de fichiers
+file_paclen 255
+
+# mettre a 1 pour deconnecter tous les canaux au demarrage
+disc_on_start 0
+
+# --------------------------------------------------------------------------
+
+# UNIX-user pour la permission distante
+remote_user guest
+
+# Si a 1, de nouveaux utilisateurs pourront etre crees, si a 0, tout nouvel
+# utilisateur sera loggue comme l'utilisateur defini par 'remote_user'.
+unix_new_user 1
+
+# plus petit identificateur-utilisateur pour la creation de nouveaux 
+# utilisateurs
+unix_first_uid 410
+
+# identificateur de groupe pour les nouveaux utilisateurs
+unix_user_gid 101
+
+# --------------------------------------------------------------------------
+
+# timeout pour l'assemblage des paquets (en secondes) pour SHELL/REDIR et 
+# interface
+pty_timeout 2
+
+# --------------------------------------------------------------------------
+
+# mets a 1 pour la requete des entetes R: pour la commande read de la liste
+# de messagerie
+blist_add_plus 0
+
+# --------------------------------------------------------------------------
+
+# SSID de DPBox (une voie avec ce SSID doit exister dans le TNC !)
+tnt_box_ssid 7
+
+# SSID pour les voies node (en developpement)
+tnt_node_ssid 9
+
+# --------------------------------------------------------------------------
+
+# repertoire principal
+tnt_dir /work/tnt/
+# repertoire distant
+remote_dir remote/
+# repertoire des ctext
+ctext_dir ctext/
+# repertoire pour les fichiers autobin corrompus
+abin_dir abin/
+# repertoire pour les envois
+upload_dir up/
+# repertoire pour la reception
+download_dir down/
+# repertoire des programmes executables
+run_dir bin/
+# repertoire home pour les nouveaux utilisateurs
+unix_user_dir tntusers/
+# repertoire pour les textes macro
+macrotext_dir macro/
+# repertoire pour les fichiers broadcast de messagerie
+tnt_bcnewmaildir bcast/newmail/
+# repertoire pour les fichiers broadcast
+tnt_bcsavedir bcast/save/
+# repertoire pour les fichiers broadcast temporaires
+tnt_bctempdir /tmp/
+
+# fichier d'envoi
+tnt_upfile tnt.up
+# fichier de reception
+tnt_downfile tnt.dwn
+# fichier contenant l'identificateur de  processus
+proc_file tnt.pid
+# fichier distant d'information
+rem_info_file tntrem.inf
+# fichier distant d'aide
+rem_help_file tntrem.hlp
+# fichier d'aide tnt
+tnt_help_file tnt.hlp
+# fichier de cookie
+tnt_cookiefile /work/cookie/cookies.doc
+# fichier des noms
+name_file_name names.tnt
+# fichier de routes
+route_file_name routes.tnt
+# fichier de nouvelles
+news_file_name news.tnt
+# texte d'accueil
+tnt_ctextfile ctext.tnt
+# fichier carnet de trafic
+tnt_logbookfile log.tnt
+# fichier de mots de passe
+tnt_pwfile pw.tnt
+# fichier d'acces sysop
+tnt_sysfile sys.tnt
+# indicatifs avec les commandes distantes inactives
+tnt_noremfile norem.tnt
+# indicatifs faisant le test de qualite FlexNet
+tnt_flchkfile flchk.tnt
+# fichier de log des resyncronisations
+resy_log_file resy.log
+# fichier log des broadcast
+bcast_log_file bcast.log
+# fichier de mot de passe du socket
+sock_passfile netpass.tnt
+# fichier pour les macros clavier
+func_key_file fkeys.tnt
+
+# socket pour la messagerie DPBox
+box_socket /work/box/stat/socket
+# repertoire pour les nouveaux messages
+newmaildir /work/box/newmail/
+# fichier gardant les folders monitorises
+autobox_dir autobox.dir
+# fichier pour le texte de fin du bbs
+tnt_boxender boxender.tnt
+
+# socket pour le node tnt (en developpement)
+node_socket /work/tntnode/socket
+
+# socket pour frontend
+frontend_socket tntsock
+
+# --------------------------------------------------------------------------
+
+# longueur maximum d'une ligne entree
+input_linelen 80
+
+# nombre maximum d'entrees dans la liste des stations entendues
+num_heardentries 100
+
+# nombre de lignes de retour
+
+# dans l'ecran de commande
+lines_command 50
+# dans l'ecran moniteur
+lines_monitor 400
+
+# partie entree des ecrans de connexion
+lines_input 20
+# partie sortie des ecrans de connexion
+lines_output 100
+# partie entree des ecrans de connexion (retour reduit)
+lines_r_input 5
+# partie sortie des ecrans de connexion (retour reduit)
+lines_r_output 20
+# ratio des lignes d'entree/sortie sur l'ecran reel (connexion)
+scr_divide 5
+# lignes moniteur sur les ecrans de connexion
+lines_moncon 0
+
+# partie entree de l'ecran messagerie
+lines_mbinput 10
+# partie sortie de l'ecran messagerie
+lines_mboutput 200
+# ratio des lignes d'entree/sortie sur l'ecran reel (messagerie)
+mbscr_divide 8
+
+# partie entree des ecrans de moniteur etendu
+lines_xmon_pre 10
+# partie sortie des ecrans de moniteur etendu
+lines_xmon 100
+# ratio des lignes d'entree/sortie sur l'ecran reel (moniteur etendu)
+xmon_scr_divide 5
+
+# --------------------------------------------------------------------------
+
+# 0: monochrome, 1: utilise les attributs couleur si TERM = 'linux' ou 
+# 'conXXX', sinon, utilise les attributs monochrome et termcap, 2: utilise
+# les attributs couleur
+color 1
+
+# 0: n'utilise pas le termcap, 1: utilise le termcap
+termcap 0
+
+# 1: autre ligne de statut superieure
+altstat 0
+
+# --------------------------------------------------------------------------
+
+# attributs pour la couleur
+
+# caracteres normaux
+attc_normal 0x07
+# caracteres dans la ligne de statut du haut
+attc_statline 0x10
+# caracteres dans les entetes moniteur
+attc_monitor 0x06
+# caracteres dans la ligne de statut
+attc_cstatline 0x1F
+# caracteres de controle
+attc_controlchar 0x0F
+# reponses de la station distante
+attc_remote 0x06
+# fonctions speciales
+attc_special 0x01
+
+# --------------------------------------------------------------------------
+
+# attributs pour le noir et blanc
+
+# caracteres normaux
+attm_normal 0x00
+# caracteres dans la ligne de statut du haut
+attm_statline 0x08
+# caracteres des entetes moniteur
+attm_monitor 0x10
+# caracteres dans la ligne de statut
+attm_cstatline 0x10
+# caracteres de controle
+attm_controlchar 0x10
+# reponse de la station distante ainsi que votre propre texte envoye
+attm_remote 0x10
+# fonctions speciales
+attm_special 0x10
+
+# --------------------------------------------------------------------------
+
+# ces valeurs de doivent pas etre changees en utilisant LINUX
+
+# 1: le terminal place le curseur sur une nouvelle ligne apres chaque
+# caractere sur la derniere colonne
+auto_newline 0
+
+# 1: n'affiche pas les caracteres 128-160
+supp_hicntl 0
+
+# --------------------------------------------------------------------------
+<EOF>
+
+3.1.1. Configuration generale et des ports serie
+------------------------------------------------
+
+'device'        : le device, sur lequel le TNC est connecte, doit etre 
+                  specifie,
+'speed'         : vitesse du port serie,
+'tnt_lockfile'  : nom du fichier de blocage du port.
+
+'tnc_channels'  : nombre de voies du TNC,
+'r_channels'    : premiere voie a buffer de retour reduit.
+
+'num_heardentries': nombre d'entrees de la liste des stations entendues,
+'blist_add_plus': Si non defini a 0, un '+' est envoye avec la commande de
+                  lecture du BBS ; comme retour, le message aura alors
+                  toutes les lignes R: .
+'tnt_box_ssid'  : Si l'indicatif de la voie courante est egal a celui du BBS
+                  (SSID compris), DPBox est lance a la connexion.
+'tnt_node_ssid' : Si l'indicatif de la voie courante est egal a celui du NODE
+                  TNT (SSID compris), TNTNODE est lance a la connexion
+                  (fonction actuellement en developpement).
+'tnt_comp'      : Si pas a 0, la compression statique Huffman est activee.
+                  Dans ce cas, la longueur maximum des paquets est de 
+                  ('file_paclen') 255 caracteres. 
+'file_paclen'   : Defini la longueur maximum d'un paquet. Les valeurs valides
+                  vont de 20 a 256 caracteres. Si la compression Huffman est
+                  activee ('tnt_comp'), la valeur maximum est de 255 
+                  caracteres. La valeur peut etre changee par la commande 
+                  FPACLEN.
+'disc_on_start' : Si a 1, toute connexion etablie avant le lancement de TNT
+                  seront deconnectee a son demarrage, si a 0, les connexions 
+                  restent actives.
+'altstat'       : mettre a 1 si vous voulez utiliser la ligne de statut 
+                  alternative sur les ecrans de connexion.                  
+
+3.1.2. Securite
+---------------
+
+'remote_user'   : identificateur-utilisateur pour l'acces distant.
+       
+Si TNT a ete lance par le root, plus important que chaque identificateur
+utilisateur des fichiers de commande distantes, il est change pour
+restreindre la permission du fichier pour les utilisateurs distantes.
+Si TNT a ete demarre par un utilisateur, L'identificateur utilisateur n'est
+pas change. Pour cela les commandes distantes ont la meme permission que
+l'utilisateur.
+
+'unix_new_user' : 1: un nouvel utilisateur a une entree dans /etc/passwd et 
+                     un repertoire est cree.
+                  0: un nouvel utilisateur se loggue comme specifie par
+                     'remote_user'.
+'unix_first_uid': premier ID utilisateur qui sera donne a un nouvel
+                  utilisateur.
+'unix_user_gid' : ID de groupe utilise pour un nouvel utilisateur.
+
+3.1.3. Repertoires et fichiers
+------------------------------
+
+'tnt_dir'        : repertoire contenant les fichiers de tnt,
+'remote_dir'     : repertoire pour l'acces distant,
+'ctext_dir'      : repertoire utilise pour les textes d'accueil personnels,
+'abin_dir'       : repertoire pour les fichiers transferes en AutoBIN avec
+                   une erreur,
+'upload_dir'     : repertoire pour l'envoi de fichiers (SEND/SENDLOG/...) si
+                   aucun repertoire n'est specifie,
+'download_dir'   : repertoire pour la reception de fichiers (READ/LOGQSO/...)
+                   si aucun repertoire n'est specifie,
+'run_dir'        : repertoire pour les programmes executables (//RUN),
+'unix_user_dir'  : repertoire root pour les repertoires des nouveaux
+                   utilisateurs,
+'macrotext_dir'  : repertoire pour les fichiers contenant les textes des 
+                   macros (MSEND)
+'newmaildir'     : repertoire les messages lus par AUTOBOX et MONBOX sont
+                   sauves pour  DPBox,
+
+'tnt_upfile'     : script de commande execute au demarrage du programme,
+'tnt_downfile'   : script de commande execute avant la sortie du programme,
+'proc_file'      : fichier qui contiendra l'ID du processus de TNT,
+'rem_info_file'  : fichier transmit si la commande //info est recue,
+'rem_help_file'  : fichier transmit si la commande //help est recue,
+'tnt_help_file'  : fichier qui sera affiche si l'ecran d'aide est appele,
+'tnt_cookiefile' : fichier contenant les messages pour les cookies,
+'tnt_logbookfile': fichier pour le carnet de trafic,
+'tnt_pwfile'     : fichier pour la generation des mots de passe,
+'tnt_sysfile'    : fichier pour l'acces restreint et l'authentification sysop,
+'tnt_noremfile'  : fichier contenant les indicatifs pour lesquels les 
+                   commandes distantes sont desactivees,
+'name_file_name' : fichier pour la base de donnee des noms,
+'route_file_name': fichier pour la base de donnee des routages,
+'news_file_name' : fichier pour le message des nouvelles, transmit si la
+                   commande distante //news est recue, ou si la macro %i 
+                   est trouvee dans un texte d'accueil,
+'tnt_ctextfile'  : fichier contenant le texte de connexion commun,
+'resy_log_file'  : fichier log pour les resynchonisations,
+'sock_passfile'  : base de donne des login du socket,
+'func_key_file'  : definition des macros clavier,
+'box_socket'     : chemin et nom du socket UNIX utilise pour la connexion a
+                   DPBox,
+'autobox_dir'    : fichier contenant les repertoires qui seront monitorises
+                   lors de l'utilisation de la fonction MONBOX.
+'tnt_boxender'   : fichier contenant les chaines de caracteres indiquant la fin
+                   ou l'arret d'un message (MONBOX et AUTOBOX).
+'node_socket'    : chemin et nom du socket UNIX utilise pour la connexion a 
+                   TNTNODE (actuellement en cours de developpement).
+'frontend_socket': nom du socket utilise par frontend TNTC si TNT est lance
+                   comme daemon.
+
+Le repertoire 'tnt_dir' doit toujours contenir le chemin complet. Pour tous
+les autres fichiers et repertoires, cela depend du premier caractere du
+chemin. si le premier caractere est un '/', alors le chemin est pris comme le
+chemin complet. Si le premier caractere n'est pas un '/', 'tnt_dir' est pris
+a partir du repertoire 'tnt_dir'.
+
+3.1.4. Lignes des ecrans virtuels
+---------------------------------
+
+'lines_command' : Nombre de lignes de l'ecran de commande.
+'lines_monitor' : Nombre de lignes de l'ecran moniteur.
+'lines_input'   : Nombre de lignes de la partie reception d'un ecran de
+                  connexion.
+'lines_output'  : Nombre de lignes de la partie emission d'un ecran de 
+                  connexion.
+'lines_r_input' : Nombre de lignes de la partie reception d'un ecran de
+                  connexion (reduit les buffers de retour).
+'lines_r_output': Nombre de lignes de la partie emission d'un ecran de 
+                  connexion (reduit les buffers de retour).
+'scr_divide'    : Ratio des lignes d'entree/sortie sur l'ecran reel
+                  (connecte).
+                  La valeur peut etre changee avec la commande CONDiv.
+                  Exemple: l'ecran reel a 25 Lignes, 'scr_divide' est egal a 5.
+                  25 Lignes - 2 de Statut = 23 lignes pour l'entree/sortie.
+                  23 / 5 = 4.6 -> 4 lignes pour l'entree.
+                  23 - 4 = 19 lignes pour la sortie.
+'lines_moncon'  : Nombre de lignes de l'ecran moniteur affichees en plus sur
+                  un ecran de connexion. Si a 0, aucune ligne moniteur ne 
+                  sera affichee.
+                  La valeur peut etre changee avec la commande MONLines (les
+                  lignes de l'ecran reel seront reduites du nombre de lignes
+                  moniteur, avant les lignes des parties d'entree et de sortie
+                  sont calculees avec 'scr_divide').
+'input_linelen' : longueur maximum des lignes entrees a partir de laquelle 
+                  tout caractere supplementaire sera ignore ou wordwrap
+                  sera execute.
+                  La valeur peut etre changee avec la commande LINelen.
+'lines_mbinput' : nombre de lignes de la partie entree de l'ecran
+                  messagerie.
+'lines_mboutput': nombre de lignes de la partie entree de l'ecran BBS.
+'mbscr_divide'  : ratio des lignes d'entree/sortie sur l'ecran reel (BBS).
+                  La valeur peut etre changee avec la commande MBOXDiv.
+'lines_xmon'    : nombre de lignes de la partie envoi de l'ecran moniteur 
+                  etendu.
+'lines_xmon_pre': nombre de lignes de la partie entree de l'ecran moniteur
+                  etendu.
+'xmon_scr_divide': ratio des lignes d'entree/sortie sur l'ecran reel (moniteur
+                   etendu).
+                   La valeur peut etre changee avec la commande XMONDiv.
+
+3.1.5. Configuration de l'affichage
+-----------------------------------
+
+'color'         : aucun attribut de couleur (0), attributs couleur si une
+                  console LINUX (1) ou attributs couleur en permanence (2).
+                  
+'termcap'       : Utilise les codes de controle des consoles LINUX (0) ou 
+                  /etc/termcap (1)
+
+Si color == 1 et que les codes de controle des consoles LINUX sont 
+selectionnes, mais que l'environnement du TERM d'entree n'est pas "con..." ou 
+"linux", aucune couleur ni termcap ne sont utilises.
+
+3.1.6. Attributs d'ecran
+------------------------
+
+Les attributs utilises dependent du mode selectionne : 'color' pour la
+couleur ou 'monochrom' pour le noir et blanc.
+Note importante : les attributs pour le texte normal et pour les caracteres de
+controle dans le champ d'entree DOIVENT etre different, sinon, aucun
+caractere de controle ne pourra etre envoye.
+
+3.1.6.1. Attributs de couleur
+-----------------------------
+'attc_normal'     : pour le texte normal.
+'attc_statline'   : pour la ligne de statut principale en haut de l'ecran.
+'attc_monitor'    : pour les entetes moniteurs.
+'attc_cstatline'  : pour la ligne de statut de la voie si en ecran connecte.
+'attc_controlchar': pour les caracteres de controle dans le champ d'entree.
+'attc_remote'     : pour le texte transmis du a une fonction distante.
+'attc_special'    : pour les fonctions speciales.
+
+Les attributs sont codes de la facon suivante :
+
+
+    X    X    X    X    X    X    X    X
+  Blink BCo2 BCo1 BCo0 FCo3 FCo2 FCo1 FCo0
+          Couleurs       Couleurs de
+       d'arriere plan    premier plan
+
+Blink :
+0 : off, 1 : on.
+
+Couleurs d'arriere plan :
+        BCo2 BCo1 BCo0 
+Noir      0    0    0
+Rouge     0    0    1
+Vert      0    1    0
+Orange    0    1    1
+Bleu      1    0    0
+Magenta   1    0    1
+Cyan      1    1    0
+Blanc     1    1    1
+
+Couleurs de premier plan :
+              FCo3 FCo2 FCo1 FCo0 
+Noir            0    0    0    0
+rouge           0    0    0    1
+Vert            0    0    1    0
+Orange          0    0    1    1
+Bleu            0    1    0    0
+Magenta         0    1    0    1
+Cyan            0    1    1    0
+Blanc           0    1    1    1
+Gris            1    0    0    0
+Rouge clair     1    0    0    1
+Vert clair      1    0    1    0
+Jaune           1    0    1    1
+Bleu clair      1    1    0    0
+Magenta clair   1    1    0    1
+Cyan clair      1    1    1    0
+Blanc clair     1    1    1    1
+
+3.1.6.2. Attributs monochromes
+------------------------------
+'attc_normal'     : pour le texte normal.
+'attc_statline'   : pour la ligne de statut principale en haut de l'ecran.
+'attc_monitor'    : pour les entetes moniteurs.
+'attc_cstatline'  : pour la ligne de statut de la voie si en ecran connecte.
+'attc_controlchar': pour les caracteres de controle dans le champ d'entree.
+'attc_remote'     : pour le texte transmis du a une fonction distante.
+'attc_special'    : pour les fonctions speciales.
+
+Les attributs sont codes de la facon suivante :
+
+    X    X    X    X    X    X    X    X
+             Att5 Att4 Att3 Att2 Att1 Att0
+
+Att0: saillant    (termcap so/se)
+Att1: soulignes   (termcap us/ue)
+Att2: clignotant  (termcap mb/me)
+Att3: inverse     (termcap mr/me)
+Att4: gras        (termcap md/me)
+Att5: mi-brillant (termcap mh/me)
+
+0 : off, 1 : on.
+
+3.1.7. Timeout de l'assemblage des paquets
+------------------------------------------
+
+'pty_timeout'     : temps pour l'assemblage des paquets.
+
+Tout caractere recu par le shell ou une redirection est bufferise. Si le 
+buffer depasse la taille maximum d'un paquet (256 octets) le contenu du
+buffer est envoye.
+Apres chaque nouveau caractere, 'pty_timeout' secondes sont attendues pour le
+caractere suivant. Si durant ce temps aucun caractere n'est donne, le buffer
+est envoye meme si la taille maximum d'un paquet n'est pas atteinte.
+
+3.1.8. Options supplementaires
+------------------------------
+
+Les bascules suivantes sont la pour personnaliser TNT pour des terminaux
+differents ou pour le systeme. Pour l'utilisation avec linux, les deux
+doivent etre a 0.
+
+'auto_newline'    : mis a 1 si le terminal passe a la ligne apres le dernier
+                    caractere d'une ligne.
+'supp_hicntl'     : mis a 1 si les caracteres entre 128 et 160 doivent etre
+                    remplaces par un point (.)
+
+
+3.2. Fichiers de configuration du TNC
+-------------------------------------
+
+Au demarrage du programme, un script de commande est execute. Il peut servir
+a initialiser certains parametres du TNC. Le nom du fichier doit etre
+specifie apres 'tnt_upfile' dans le fichier d'initialisation.
+
+Pour definir des indicatifs differents sur des voies differentes le sequence
+de commande suivante doit etre utilisee :
+
+...
+CHANNEL 4
+MYCALL DL4YBG-4
+CHANNEL 5
+MYCALL DL4YBG-5
+CHANNEL 6
+MYCALL DL4YBG-6
+...
+
+Apres que la commande EXIT soit lancee, un autre script de commande est 
+execute avant la fin du programme. Le nom du fichier doit etre specifie apres 
+'tnt_downfile' dans le fichier d'init.
+
+
+3.3. Fichier cookie
+-------------------
+
+Si l'envoi de cookies est actif (commande COOKIE) et que quelqu'un se
+connecte a la station, un cookie pris au hasard venant du fichier cookie sera 
+envoye.
+
+Le fichier cookie est constitue de textes cookie delimites par une ligne
+contenant un '-' comme premier caractere (le reste de la ligne sera ignore).
+La taille minimale d'un fichier cookie est de 2048 octets.
+
+Le nom du fichier cookie doit etre defini apres 'tnt_cookiefile' dans le
+fichier de configuration.
+
+
+3.4 Fichiers pour les commandes distantes
+-----------------------------------------
+
+Lorsque la commande distante //help est recue, un fichier specifie apres 
+'rem_help_file' dans le fichier de configuration est transmit.
+Le fichier doit contenir une description des commandes distantes possibles.
+
+Si la commande distante //info est recue, le fichier specifie apres 
+'rem_info_file' dans le fichier de configuration est transmit.
+Le fichier doit contenir une description de la station et le materiel utilise
+(aussi bien radio qu'informatique).
+
+Si la commande distante //news est recue, le fichier specifie apres 
+'news_file_name' dans le fichier de configuration est transmit.
+Le fichier doit contenir des nouvelles sur la station.
+
+
+3.5. Fichiers pour le texte d'accueil
+-------------------------------------
+
+Si l'envoi du fichier d'accueil est actif (commande CONTEXT) et que
+quelqu'un se connecte a la station, un texte d'accueil special sera alors
+envoye.
+Le texte d'accueil est tire du fichier specifie apres 'tnt_ctextfile'.
+Toute macro contenue dans ce fichier sera transcrite.
+Il est possible d'envoyer a certains utilisateurs un texte d'accueil special. 
+Pour permettre cela, un fichier nomme <indicatif>.ctx doit etre depose
+directement dans le repertoire specifie apres 'ctext_dir', ou <indicatif>
+est celui de l'utilisateur.
+
+
+3.6. Fichiers pour la base de donnee des noms et des scripts de routage
+-----------------------------------------------------------------------
+
+3.6.1. Base de donnee des noms
+------------------------------
+
+Pour l'utilisation avec le texte d'accueil, une base de donnee de noms est
+incluse. La base de donnee est contenue elle meme dans le fichier specifie
+apres 'name_file_name'.
+
+Toute entree dans la base de donne de noms a le format suivant :
+T>DL4YBG Mark
+
+Si la commande NAME ou la commande distante //NAME est utilisee pour mettre
+a jour le nom, le base de donnee sera mise a jour.
+
+3.6.2. Base de donnee du routage
+--------------------------------
+
+La base de donnee des scripts de routage est contenue dans un fichier
+similaire a la base de donnee des noms. Le nom de fichier de la base de donnee
+de routage est specifie apres 'route_file_name'.
+
+Contrairement a la base de donnee de nom, la base de donnee de routage n'est
+pas mise a jour par TNT, toute mise a jour doit etre faite avec un editeur de
+texte.
+
+Les entrees pour les scripts de routage peuvent etre recursives, il n'est pas
+necessaire de specifier le chemin complet pour chaque indicatif.
+Le fichier est assemble en utilisant les entrees dans la base de donnee.
+
+Si vous changez regulierement de frequence et de repeteur, vous devrez
+specifier pour chaque frequence une base de donnee differente.
+Pour cela, <IF xxxxxx> et <END> sont inclus.
+Si par exemple vous operez sur 438.300 MHz, vous pouvez specifier toute
+information de routage valide sur une frequence par :
+<IF 438.300>
+...
+<END>
+Toute information de routage qui n'est pas encadree par <IF xxxxxx> et <END>
+reste valable sur toutes les frequences. 
+La frequence que vous operez peut etre specifiee en utilisant la commande QRG.
+
+Le format de chaque entree de la base de donnee est comme suit :
+
+devant l'indicatif, un lettre specifie le type de la station :
+T : utilisateur normal (Terminal),
+N : node network,
+Tous les autres caracteres sont acceptes.
+La seule difference est le traitement de l'indicatif dans les scripts de
+routage.
+
+La base de donnee est un fichier texte contenant des lignes comme suit :
+
+T>DL4YBG Mark
+-> Le nom de l'operateur de la station DL4YBG est Mark, aucune information
+   de routage n'est donnee ou la station peut etre connectee directement.
+T>DL7ZZZ Joe; N>DB0LUC T>DL7ZZZ
+-> Le nom de l'operateur de la station DL7ZZZ est Joe, la station peut etre
+   connectee depuis le repeteur DB0LUC.
+N>DB0BLO Digi 9K6
+-> Le repeteur DB0BLO peut etre connecte directement.
+N>DB0BER Digi Tempelhof; N>DB0BLO N>DB0BER
+-> Le repeteur DB0BER peut etre connecte depuis le repeteur DB0BLO.
+N>DB0LUC Digi Luckau; N>DB0BER F>DB0BLN N>DB0LUC
+-> Le repeteur DB0LUC peut etre connecte depuis le repeteur DB0BER via DB0BLN.
+ 
+3.7. Identificateur utilisateur et securite
+-------------------------------------------
+
+Pour tous les utilisateurs, il leur est possible de se logguer sur le
+systeme UNIX en utilisant la commande distante //SHELL ou bien en utilisant
+une des commandes SHELL sur la voie.
+L'indicatif de la station connectee est utilise comme identificateur 
+utilisateur. Si cet identificateur n'existe pas pour cet indicatif et que le
+parametre 'unix_new_user' n'est pas defini, l'identificateur "guest" sera
+utilise.
+Il n'y a pas de controle de securite par mot de passe pour le moment.
+Si vous n'utilisez pas la variable 'unix_new_user' vous devez preparer les
+identificateurs utilisateurs pour les utilisateurs autorises a utiliser la
+fonction shell.
+Pour cela les entrees dans /etc/passwd doivent ressembler a :
+
+guest::407:109::/home/guest:
+dl4ybg::405:101::/home/dl4ybg:
+
+Ces identificateurs ne doivent pas apparaitre dans le fichier /etc/shadow
+(seulement si vous utilisez le systeme de mot de passe shadow).
+
+Astuce : L'utilisateur guest peut etre cree en utilisant 'useradd -m guest',
+         alors l'entree correspondante sera cree dans le fichier /etc/passwd
+         et le champ du mot de passe dans le fichier /etc/shadow devra etre
+         efface (seulement si le systeme shadow est utilise). Essayez de
+         vous logguer a partir d'un terminal virtuel pour voir si tout
+         fonctionne correctement.
+
+IMPORTANT :
+Verifiez le fichier des permissions de votre systeme et utilisez un mot de
+passe pour le compte root, car desormais vous ne serez plus le seul sur
+votre systeme.
+
+
+3.8. Fichier log pour les resynchronisations
+--------------------------------------------
+
+Si durant une operation la resynchronisation est frequemment lancee, il est
+utile d'en connaitre la raison. Cela peut etre possible en specifiant 
+'resy_log_file' dans la fichier d'init. Le chemin complet du fichier doit
+etre donne. Si il n'est pas defini, aucun fichier log ne sera cree.
+Jetez un oeil de temps en temps sur le fichier de resynchronisation, il est
+utile de l'effacer de temps en temps pour gagner de la place sur le disque.
+
+
+3.9. Fichier pour les macros clavier
+------------------------------------
+
+exemple pour fkeys.tnt:
+
+#
+# fichier de touches de fonction
+#
+# XX:texte
+# XX::commande
+#
+# '*' a la fin envoi un CR apres un texte
+#
+01::envoi .signature
+02:***end*
+03::c db0abc
+04::c db0zzz-8
+08::logblist
+09::blist
+10::xblist
+<EOF> 
+
+
+3.10. Fichier pour la generation des mots de passe
+--------------------------------------------------
+
+exemple pour pw.tnt:
+
+# fichier d'exemple de mot de passe
+# toutes les lignes doivent utiliser le format suivant :
+# DIEBOX:
+# <indicatif> <type> <fichier de mot de passe>
+# FLEXNET:
+# <indicatif> <type> <numero secret>
+# THENET:
+# <indicatif> <type> <fichier de mot de passe> <drapeau> <chaine privee>
+#
+# DieBox DB0XXX
+DB0XXX-3 DIEBOX /work/tnt/db0xxx.pw
+# FlexNet DB0YYY
+DB0YYY FLEXNET 02345
+# TheNet DB0ZZZ
+DB0ZZZ THENET /work/tnt/db0zzz.pw 0 SYS
+# TheNet DB0ZZA avec 3 essais
+DB0ZZA THENET /work/tnt/db0zzz.pw 1 SYS
+# TheNet DB0ZZB avec dissimulation du mot de passe
+DB0ZZB THENET /work/tnt/db0zzz.pw 2 SYS
+# TheNet DB0ZZC avec dissimulation du mot de passe et 3 essais
+DB0ZZC THENET /work/tnt/db0zzz.pw 3 SYS
+<EOF>
+
+
+3.11. Fichier pour l'authentification du sysop
+----------------------------------------------
+
+exemple pour sys.tnt:
+
+# fichier exemple de restriction d'acces et d'authentification du sysop
+# format:
+# <indicatif> <fichier de mot de passe> <niveau sysop>
+#
+# DL7ZZZ avec acces root
+DL7ZZZ /work/tnt/dl7zzz.pw 1
+# DL7ZZY sans acces root
+DL7ZZY /work/tnt/dl7zzy.pw 0
+<EOF>
+
+
+3.12. Fichier pour inhiber les commandes distantes
+-------------------------------------------------
+
+exemple pour norem.tnt :
+
+# fichier d'exemple pour desactiver les commandes distantes
+# format :
+# <indicatif avec SSID>
+#
+DB0GR
+DB0BLO-8
+DB0JES-3
+DB0TEM-8
+<EOF>
+
+
+
+4. Options de demarrage
+-----------------------
+
+
+   Usage : tnt [-i <fichier-init>] [-l <fichier-log>] [-u]
+
+TNT possede trois options de demarrage. Un fichier specifie apres -i est
+pris pour fichier de configuration et un fichier specifie apres -l est
+ouvert en voie 1, equivalent a la commande LOGREC. Si le programme ne s'est
+pas termine normalement et que le port serie est bloque, le fichier de
+blocage peut etre ignore par -u.
+L'option -l est utile si le TNC conserve des donnees sans terminal.
+
+
+
+5. Fonctionnement sous X11
+--------------------------
+
+
+TNT necessite une console XTERM pour l'execution sous X11. Pour cela TNT
+peut etre lance sous n'importe quelle shell XTERM.
+Un fichier script simple 'xtnt' peut etre utilise pour creer une nouvelle
+fenetre pour TNT. Pour changer les parametres dans le fichier 'xtnt' allez 
+voir dans le manuel de XTERM.
+
+
+
+6. Portage de TNT
+-----------------
+
+
+Dans le fichier config.h beaucoup d'options peuvent etre ou ne pas etre
+definies. Creez une nouvelle entree dans config.h et un nouveau makefile pour 
+votre syteme. Pour le moment, Linux et Interactive UNIX (ISC) sont supportes.
+Les codes generes par des fonctions et des touches speciales sont definis
+dans le fichier keys.h et peuvent etre changes. 
+Parce que dans la plupart des cas, toutes les touches ne sont pas listees dans 
+le repertoire /etc/termcap les codes des touches sont entres de cette facon.
+Si votre portage s'est fait avec succes, envoyez moi vos changements, s'il
+vous plait. Ils seront alors inclus dans la prochaine version.
+
+
+
+7. Conclusion
+-------------
+
+
+Merci a Dieter, DK5SG / N0PRA pour WAMPES. Les codes source contiennent
+beaucoup de choses interessantes et j'ai recupere des parties pour la
+fonction shell de ces sources de WAMPES.
+
+Merci a Joerg, DD8FR pour l'etablissement des codes macro dans les textes
+d'accueil et pour l'utilisation de plus de 80 caracteres par ligne.
+
+Patrick (ex DL7AUC), qui avait porte TNT sur ISC UNIX et avait contribue a
+beaucoup d'idees et pour les sources pour la fonction socket. Il a perdu la
+vie dans un accident. Sont travail et sont support etaient tres apprecies et
+il nous manquera beaucoup. Nous nous souviendrons de lui pour toujours.
+
+Merci a Joachim, DL8HBS (auteur de DigiPoint pour ATARI) qui m'a fourni ses
+sources. Merci aussi pour les heures de discussion et pour le portage de la
+partie DPBox de DP sur Linux et pour le support durant la partie debuggage.
+
+Merci a Gert, DK3NY pour l'implementation du mot de passe pour les BBS DIEBOX.
+
+Merci a Andreas, DK9HE pour l'analyse et la resolution des problemes de
+demarrage lorsque TNT n'etait pas demarre par le root.
+
+Merci a Werner, DL4NER pour les sources et les idees pour la generation du
+mot de passe pour FlexNet.
+
+Merci a Mario, DG0JAB pour l'ajout de l'autre ligne de statut.
+
+Merci a tout ceux qui ont testes TNT et qui m'ont fait parvenir des
+commentaires.
+
+Enfin, merci encore a Linus et a toute la communaute Linux pour nous avoir
+donne un superbe systeme.
+Un remerciement special a Joseph H. Allen pour l'editeur JOE et a Dave 
+Gillespie pour le traducteur Pascal en C : P2C.
+
+Si vous avez des questions, des commentaires ou des reports de bug, ecrivez
+moi simplement a :
+
+Packet radio  : DL4YBG @ DB0GR.#BLN.DEU.EU
+Internet      : wahlm@berlin.snafu.de
+
+73, Mark Wahl (DL4YBG)
+
+
+
+A. Annexe
+---------
+
+
+A.1. Table de compression statique de Huffman
+---------------------------------------------
+Cette table a ete definie par DK4NB pour SP 9.00
+
+         ASCII:  HUFFMAN
+
+         <  0>:  101010110010110
+         <  1>:  101010101000010
+         <  2>:  100111111100010
+         <  3>:  101010110011110
+         <  4>:  101010110001110
+         <  5>:  101010101111110
+         <  6>:  101010101110110
+         <  7>:  101010101101010
+         <  8>:  101010101011010
+         <  9>:  1111001101
+         < 10>:  101010101010010
+         < 11>:  011111010110010
+         < 12>:  101010101101110
+         < 13>:  1111010
+         < 14>:  101010101001010
+         < 15>:  100111111111010
+         < 16>:  100111111101010
+         < 17>:  011111010111010
+         < 18>:  101010110100010
+         < 19>:  101010110011010
+         < 20>:  101010110010010
+         < 21>:  101010110001010
+         < 22>:  101010110000010
+         < 23>:  101010101111010
+         < 24>:  101010101110010
+         < 25>:  10101011011000
+         < 26>:  101010110000110
+         < 27>:  101010101100110
+         < 28>:  101010101011110
+         < 29>:  101010101010110
+         < 30>:  101010101001110
+         < 31>:  101010101000110
+              :  110
+             !:  001110101
+             ":  1010101111
+             #:  00000000011
+             $:  011111010100
+             %:  10101011010111
+             &:  000000000000
+             ':  10101011010110
+             (:  011111000
+             ):  001111001
+             *:  01111101000
+             +:  000000000001
+             ,:  0001001
+             -:  0111101
+             .:  101110
+             /:  0011001
+             0:  0010001
+             1:  11110110
+             2:  00111101
+             3:  100111100
+             4:  101111011
+             5:  011111001
+             6:  000000001
+             7:  101010100
+             8:  101111010
+             9:  100111110
+             ::  00000011
+             ;:  1010101101111
+             <:  1010101101101
+             =:  001111000
+             >:  001100000
+             ?:  00000000001
+             @:  011111010101
+             A:  0011100
+             B:  0111100
+             C:  1001110
+             D:  1111111
+             E:  001001
+             F:  10111100
+             G:  00000010
+             H:  00000001
+             I:  11110001
+             J:  00000000010
+             K:  00110001
+             L:  11110010
+             M:  0011010
+             N:  0001110
+             O:  0001111
+             P:  1011111
+             Q:  10101011101
+             R:  0011111
+             S:  000101
+             T:  0011011
+             U:  111100111
+             V:  111100001
+             W:  00100000
+             X:  11111100
+             Y:  1001111110
+             Z:  100111101
+             [:  101010111001
+             \:  001110111
+             ]:  101010111000
+             ^:  10101011010101
+             _:  0011101001010
+             `:  10101011010100
+             a:  10100
+             b:  000110
+             c:  100110
+             d:  01110
+             e:  010
+             f:  000001
+             g:  101011
+             h:  111110
+             i:  0110
+             j:  0011101000
+             k:  11111101
+             l:  00101
+             m:  101100
+             n:  1000
+             o:  101101
+             p:  0001000
+             q:  011111010010
+             r:  11100
+             s:  10010
+             t:  11101
+             u:  00001
+             v:  11110111
+             w:  1010100
+             x:  011111011
+             y:  1111001100
+             z:  0111111
+             {:  10101011010010
+             |:  0011101001001
+             }:  10101011010011
+             ~:  001110100110
+         <127>:  100111111111110
+         <128>:  100111111110110
+         <129>:  00100001
+         <130>:  100111111101110
+         <131>:  100111111100110
+         <132>:  111100000
+         <133>:  011111010111110
+         <134>:  011111010110110
+         <135>:  00111010010000
+         <136>:  101010110100000
+         <137>:  101010110011100
+         <138>:  101010110011000
+         <139>:  101010110010100
+         <140>:  101010110010000
+         <141>:  101010110001100
+         <142>:  1010101101110
+         <143>:  101010110001000
+         <144>:  101010110000100
+         <145>:  101010110000000
+         <146>:  101010101111100
+         <147>:  101010101111000
+         <148>:  001110110
+         <149>:  101010101110100
+         <150>:  101010101110000
+         <151>:  101010101101100
+         <152>:  101010101101000
+         <153>:  10101011011001
+         <154>:  011111010011
+         <155>:  101010101100100
+         <156>:  101010101100000
+         <157>:  101010101011100
+         <158>:  101010101011000
+         <159>:  101010101010100
+         <160>:  101010101010000
+         <161>:  101010101001100
+         <162>:  101010101001000
+         <163>:  101010101000100
+         <164>:  101010101000000
+         <165>:  100111111111100
+         <166>:  100111111111000
+         <167>:  100111111110100
+         <168>:  100111111110000
+         <169>:  100111111101100
+         <170>:  100111111101000
+         <171>:  100111111100100
+         <172>:  100111111100000
+         <173>:  011111010111100
+         <174>:  011111010111000
+         <175>:  0011101001011
+         <176>:  011111010110100
+         <177>:  011111010110000
+         <178>:  101010110100011
+         <179>:  101010110100001
+         <180>:  101010110011111
+         <181>:  101010110011101
+         <182>:  101010110011011
+         <183>:  101010110011001
+         <184>:  101010110010111
+         <185>:  101010110010101
+         <186>:  101010110010011
+         <187>:  101010110010001
+         <188>:  101010110001111
+         <189>:  101010110001101
+         <190>:  101010110001011
+         <191>:  101010110001001
+         <192>:  101010110000111
+         <193>:  101010110000101
+         <194>:  101010110000011
+         <195>:  101010110000001
+         <196>:  101010101111111
+         <197>:  101010101111101
+         <198>:  101010101111011
+         <199>:  101010101111001
+         <200>:  101010101110111
+         <201>:  101010101110101
+         <202>:  101010101110011
+         <203>:  101010101110001
+         <204>:  101010101101111
+         <205>:  101010101101101
+         <206>:  101010101101011
+         <207>:  101010101101001
+         <208>:  101010101100111
+         <209>:  101010101100101
+         <210>:  101010101100011
+         <211>:  101010101100001
+         <212>:  101010101011111
+         <213>:  101010101011101
+         <214>:  101010101011011
+         <215>:  101010101011001
+         <216>:  101010101010111
+         <217>:  101010101010101
+         <218>:  101010101010011
+         <219>:  101010101010001
+         <220>:  101010101001111
+         <221>:  001110100111
+         <222>:  101010101001101
+         <223>:  101010101001011
+         <224>:  101010101001001
+         <225>:  001100001
+         <226>:  101010101000111
+         <227>:  101010101000101
+         <228>:  101010101000011
+         <229>:  101010101000001
+         <230>:  100111111111111
+         <231>:  100111111111101
+         <232>:  100111111111011
+         <233>:  100111111111001
+         <234>:  100111111110111
+         <235>:  100111111110101
+         <236>:  100111111110011
+         <237>:  100111111110001
+         <238>:  100111111101111
+         <239>:  100111111101101
+         <240>:  100111111101011
+         <241>:  100111111101001
+         <242>:  100111111100111
+         <243>:  100111111100101
+         <244>:  100111111100011
+         <245>:  100111111100001
+         <246>:  011111010111111
+         <247>:  011111010111101
+         <248>:  011111010111011
+         <249>:  011111010111001
+         <250>:  011111010110111
+         <251>:  011111010110101
+         <252>:  011111010110011
+         <253>:  011111010110001
+         <254>:  001110100100011
+         <255>:  001110100100010
+
+

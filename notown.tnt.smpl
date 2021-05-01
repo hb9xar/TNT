@@ -1,0 +1,7 @@
+# sample file for call/SSID-combinations which are not allowed as
+# source callsign for xconnects
+# format:
+# <callsign with SSID>
+#
+DL4YBG
+DL4YBG-7

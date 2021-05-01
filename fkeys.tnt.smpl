@@ -1,0 +1,15 @@
+#
+# Function-Key-File
+#
+# XX:text
+# XX::command
+#
+# '*' at end sends CR after a text
+#
+01::send .signature
+02:***end*
+03::c db0abc
+04::c db0zzz-8
+08::logblist
+09::blist
+10::xblist

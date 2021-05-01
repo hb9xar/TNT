@@ -1,0 +1,27 @@
+Description of files in TNT-'doc' directory
+-------------------------------------------
+
+tnt.doc			Documentation of TNT V1.0 in plain Ascii
+tntdoc.html		Documentation of TNT V1.0 in HTML
+tntdoc.texinfo		Source for documentation of TNT V1.0
+
+license			The GNU public license
+
+tnt.doc.francais	Documentation of TNT in french language, plain Ascii
+			(this is a translation of the TNT V0.9l documentation
+			and does not contain a description of the new
+			features of TNT V1.0)
+
+iface.doc               Documentation of the interface protocol used on
+			the UNIX-socket between TNT and DPBox
+
+Additional information:
+-----------------------
+To be able to get the documentation of TNT in printable form, in HTML and in
+plain Ascii without the need of maintaining several files, I have changed to
+'texinfo' format.
+
+To get the documentation in printable form, you must have installed the
+TeX-package. Then a 'tex tntdoc.texinfo' will convert the documentation to
+'dvi'-format. This format can be printed or displayed directly (eps, xdvi)
+or can be converted to postscript format using 'dvips'.

@@ -1,0 +1,16 @@
+TNT is a Hostmode Terminal Program for Packet Radio.
+Documentation and license details can be found in file: doc/tnt.doc
+
+A Description of all files in the doc/ directory can be found in doc/FILES 
+
+Compilation:
+1. make dep
+2. make
+
+Important:
+In the actual Linux-Kernels all interrupts are disabled during data-transfer
+to or from an IDE/EIDE-harddisk. This will lead, even with a FIFO-16550, to
+missing characters. Therefore the program 'hdparm' must be used to enable
+the interrupts during data-transfers (parameter '-u 1' <device>).
+
+TNT is Copyright (C) 1993-1996 by Mark Wahl, DL4YBG
