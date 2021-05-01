@@ -21,6 +21,7 @@
 #include <pwd.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <time.h>
 #include "config.h"
 #ifdef USE_HIBAUD
 //&&&&#include <linux/fs.h>
