@@ -14,9 +14,9 @@
 
 typedef struct iface_header{
   char indicator;
-  short channel;
-  short usernr;
-  unsigned short len;
+  int16_t channel;
+  int16_t usernr;
+  u_int16_t len;
 } IFACE_HEADER;
 
 
@@ -31,7 +31,7 @@ typedef struct iface_header{
 #define LEN_BULLID (LEN_SIMPLE + sizeof(int) + BULLIDLEN + 1)
 #define LEN_SETRWMODE (LEN_SIMPLE + sizeof(int))
 #define LEN_BOXISBUSY (LEN_SIMPLE + sizeof(int))
-#define LEN_BCCALLBACK (LEN_SIMPLE + sizeof(long))
+#define LEN_BCCALLBACK (LEN_SIMPLE + sizeof(int32_t))
 #define LEN_SETUNPROTO (LEN_SIMPLE + 20)
 #define LEN_CONNECT (LEN_SIMPLE + sizeof(int) + 20)
 #define LEN_TNTRESPONSE (LEN_SIMPLE + sizeof(int))
@@ -76,7 +76,7 @@ typedef struct iface_cmdbuf{
     /* CMD_BOXISBUSY */
     int boxisbusy;
     /* CMD_BCCALLBACK */
-    long file_id; 
+    int32_t file_id; 
     /* CMD_SETUNPROTO */
     struct {
       char qrg[20];
@@ -166,8 +166,8 @@ typedef struct bcast_headinfo {
   char tnc;
   char port;
   char qrg[20];
-  long file_id;
-  unsigned short file_type;
+  int32_t file_id;
+  u_int16_t file_type;
   char filename[256];
   char address[256];
   char bbs_source[256];
@@ -180,7 +180,7 @@ typedef struct bcast_headinfo {
   char bbs_msgtype;
   char bbs_title[256];
   char bbs_fheader[256];
-  unsigned short bodychecksum;
+  u_int16_t bodychecksum;
   unsigned char delete_after_tx;
-  unsigned short magic;
+  u_int16_t magic;
 } BCAST_HEADINFO;
