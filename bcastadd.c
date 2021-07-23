@@ -66,7 +66,7 @@ extern char tnt_dir[];
 int shpacsat_flag;
 int bcrequest_flag;
 int decbcast_flag;
-char bcast_log_file[80];
+extern char bcast_log_file[80];
 bccbtype func_callback;
 
 static struct timeval tv;
