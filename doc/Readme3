@@ -1,0 +1,17 @@
+RED: Hier wird der erste Kanal angegeben, bei dem die Werte fuer die
+     Rueckscrollpuffer reduziert werden sollen. Steht hier zB "5", so
+     haben die Kanaele 1-4 einen vollen Rueckscrollpuffer und die
+     folgenden einen reduzierten.
+MH: Die Anzahl der Rufzeichen die max. in der MH-Liste verwaltet werden.
+MONITOR: Die Anzahl der Monitorzeilen die gespeichert werden und somit
+         Rueckscrollbar sind.
+INPUT: Die Anzahl der Zeilen im Vorschreibeschirm die Rueckscrollbar sind
+       (fuer die Kanaele 1-RED).
+OUTPUT: Die Anzahl der Empfangszeilen (fuer die Kanaele 1-RED).
+R_IN: Die Anzahl der Zeilen im Vorschreibebildschirm auf den reduzierten
+      (RED-Ende) Kanaelen.
+R_OUT: Die Anzahl der Empfangszeilen auf den reduzierten (RED-Ende) Kanaelen.
+BOX: Die Anzahl der Ausgabezeilen der Mailbox die Rueckscrollbar sind.
+MON: Die Anzahl der Monitorzeilen, die Sie auf dem Connectbildschirm sehen.
+     Bei einem Wert von "0" werden die Monitorzeilen abgeschaltet, so dass
+     nur noch Vorschreibe- und Empfangsschirm zu sehen sind.

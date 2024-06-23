@@ -5,7 +5,11 @@ tnt.doc			Documentation of TNT V1.0 in plain Ascii
 tntdoc.html		Documentation of TNT V1.0 in HTML
 tntdoc.texinfo		Source for documentation of TNT V1.0
 
-license			The GNU public license
+ax25krnl.doc            Release notes for TNT with AX25-kernel interface
+
+COPYING			The GNU general public license
+
+CHANGES			Changes since TNT V1.0
 
 tnt.doc.francais	Documentation of TNT in french language, plain Ascii
 			(this is a translation of the TNT V0.9l documentation

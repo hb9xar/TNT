@@ -1,0 +1,8 @@
+Abhaengig von diesen Einstellungen wird TNT mit unterschiedlichen Flags
+compiliert.
+
+1) Linux: Diese Einstellung ist fuer saemtliche Linuxsysteme relevant.
+   Dies ermoeglicht das compilieren auf libc5 und libc6/glibc2 Systemen.
+2) Solaris: Dies setzt die Flags fuer das compilieren unter Solaris.
+3) NetBSD: Diese Einstellungen compilieren TNT fuer NetBSD (Achtung: Beim
+   anwaehlen werden evtl. bisher gesetzte Parameter ueberschrieben.

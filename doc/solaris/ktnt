@@ -1,0 +1,3 @@
+:
+psg tnt | grep -v xterm | awk '{ print ( "kill -9 " , $2 ) }' | sh -x
+

@@ -1,0 +1,187 @@
+Release notes TNT V1.1alpha1 with AX25-kernel interface
+-------------------------------------------------------
+
+0. Preface
+
+As TNT is using the AX25-kernel-interface and some functions of the
+ax25-utilities, you must install all these stuff and get it working.
+For help see the AX25-HOWTO. If you don't succeed, it makes NO sense to
+try it with TNT!
+
+As TNT is not using all features of the AX25-kernel (no NETROM, no ROSE)
+and may use the other features incorrectly I consider it as status
+alpha. The development was done using Kernel 2.0.28 and ax25-utilities
+2.0.12c without further patches. Any other configuration was not tested and
+may lead to problems. But I am interested in feedback of any kind to
+improve the code.
+
+In addition not all features of TNT in the hostmode-version are working
+correctly. For example the PACSAT broadcast transmitter is broken. Most
+other things should work.
+
+Please read the documentation of TNT, as this is needed for proper operation
+of the program.
+
+
+1. Preparations
+
+1.1 Library of ax25-utilities
+
+TNT needs the library functions provided by the ax25-utilities. Therefore
+you need to have a compiled version of the ax25-utilities on your system.
+In addition you have to provide a symbolic link from the directory where
+the tnt source is located to the 'lib'-directory of the ax25-utilities.
+
+Suppose your tnt-dir is /usr/local/src/tnt1.1/ and your ax25-utilities-dir
+is /usr/local/src/ax25-utils-2.0.12c, the following commands have to be
+issued:
+
+cd /usr/local/src/tnt1.1/
+ln -s /usr/local/src/ax25-utils-2.0.12c/lib lib
+
+
+1.2 Makefile of TNT
+
+To compile TNT with AX25 kernel support, you have to adapt the Makefile.
+Be sure to uncomment the three lines below:
+
+# uncomment, if you want to use the Linux AX25 Kernel
+CFLAGS          := $(CFLAGS) -DUSE_AX25K
+LIBS            := $(LIBS) -lax25
+LDFLAGS         := $(LDFLAGS) -Llib
+
+
+1.3 special entries in 'tnt.ini'
+
+1.3.1 ax25k_port
+
+To use the AX25-kernel-interface in TNT, you have to define 'ax25k_port' in
+'tnt.ini'. For example the line
+
+ax25k_port P3
+
+defines the use of the AX25-kernel and that P3 (a valid port from 'axports')
+will be the default port.
+The parameters concerning serial interface will be ignored, so they can have
+every value.
+
+
+1.3.2 fullmoni_flag
+
+The kernel provides two ways of getting frames for the monitor screen.
+a. Only received frames are displayed.
+b. All frames are displayed.
+The disadvantage of b. is that TNT has to analyse ALL frames of the network
+including ethernet-traffic. So on a busy ethernet TNT will generate high
+load because of this. So it depends on your configuration whether you can
+use this option. To select the options you must use the parameter
+'fullmoni_flag' in tnt.ini:
+
+fullmoni 0      -> a.
+fullmoni 1      -> b.
+
+Generally monitoring is available only when TNT is started by root. If
+started by a user the monitor is disabled. The kernel does not allow a user
+to open a monitor socket.
+
+
+1.3.3 tnt_errlog
+
+All problems which will occur and may lead to a termination of TNT will be
+stored in a logfile. The default filename is 'tnterr.log' in the main TNT
+directory. If you want to define another name use parameter 'tnt_errlog'
+in tnt.ini.
+
+
+2. Some things on operation
+
+2.1 Port handling
+
+TNT reads the 'axports'-file at startup. It takes the definitions from there
+and the portnames at the start of the lines will be taken as port prefixes.
+You can check the assignment with the command 'QRG'.
+The port prefixes (with a ':' at the end) define in all commands which port
+shall be used.
+If for example you have defined a port named 'P3' the command 
+'c p3:te1st' will try to connect te1st on port P3.
+
+
+2.2 Callsign handling
+
+At startup TNT will set the callsign of all channels to the callsign of the
+default port defined in 'ax25k_port' in tnt.ini. This means, that TNT is
+listening on all ports in 'axports' with the callsign of the default port.
+This can be changed by assigning different callsigns to the channels using
+'MYCALL' command. Currently the callsign defined is listening on all ports,
+there is no way to just listen on only one port out of your ports defined in
+'axports'.
+If you temporarily want to use a different callsign/SSID you can use the
+'I'-command as this will not fix the callsign on this channel. After a
+disconnect the old callsign will be restored.
+
+
+2.3 Unproto handling
+
+The destination for UNPROTO frames is given via 'C'-command in channel 0,
+the unproto channel. After startup UNPROTO frames will be transmitted to
+'TNT' on the default port. If you give 'C P4:beacon', the UNPROTO frames
+will contain the destination 'BEACON' and will be transmitted on port P4.
+
+
+2.4 Parameters
+
+The parameters normally handled by 'axparms', 'axctl' and 'kissparms' can be
+handled by TNT directly. The use of the other programs is possible, too.
+The parameters can be changed and displayed. KISS-parameters can be changed
+only as there is no way to read the current values.
+
+If you handle parameters on an unconnected channel, the default values of
+the port are handled. If you don't give a port, the default port is used.
+Examples: 'n 20' will set the retries on the default port to 20.
+          'o P3:6' will MAXFRAME to 6 on port P3
+          '@T2' will display the T2-timer on the default port
+          '@T3 P2:' will display the T3-timer on port P2
+
+On a connected channel you will change the parameters of the connection on
+this channel. After disconnect these values will be lost. If you don't give
+a port, the port of the connection will be used. If a port different than
+the port of the connection is given, the command is rejected.
+
+Here is a list of the implemented parameters:
+
+TNC-like   verbose     AX25-kernel-    KISS         value       special
+command    command     value           value        readable    values
+-------    --------    ------------    ---------    --------    -------
+F          FRACK       T1              -            yes
+N          RETRY       N2              -            yes
+O          MAXFRAME    WINDOW          -            yes
+P          PERSIST     -               PERSIST      no
+R          DIGIPEAT    DIGI            -            yes           0-3
+T          TXDELAY     -               TXDELAY      no
+W          SLOTTIME    -               SLOTTIME     no
+@D         FULLDUP     -               FULLDUP      no
+@T2        RESPTIME    T2              -            yes
+@T3        CHECK       T3              -            yes
+@TA        -           -               TXTAIL       no
+#BACKOFF   -           BACKOFF         -            yes           L/E
+#IDLE      -           IDLE            -            yes
+#PACLEN    -           PACLEN          -            yes
+#HARDWARE  -           -               HARDWARE     no           0-255
+
+(Hint: TNC-like commands without a verbose command have to be given with
+ 'tnc' at the beginning: 'tnc #BACKOFF P3:')
+
+To setup specific values at startup of TNT you can use 'tnt.up'. Be sure
+to define a channel with the 'channel' command.
+
+
+3. Credits
+
+Thanks to all who worked on the AX25-Kernel and the ax25-utilities, as this
+work is the basis of the code in 'ax25k.c'.
+
+Mark Wahl, DL4YBG
+
+(DL4YBG @ DB0GR.#BLN.DEU.EU)
+(wahlm@berlin.snafu.de)
+(http://www.snafu.de/~wahlm)

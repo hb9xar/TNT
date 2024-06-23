@@ -1,0 +1,41 @@
+# Soundfile for TNT
+#
+# This file is an example for configuring the soundeffects in TNT
+# Each line consists of two parameters: a number and a filename
+#
+# After the number 0, a file for playing an effect must follow. This
+# file must handle to play a sound (the name for this sound is found in
+# the argv-variable 1, or $1 for a shell-script).
+#
+# For an universal soundplayer you can use the rplay-daemon for example
+# Of course you can write your own player to handle specified sound-types.
+# A very minimalistic shell-script can be found in this package, named "play"
+#
+# If the filename of a sound is "0", playing will be skipped from TNT.
+
+# your soundplayer. some example handling with my "play"
+0 play
+
+# packet receive. you really should use "0" here, otherwise your computer
+# will make one sound after another ;-)
+# disabled since tnt 1.7-pre3 !!!
+1 0
+
+# Connected to
+2 connect.au
+
+# Disconnected
+3 disc.au
+
+# Link Reset
+4 reset.au
+
+# Busy
+5 busy.au
+
+# Link Failure
+6 failure.au
+
+# Ring (//ring)
+7 ring.au
+

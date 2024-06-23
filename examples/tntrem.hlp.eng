@@ -1,0 +1,52 @@
+
+                          TNT-Remote-Help
+                          ---------------
+
+The following commands are possible:
+
+ //n <text>             Send text to channel n
+ //ACT                  Show last sysopactivty
+ //SESSION              Show the usagetime of this session/version
+ //ONACTIVITY <text>    Set text which will be send on sysopactivity
+ //CHat <ch/call><text> Send text to a channel or callsign
+ //MSG <ch/call> <text> Like CHat
+ //COMP on/off          Enable/disable huffman compression
+ //NAME <name>          Store name in database
+ //CSTAT                Show all active connections
+ //MHeard               Show list of all heard stations
+ //MHeard <nr/str>      Show <nr> entrys of MH oder search for <str>
+ //SHELL                Start a UNIX-shell session
+ //TSHELL               Start a UNIX-shell session without CR/LF translation
+ //RUN <program>        Execute a program
+ //RUNT <program>       Execute a program without CR/LF translation
+ //RUN                  Directory of all available programs
+ //BOX                  Start DigiPoint Box
+ //COOKIE               Send a cookie
+ //DIR <filter>         Show directory
+ //DIRLONG <filter>     Show directory in long format
+ //FREE                 Shows space on disks
+ //INFO                 Info about station
+ //HELP                 This help-information
+ //NEWS                 Display news about this station
+ //READ <file>          Read a file
+ //BREAK                Abort reading file
+ //WRITE <file>         Write file to disk
+ //CLOSE                End writing file
+ //WPRG <file>          Write file to disk using AUTOBIN-protocol
+ //WPRG <file> <rfile>  Same as above, but send back //RPRG <rfile>
+ //RPRG <file>          Read a file using AUTOBIN-protocol
+ //RPRG <file> <rfile>  Same as above, but send back //WPRG <rfile>
+ //WYAPP <file>         Write file to disk using YAPP-protocol
+ //RYAPP [file]         Read a file using YAPP-protocol
+ //VERSION              Show version of software
+ //ECHO <string>        Send back string
+ //TIME                 Send time
+ //RTT [timestring]     Calculate round trip timer
+ //RING                 Ring the bell (call for sysop)
+ //QUIT                 Disconnect with quittext
+ //DISC                 Disconnect
+
+The two slashes (//) must be entered at the beginning of a line.
+
+End of help-information
+

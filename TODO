@@ -1,0 +1,11 @@
+TODO:
+
++fixup Makefiles
+-fixup documentation
++build in features in install-script to use solaris and ax25k-support
++paths in tntc?
++autoconf/automake -> Berndt
+-build in ax25k-support in tnt_setup again
+
+for any release:
+-better spy

@@ -1,0 +1,28 @@
+#! /bin/sh
+#
+# Sample script for playing Sun-Audio files.
+# Copy this to a path whereever you want and put it in your "sounds.tnt"
+#
+# Note: This is only for playing .au-files. If you want to use .wav, .mp3
+# or other things like that: write a script looking at the extensions
+# and use your prefered player.
+#
+# Please use short sounds, or you will get into trouble ;-)
+#
+# For mixing .au and .wav, the rplay-daemon should be a good choice.
+#
+# 5/2/99, WSPse
+
+# if you only have .au-files, uncomment this:
+cat $1 > /dev/audio
+
+# if you only have .mp3-files, uncomment this:
+#mpg123 $1 > /dev/null
+
+# if you mix .au and .wav, uncomment this:
+#rplay $1
+
+# if you do not want to play a sound, you can do something completly
+# different of course ;-)
+#[...think over it...]
+

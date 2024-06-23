@@ -1,0 +1,46 @@
+# Definitions of tnt terminal features depending on
+# TERM environment variable
+#
+# syntax:
+# <TERM> <termcap> <color> <charconv> <xtermkeys> <supp_hicntl> <auto_newline>
+#
+# <TERM>:
+# terminal for which the following definitions are valid, wildcard '*' is
+# allowed, file is searched from top to bottom
+#
+# <termcap>:
+# 0: use hardcoded control codes for LINUX-console
+# 1: use termcap control codes for TERM
+#
+# <color>:
+# 0: no color attributes
+# 1: color attributes, control codes hardcoded for LINUX-console
+#
+# <charconv>:
+# 0: no character code translation
+# 1: translation of some characters from IBM to iso8859-1
+#
+# <xtermkeys>:
+# 0: assume normal codes for F-keys
+# 1: assume xterm codes for F-keys
+#
+# <supp_hicntl>:
+# 0: no suppression
+# 1: display characters 128-160 as a period (.)
+#
+# <auto_newline>:
+# 0: terminal does not go to next line on end of line
+# 1: terminal goes to next line on end of line
+#
+#
+# linux console: no termcap, color, no charconv, no xtermkeys,
+#                no supp_hicntl, no auto_newline
+console 0 1 0 0 0 0
+con*    0 1 0 0 0 0
+linux   0 1 0 0 0 0
+# xterm or clones: termcap, no color, charconv, xtermkeys,
+#                  no supp_hicntl, no auto_newline
+xterm   1 0 1 1 0 0
+# default: termcap, no color, charconv, no xtermkeys,
+#          no supp_hicntl, no auto_newline
+*       1 0 1 0 0 0

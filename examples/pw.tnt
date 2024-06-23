@@ -1,0 +1,41 @@
+# sample password file
+# all lines must use the following format:
+# DIEBOX:
+# <callsign> <password-type> <password-file>
+# FLEXNET:
+# <callsign> <password-type> <secret-number> [priv-string]
+# THENET:
+# <callsign> <password-type> <password-file> <flags> <priv-string>
+# BAYCOM:
+# <callsign> <password-type> <password-file> <flags> [priv-string]
+# MD2:
+# <callsign> <password-type> <password-file>
+# CLUSTER:
+# <callsign> <password-type> <password-file> <flags>
+#
+# DieBox DB0XXX
+DB0XXX-3 DIEBOX /work/tnt/db0xxx_3.pw
+# FlexNet DB0YYY
+DB0YYY FLEXNET 02345
+# FlexNet DB0YYZ-8 with different activation string
+DB0YYZ-8 FLEXNET 02345 /SYSop
+# TheNet DB0ZZZ
+DB0ZZZ THENET /work/tnt/db0zzz.pw 0 SYS
+# TheNet DB0ZZA-2 with 3 tries
+DB0ZZA-2 THENET /work/tnt/db0zza_2.pw 1 SYS
+# TheNet DB0ZZB with password hiding
+DB0ZZB THENET /work/tnt/db0zzb.pw 2 SYS
+# TheNet DB0ZZC-15 with password hiding and 3 tries
+DB0ZZC-15 THENET /work/tnt/db0zzc_15.pw 3 SYS
+# TheNet DB0ZZB-1 with perfect password hiding
+DB0ZZB-1 THENET /work/tnt/db0zzb_1.pw 6 SYS
+# TheNet DB0ZZC-14 with perfect password hiding and 3 tries
+DB0ZZC-14 THENET /work/tnt/db0zzc_14.pw 7 SYS
+# Baycom DB0ZZE-5
+DB0ZZE-5 BAYCOM /work/tnt/db0zze_5.pw 0
+# Baycom DB0ZZD with password hiding and different activation string
+DB0ZZD BAYCOM /work/tnt/db0zzd.pw 2 SYS
+# Baycom DB0ZZD-1 with perfect password hiding and different activation string
+DB0ZZD-1 BAYCOM /work/tnt/db0zzd_1.pw 6 SYS
+# MD2 password for DB0ZZF
+DB0ZZF MD2 /work/tnt/db0zzf.pw

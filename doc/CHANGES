@@ -1,0 +1,315 @@
+------------------------------------------------------------------------------
+                Changes from V1.0 to V1.1alpha1 (Mark, DL4YBG)
+------------------------------------------------------------------------------
+
+Implemented an interface to the Linux-Kernel-AX25. See file
+ax25krnl.doc for details.
+
+------------------------------------------------------------------------------
+             Changes from V1.1alpha1 to V1.1alpha2 (Mark, DL4YBG)
+------------------------------------------------------------------------------
+
+TNT V1.1alpha1 did not compile with module-xx-patched 2.0.x-kernels or
+2.1.x-kernels and the 2.1.22b-ax25-utilities.
+
+Using V1.1alpha2 you can compile and use TNT. It was tested with Kernel
+2.0.29 with module-12 and ax25-utilities 2.1.22b.
+
+Thanks to Jonathan, G4KLX and Joerg, DL1BKE for patches. As Rose and Netrom
+support needs some restructuring of the code, support for these will follow
+later.
+
+------------------------------------------------------------------------------
+             Changes from V1.1alpha2 to V1.1alpha3 (Mark, DL4YBG)
+------------------------------------------------------------------------------
+
+Some problems, which were found using V1.1alpha2 are now fixed:
+
+- Using TNT command 'QRG' to modify the port data leads to corruption
+  of the listen structure. Now only the display of the data is allowed,
+  data is fetched on startup like before from /etc/ax25/axports.
+- It was not possible to get data from a connected DPBox (only a few frames
+  were sent, then no data flow anymore). Some status information about the
+  connection was not given to DPBox.
+- Using 'XCONNECT' leads to a corruption of the listen structure.
+- Changing the callsign on channel 0 (unproto channel) leads to a corruption
+  of the listen structure and did not work correctly.
+  Now changing the callsign on channel 0 with 'I' will only update the
+  unproto source callsign. If you use 'MYCALL' on channel 0, the callsigns
+  of all channels will be changed.
+
+------------------------------------------------------------------------------
+                Changes From V1.1alpha3 to V1.1alpha13 (Matthias, WS1LS)
+------------------------------------------------------------------------------
+
+I build in many features known from other Packet-Programms. For additional
+information take a look in ../.others/README.
+
+- correction of the MD2-password creation, for using with dpbox.
+- build in new remote-command "//act" for showing the last sysop-activity.
+- statusinformation in rx and tx-file transfer got additional information,
+  like remaining time.
+- build in new remote-command "//session" to show lifetime of TNT.
+- create new macros to complete the new remotecommands:
+  %a shows last sysopactivity.
+  %s shows lifetime of TNT.
+  %m prints a message, which can be set using ":MSG" command
+- build in new console-command ":TELL" to send a message to all connected
+  stations.
+  NOTE: this command and similar commands, use the "routes.tnt" file, to
+        get information about the type of station. To avoid sending any things
+        to a node or a box, please put "N>..." or "B>..." into your routes.tnt.
+        There is also an additional feature: remotecommands in boxmails or
+        coming from a node, won't be executed, if there is an entry like
+        "N>..." or "B>..." in your routes.tnt.
+- build in new console-commands ":DA", ":WEG", ":600", ":KLO" and ":GND".
+  this commands have the same feature like in other packet-prgs (STOP or XP
+  for example).
+  this commands will send special information, depending on the content of
+  a config file, named "telltexte.tnt".
+  You can put there two informations for each of the console-commands.
+  the first is a text which will be send to each connected station.
+  the second is the text, which will be copied to the %m-macro.
+  (Of course you can avoid to set the macro or to send a text to the connected
+  stations, just take a look at the example-file).
+- there a macros which you can use for (and only for) sending informations to
+  all connected stations. these macros you can use in the ":TELL" command and
+  in the telltexte-config file (but here only for the text to all stations, not
+  for the macro-text).
+  %n: will print your name
+  %c: will print your callsign
+  %k: will print the channelnr.
+  %t: will print the actual time
+  %g: will print the control-character $07 for a bell.
+  %b: same as %g
+- user defined quit-text. (with additional macro %l for showing connecttime).
+- in order to this, there are now the two remote-commands "//q" which will
+  send the quit-text and then disconnect, and "//d" which will disconnect
+  immediately without sending a quit-text.
+- build in new remote-command "//onactivity" to set a special text, which will
+  be send, if there is any sysopactivty. (sysops, be careful now ;-)
+- build in new switch ":RXBELL" to kill noisy bells while receiving a file.
+- build in chat commands. You can now chat using the normal syntax "//n ..."
+  addition syntax is using "//msg <call> <text>" to send a text to a connect
+  station, without knowing the channel-number.
+- TNT got soundeffects. You now can hear special songs for different
+  situations, like connect, disconnects, link failure, //ring, etc.
+  just take a look at sounds.tnt.
+- changed apperance of lower statusline, to show connected stations.
+- build in new remote-command "//mh" to show a list of heard stations.
+  (Of course you can use additional parameter, like a number to show only
+  a count of entrys, or a searchpattern to show only special entrys).
+- fd_struct patch.
+- build an install-script to set up an easy installation on systems with
+  dialog-package installed.
+
+------------------------------------------------------------------------------
+                Changes from V1.1alpha13 to V1.2 (Jonny, DH3MB)
+------------------------------------------------------------------------------
+
+For more than one and a half year, no new patches or versions appeared from
+Mark, so I decided to apply the last two patches from him and also some
+patches from me which provide some new features:
+
+- Due to a change in /usr/include/linux/posix_types.h beginning with
+  Linux Kernel 2.0.32, all appearences of 'struct fd_set' had to be
+  changed to 'fd_set'. This means that you need Kernel 2.0.32 or
+  later if you want to compile TNT, or you have to undo these changes.
+- TNT did not compile under glibc2 (aka libc6). The #include's had
+  to be changed, so it will now compile with both libc5 and libc6.
+- The configurationfile ~/tnt.ini now may also be named ~/.tntrc.
+- Support for Linux-Kernel-AX.25 will be compiled in per default,
+  the ax25-utils-include-files must reside in /usr/include/ax25.
+- When using Kernel-AX.25, a new parameter named 'moni_socket'
+  may be given in ~/.tntrc. TNT will then not try to open a monitor-socket
+  (which requires root-privileges), but it will read the monitor
+  from the given socket. E.g. if tnt sees the line 'moni_socket *:1234'
+  in ~/.tntrc, it will read the monitor from a local interet-socket on
+  port 1234.
+- New remote-command: Using '//MSG <channel-number>' a QSO partner
+  is now able to send a message to an other channel. The command
+  may be abbreviated: '//<channel-number>' works, too. Switch
+  of this feature using ':SETACC MSG OFF', if you don't like it.
+  (WS1LS: please notice the changes from alpha3 to alpha13)
+- New command: Using '://<remote-command>' you are able to force the
+  execution of a remote command.
+- New command: Using ':CTRLTX <character>' you are able to send a
+  control-character. E.g. use ':CTRLTX T' to terminate a telnet-connection
+  on some NOS-systems.
+- Changed the behavior of automatically generating answers when a
+  BayCom-password-request is received: When connecting to a callsign which
+  has an BayCom-password-entry in pw.tnt, the first 20 lines, which are
+  received from this call, are scanned for a password-request and - if
+  a request has been found - the correct answer will be sent back. This
+  is useful for answering a user-password-request of a BayCom-Mailbox.
+  However, new versions of the FlexNet node use the
+  BayCom-password-procedure. Now, if you receive the response of the
+  FlexNet-PAR-command within the first 20 lines after connecting a FlexNet
+  node, the lines are interpreted as a password-request and the according
+  answer is sent back, which does not make sense, of course.
+  The reason for this misinterpretation is the algorithm for finding
+  such password-request: Every line is scanned for five numbers
+  seperated by one or more spaces, and the FlexNet-parameter-list
+  includes such lines. Due to this the algorithm has been changed: A
+  line will only be interpreted as a password-request, if it additionally  
+  includes the '>'-sign (Usually, password-requests look liks this:
+  'DB0IRS> 1 2 3 4 5').
+- When sending a file (either using the commands :SEND, :SENDABIN, etc. or
+  after receiving //SEND, //SENDABIN, etc.) the specified file will now
+  not only be searched in the upload-direcotry, but in the following ones
+  (in the given order): upload-directory, download-directory,
+  home-directory.
+
+------------------------------------------------------------------------------
+                   Changes from V1.1alpha13 to V1.2 (Matthias, WS1LS)
+------------------------------------------------------------------------------
+
+- fixed order of mh-list output.
+
+------------------------------------------------------------------------------
+                   Changes from V1.2 to V1.3 (Jonny, DH3MB)
+------------------------------------------------------------------------------
+
+- Fixed a bug when sending a file using AutoBIN, which is not in the
+  upload_directory.
+- Cleaned up the "#ifdef __GLIBC__" stuff
+- Sending empty lines is now possible, also with :WHOLELIN switched ON
+- German umlauts are now sent with ISO encoding
+- Rewrote the hufmann-decompression-procedure, so that uncompressed
+  frames are recognized when :COMP is switched ON
+- Hufmann-encoded frames will be decoded in the monitor window, if
+  'moni_decomp' is set to '1' in tnt.ini; please note that this may
+  fail sometimes, so that frames will be decoded although the are not
+  really encoded
+- Included a patch from Walter, DG9EP, which adds some new commands
+  to include some PGP functionality:
+
+  :PGPAUTO ON/OFF      Disables/enables the PGP functionality
+                       Default: OFF
+
+  :USEGPG              Use GPG instead of PGP
+                       Default: OFF
+
+  :PGPKEYAD ON/OFF     If enabled, received keys are added to the keyring
+                       automatically; if disabled, the keys are shown only
+                       Default: ON
+
+  :PGPEDIT <password>  Calls an external editor set via the environment
+                       variable EDITOR, or vi, if this is not provided.
+                       The file name is generated by TNT. If you
+                       save the file and exit the editor, TNT will
+                       automatically add the PGP-signature and
+                       send the file on the channel you entered the command,
+                       so be sure to enter a SEND-command at the BBS before
+                       you call the editor. Example:
+                         SEND DEBATE @ WW  Do not use PGP!
+                         :PGPEDIT <mypassword>
+                         ^Z
+                       If you exit the editor without saving the text, or
+                       if you have provided the wrong password, nothing
+                       will be sent.
+                       In the second case, you may reenter the command with
+                       the correct password and the edited text will be loaded
+                       into the editor again.
+
+  :GPGEDIT <password>  Same as PGPEDIT, but using GnuPG(GPG)
+
+  Note: You need a working PGP 2.6.x installed on your system!
+        The PGP support is still experimental and there are some
+        problems left:
+          - If :LOGQSO is active, the PGP functions will not work. However
+            this is also true with features like :AUTO7P, and a general
+            problem of TNT.
+          - Files created with :PGPEDIT will not be deleted from the
+            /tmp direcotry after they are sent.
+       Please report bugs regarding the PGP stuff to DG9EP@DB0IZ.#NRW.DEU.EU
+
+------------------------------------------------------------------------------
+                   Changes from V1.3 to V1.4 (hans, oe1smc)
+------------------------------------------------------------------------------
+
+- able to compile on solaris 
+- the log-file includes now the own call and the frequency 
+  this can be done by an entry in the up-file like 
+  qrg 0 430.000 
+
+------------------------------------------------------------------------------
+                   Changes from V1.4 to V1.4.1 (hans, oe1smc)
+------------------------------------------------------------------------------
+
+- NUMFUNC in keys.h for linux 
+- several patches by wolfgang, dk2ui 
+  arrived till 28th of january 1999 
+
+------------------------------------------------------------------------------
+                   Changes from V1.4.1 to V1.5-1 (Matthias, WS1LS)
+------------------------------------------------------------------------------
+
+- support of glibc2 was still broken. I fixed the include-files in tntc.c and
+  correct things in bcastadd.c which would cause warnings while compiling
+  under glibc2.
+- correct a bad bug in xmon.c, please notice additional information before
+  functioncall get_qrg_from_chanstr()
+- cleaned up the sound-stuff in TNT. To use sound-parts you now need to
+  compile TNT with the flag "TNT_SOUND".
+- build in switch ":SOUND" to enable and disable soundeffects.
+
+------------------------------------------------------------------------------
+                   Changes from V1.5-1 to V1.5-final (Matthias, WS1LS)
+------------------------------------------------------------------------------
+
+- reorganised package-format.
+- changed config-file for telltexte from "tnt.telltexte" to "telltexte.tnt"
+- updated CHANGES-File and cleaned up my own stuff.
+
+------------------------------------------------------------------------------
+                   Changes from V1.5-final to V1.6 (Matthias, WS1LS)
+------------------------------------------------------------------------------
+
+- no more changes on the code were made.
+- there are several clean ups.
+- NOTE: on linux-systems TNT will now link against the ncurses-library, not
+        longer against termcap-lib. Look at /src/Makefile* for more
+        information.
+
+------------------------------------------------------------------------------
+                   Changes from V1.6 to V1.7 (Matthias, WS1LS)
+------------------------------------------------------------------------------
+
+- format of log.c changed. qrg-field will be expanded to 7 Chars.
+- Debian support integrated (f5ibh, Jean-Luc)
+- changed ax25k.c to support glibc-systems
+- NetBSD Support by Berndt Josef Wulf, wulf@ping.net.au
+  therefore a new script "TNT_SETUP" exists
+- sound-support for ax25
+- ini-file will now searched in several places.
+- totally cleaned up Install-Script.
+- compatibility patch for logcall-runprg
+- install will now be easy, thanx to Berndt Josef Wulf
+- passwordcheck for packet-cluster, thanx to DL6DH, Henning Folger
+- fixed socketbits.h and netinet/in.h, thanx to DG7SEA, Arthur Erhardt
+- mheardlist output
+- cleaned up macro.c
+- cleaned up runprograms
+- cleaned up version-infos
+- corrected bug in diffsec in remote-activity
+- security: mktemp -> mkstemp
+- fixed up BCAST to compile TNT without Broadcast
+- fixed wordwrap for umlaute
+- read tnt_soundfile only when contents changed
+- autoconfigure by VK5ABN, Berndt Josef Wulf
+- tntc.ini-file will now be found in all places tnt.ini is found
+- some soundthings included in tnt-package
+- tntc.ini can now be named .tntcrc
+- sounddir (defined in tnt.ini with keyword "sound_dir"). this dir will
+  added to files defined in sounds.tnt
+- first try to fix DPBOXT, but still broken
+- corrected servlen in bind()-function call (to fix problems on NetBSD).
+  this bug was found and fixed by VK5ABN
+- there was a mess with the headers-include in debian (glibc?). Thanx to
+  Joop (PA4TU) for finding and fixing it.
+
+------------------------------------------------------------------------------
+
+Please note: The documentation still is the one of version 1.0 and
+needs to be updated. The broadcast transmitter is still broken.

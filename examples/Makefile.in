@@ -1,0 +1,49 @@
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+MKDIR = mkdir -p
+
+prefix = @prefix@/tnt
+exec_prefix = @exec_prefix@
+includedir = @includedir@
+datadir = @datadir@
+infodir = @infodir@
+libdir = @libdir@
+libexecdir = @libexecdir@
+localstatedir = @localstatedir@
+mandir = @mandir@
+sbindir = @sbindir@
+sysconfdir = @sysconfdir@
+srcdir = @srcdir@
+VPATH = @srcdir@
+bindir = @bindir@
+
+EXAMPLES = autostrt.tnt boxender.tnt ctext.tnt extrem.tnt f6fbb.box \
+         fkeys.tnt flchk.tnt names.tnt netpass.tnt news.tnt norem.tnt \
+         notown.tnt pw.tnt qtext.tnt routes.tnt sounds.tnt \
+         sys.tnt telltexte.tnt termcap.tnt tnt.dwn tnt.hlp tnt.hlp.eng \
+         tnt.ini tnt.up tntc.ini tntrem.hlp tntrem.hlp.eng tntrem.inf
+SBINS = sounds/play
+SOUNDS = sounds/connect.au sounds/disc.au sounds/reset.au sounds/busy.au \
+         sounds/failure.au sounds/ring.au
+
+all:
+
+clean:
+
+install:
+	$(MKDIR)  ${prefix};
+	@for i in $(EXAMPLES); \
+	do \
+		$(INSTALL_DATA) $$i ${prefix}; \
+	done;
+	$(MKDIR)  ${prefix}/sounds;
+	@for i in $(SBINS); \
+	do \
+		$(INSTALL) -m 555 $$i ${prefix}/sounds; \
+	done;
+	@for i in $(SOUNDS); \
+	do \
+		$(INSTALL_DATA) $$i ${prefix}/sounds; \
+	done;
+

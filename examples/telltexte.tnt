@@ -1,0 +1,47 @@
+# Bsp fuer TNT-Telltextfile (ab TNT1.1a7)
+# Die Befehle ":DA", ":WEG", ":600" und ":KLO" erlauben die Ausgabe von
+# bestimmten Texten auf allen Kanaelen und das aendern des Textes fuer
+# das %m Makro im Ctext.
+# Neu: GND
+#
+# Wird als Text eine "0" angegeben, so wird die entsprechende Aktion
+# nicht durchgefuehrt.
+#
+# Wird beim zweiten Text eine "1" angegeben, so wird das Makro geloescht.
+#
+# Bsp: "1 Bin wieder da" - gibt beim ":DA" Befehl den Text auf alle Kanaele aus
+#      "2 0" - der %m-Text wird jedoch nicht geandert.
+#      "2 1" - der %m-Text wird geloescht, es erfolgt keine Ausgabe, im
+#              Ctext.
+#
+# 1+2 fuer DA, 3+4 fuer WEG, 5+6 fuer 600, 7+8 fuer KLO, 9+10 fuer GND
+# der erste Text ist immer der Text der auf allen Kanaelen ausgegeben wird und
+# der zweite der Text, der fuer das %m Makro benutzt wird.
+#
+# Fuer den ersten Text koennen folgende Makros benutzt werden:
+# %n - Name der Gegenstation, %c - Call der Gegenstation, %k - Kanal auf dem
+# die Gegenstation connected ist, %t - Aktuelle Zeit, %g/%b - Klingel (CTRL-G)
+#
+# Meldungen fuer DA
+1 Ich bin wieder da, auf gehts!
+2 Ich freue mich auf ein Connect mit Dir!
+#
+# Meldungen fuer WEG
+3 Ich bin jetzt erstmal weg [%t].
+4 Bin zur Zeit leider nicht erreichbar. Msg in BBS.
+#
+# Meldungen fuer 600
+5 Bin eben telefonieren [%t].
+6 Der Sysop telefoniert gerade.
+#
+# Meldungen fuer KLO
+7 Bin eben mal auf dem WC.
+8 0
+#
+# Meldungen fuer GND
+9 %n, bin kurz im Grund%g.
+10 Der Sysop ist im Hintergrund beschaeftigt.
+#
+#
+# (C) WSPse 1998
+

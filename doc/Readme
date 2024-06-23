@@ -1,0 +1,322 @@
+TNT Update, von Matthias Hensler, WS1LS, WSP Software Entwicklungen, wsp@gmx.de
+
+History:
+TNT 1.1a3 - Original von Mark Wahl (aktuellste Version, mit diversen Patchs,
+            Broadcastversion)
+
+TNT 1.1a4 (12.4.98) - Korrektur der MD2-Passwortabfrage (beim ":priv"-Befehl
+          wird statt eines Returns, ein "MD2" gesendet. MD2-Passwortueber-
+          pruefung mit DP-Box jetzt automatisch moeglich.
+          "//ACT"-Befehl hinzugefuegt. Zeigt die letzte Sysopaktivitaet.
+          Anzeige bei RX/TX Autobin-Sendung erweitert auf "Restzeit"-Anzeige.
+
+TNT 1.1a5 (13.4.98) - RX/TX Autobin um Anzeige der bisher uebertragenen Daten
+          in Prozent erweitert.
+          Anzeige ebenfalls fuer YAPP-Dateisendung erweitert.
+          "//SESSION"-Befehl hinzugefuegt. Zeigt die Laufzeit von TNT (Zeit
+          seit dem Start, und Laufzeit von TNT insgesamt (since ever)).
+
+TNT 1.1a6 (15.4.98) - Einfuehrung neuer Makros: %a zeigt die Sysopaktivitaet.
+          %s zeigt die Laufzeit von TNT since ever.
+          %m gibt eine Meldung aus.
+          ":MSG <Message>" gibt die Meldung fuer "%m" ein.
+          ":MSG" zeigt die aktuelle Message.
+
+TNT 1.1a7 (16.4.98) - Tellkommando und Kurzbefehle eingefuehrt.
+        - TELL <text> gibt einen <text> auf allen Kanaelen aus.
+        - DA, WEG, 600, KLO aendern das %m-Makro und/oder geben einen Text
+          auf allen Kanaelen aus. Die Einstellung hierfuer wird ueber das
+          tnt_tellfile angegeben (Parameter fuer die tnt.ini).
+          tnt.telltexte.smpl fuer mehr Infos.
+        - (17.4.98) - GND-Befehl und Einsatz von Makros im Tellbefehl.
+          %n Name, %c Call, %k Kanal, %t Zeit, %g Klingel (CTRL-G).
+
+TNT 1.1a8 (18.4.98) - Quit-Text selbst definierbar (inskl. Makros).
+          Parameter "tnt_qtextfile" in tnt.ini.
+          %l Makro fuer Quittext (Connectlaenge).
+          //ONActivity-Befehl.
+          RXBEll
+          //D fuehrt sofort einen Disconnect durch.
+        - (21.4.98) - Beim Quittext werden jetzt auch mehrere Zeilen in
+          einen Packet gesendet.
+        - (22.4.98) - einige textliche Ueberarbeitungen und Schoenheits-
+          korrekturen. Im tnt_telltextfile kann beim jeweils zweiten
+          Text eines Shortcuts-Befehl auch eine "1" zum loeschen angegeben
+          werden. "0" und "1" ebenfalls beim ":MSG"-Befehl einsetzbar.
+
+TNT 1.1a9 (23.4.98) - Chat-Befehl
+
+TNT 1.1a10 (8.5.98) - Berichtigung des Call/Namens-Fehler in der Quit-Text
+           Routine
+         - Remoterechte nur noch fuer Terminals, fuer Boxen und Nodes
+           gesperrt (gilt auch fuer Chat, Msg, Tell, Shortcutsbefehle)
+           Erkennung anhand der routes.tnt (T>.....).
+
+TNT 1.1a11 (20.5.98) - Soundunterstuetzung.
+           TNT spielt bei bestimmten Ereignissen benutzerdefinierte Sound-
+           dateien ab.
+         - (22.5.98) - Korrektur eines bisher unerkannten Bugs.
+           Bei RX/TX Sendungen (Yapp und A-Bin) stuerzte TNT bei zu niedrigen
+           Baudraten auf Grund eines Floatingerrors ab: fixed.
+
+TNT 1.1a12 (3.7.98) - untere Statuszeile geaendert. Zeigt jetzt die connecteten
+           Stationen
+
+TNT 1.1a13 (11.8.98) - "normales" Chat mit //<port> moeglich.
+         - (12.8.98) - Remotebefehl //MH
+         - (20.8.98) - Erweiterter Remotebefehl //MH mit Parameter
+
+TNT 1.2  - (28.12.98) - Etliche Patches von Mark Wahl (und anderen Autoren?)
+           eingespielt. Jetzt zB Remote-Kommandos durch Sysop verfügbar:
+           ://<command>
+           (31.12.98) - Remote MHeard-Liste jetzt endlich "richtig" herum,
+           also die zuletzt gehörten Stationen zuerst. (Danke Mark, für die
+           Verwendung des previous-Pointer in der MH-Liste ;)
+
+TNT 1.3  - (1998/99) - Patches von Johann Hanne, DH3MB und DG9EP.
+           Enthalten sind jetzt zB PGP-Funktionen und Comp-Decodierung auf
+           dem Monitorschirm.
+           Der Patch auf 1.3 den ich heute (12.1.1999) bekommen habe, ent-
+           hielt nun auch schon Chat-Kommandos, geschrieben von DH3MB.
+           Diese Kommandos wurde in diese TNT-Version nicht uebernommen,
+           da bereits ein solcher Befehlssatz bereitstand.
+
+TNT 1.4  - (12.1.99) - Die Aenderungen von 1.1alpha3 auf 1.3 (siehe oben)
+           wurden jetzt auch in diese Version eingebaut.
+           Das Komplettpacket enthält nun auch die AX25-Kernelunterstützung
+           (allerdings noch nicht defaultmässig im Installationsscript ein-
+           gebaut, was aber noch kommt). Im Verzeichnis /def finden sich
+           ausserden nun die Original Beispieldateien und zusätzliche
+           Dokumentation.
+
+TNT 1.5  - (3.2.99) - Patch für tntc. Funktioniert jetzt auch mit der glibc.
+           (4.2.99) - Patches von Hans Mayer, OE1SMC
+           TNT ist jetzt auch unter Solaris einsetzbar. Die notwendige
+           Dokumentation befindet sich im Verzeichnis /def/solaris.
+           Das entsprechende Makefile im /src Verzeichnis.
+           Ein Anpassung im Install-Script folgt demnächst.
+           Geändert hat sich auch das Format des Logbuches.
+           (4.2.99) - Böser Bug in xmon.c. TNT stürzt ab, falls keine
+           QRG definiert ist. Dies passiert kurz vor dem Aufruf der
+           get_qrg_from_chanstr()-Funktion. Mein Workaround ist nicht
+           sehr schön, tut aber sein Wirkung. Ein entsprechender Fix für
+           diese Routine täte gut.
+
+TNT 1.5-1 -(5.2.99) - Kleinere Schönheitskorrekturen.
+           Der Soundsupport kann jetzt komplett weggelassen werden. Zum
+           Eincompilieren muss das Flag "TNT_SOUND" definiert werden.
+           Mit Hilfe ":SOUND (ON|OFF)" lassen sich die Soundeffekte jetzt
+           auch deaktivieren.
+           Im Verzeichnis ../def befindet sich ausserdem eine Datei "play",
+           die man als Ansatz für ein Shellscript zum abspielen von Sound
+           betrachten kann.
+
+TNT 1.5-final (6.2.99) - Fertigstellung des komplett Packetes von TNT 1.5
+
+TNT 1.6  - (10.2.99) - TNT 1.5-final ist jetzt TNT 1.6
+           Der Code hat sich gegenüber 1.5-final nicht mehr geändert.
+           Mit dieser Version verliert dieses README seine Gültigkeit,
+           zukünftige Änderungen werden von nun an in der /doc/CHANGES
+           bekannt gegeben.
+
+Installation:
+Die Quelltexte befinden sich im Verzeichnis /src
+Für eine leichte Einsteigerinstallation kann auch das Install-Script "INSTALL"
+genutzt werden.
+
+Hinweis: Diese TNT-Version wurde weiterentwickelt aus V1.1alpha3. Die Quell-
+         texte wurden so abgeaendert, dass sie unter SuSE Linux 5.x zu
+         compilieren sind.
+         TNT ist auch ohne Modifikationen unter der glibc läuffähig. Also
+         kein Problem unter SuSE 6.0.
+         Weiterhin läuft TNT auch erfolgreich (ebenfalls ohne Modifikationen)
+         unter Solaris.
+
+Nachdem das neue TNT installiert ist, muss zunaechst die tnt.ini erweitert
+werden.
+Folgende Eintraege sind zu ergaenzen:
+
+# File fuer TNT-Telltexte
+tnt_tellfile tnt.telltexte
+# File fuer Quit-Text
+tnt_qtextfile qtext.tnt
+# File fuer Sound-Definitionen
+tnt_soundfile sounds.tnt
+
+Die Filenamen sind natuerlich beliebig zu waehlen. Angegeben sind die
+Defaultnamen, die bei fehlenden Eintrag benutzt werden.
+
+Entsprechend sind natuerlich die Dateien anzulegen.
+
+Das tnt_qtextfile enthaelt den Quittext, welcher bei //Q gesendet wird.
+Er darf nur den reinen Text enthalten, keine Kommentarzeilen oder
+aehnliches. Der Aufbau ist der selbe wie beim tnt_ctextfile. Es duerfen auch
+hier Makros verwendet werden.
+
+Das tnt_tellfile enthaelt die Texte fuer die Shortcut-Befehle und das
+Ctext-Makro. Den Aufbau entnimmt man am besten der Beispieldatei.
+Generell sind jeden Shortcut-Befehl zwei aufeinander folgende Nummern zu-
+geordnet. Hinter der ersten Nummer steht der Text der an alle Kanaele
+(natuerlich nur connectete und auf denen kein Filetransfer stattfindet) ge-
+sendet wird (dieser darf auch spezielle Makros enthalten). Hinter der zweiten
+Zahl steht der Text, der ins Ctext-Makro aufgenommen werden soll.
+Anstatt eines Textes darf hier auch einfach eine "0" stehen, in dem Fall wird
+kein Text an die Kanaele gesendet, bzw. ins Ctext-Makro uebernommen.
+Im zweiten Text darf auch eine "1" stehen, in diesem Fall wird der bisherige
+Text im %m-Makro geloescht.
+
+Das tnt_soundfile enthaelt die Definitionen fuer das Abspielen von Sound-
+Dateien. Dabei sind die Config-Variablen 0 bis 7 anzugeben. Hinter jeder
+dieser Variable steht eine Datei. Die Bedeutung ist wie folgt:
+0 - Abspielprogramm fuer Dateien (zB /usr/bin/rplay, oder ein Script,
+    welches eine Datei an /dev/audio schickt).
+1 - Soundfile fuer Packet Receive (nicht sinnvoll, am besten '0' angeben).
+2 - Soundfile fuer Connected
+3 - File fuer Disconnected
+4 - File fuer Link Reset
+5 - File fuer Busy
+6 - File fuer Link Failure
+7 - File fuer Remote-Befehl //ring.
+Wird eine Datei nicht gefunden, oder ist die Konfiguration ungueltig, passiert
+gar nichts (es wird auch keine Fehlermeldung ausgegeben!). Im Fall //ring,
+ertoent die alte Glocke.
+
+Die Befehle:
+//ACT zeigt die Zeit die vergangen ist, seitdem der Sysop zum letzten Mal
+ eine Taste gedrueckt hat. Dieser Befehl ist nur von aussen abrufbar, kann
+ natuerlich auch wie jedes Remote-Kommando gesperrt werden.
+ (kleinste Einheit Sekunden).
+
+//SESsion zeigt die Zeit an, wie lange TNT seit dem letzten Start schon
+  laeuft, bzw. wie lange es insgesamt schon gelaufen ist (seit Sie diese
+  Version einsetzen, hi).
+  Der Befehl ist sowohl von aussen, als auch intern abrufbar.
+  Die sogenannte "Sessiontime" wird bei jedem Start von TNT eingelesen
+  (sofern schon eine Datei existiert) und beim Verlassen von TNT (mit Exit)
+  gespeichert. Die Datei in der die Zeit (in Sekunden) festgehalten wird,
+  ist "/var/log/tntsession_status", also ausserhalb des normalen TNT-Ver-
+  zeichnisses.
+
+//ONActivity legt einen Text fest, der bei der naechsten Sysopaktivitaet
+  gesendet wird. Ohne Angabe eines Textes wird der Befehl aufgehoben.
+
+//CHat <Port/Call> <Text>
+//MSG <Port/Call> <Text>
+  Sendet <Text> an den entsprechenden Kanal, oder an entsprechende Station.
+  (Nur wenn connected, kein XConnect, kein Filetransfer).
+  Bsp: //CH 2 Hallo du.
+  Sendet den Text "Hallo du." an Kanal 2.
+
+//<Port> <Text>
+  Wie //CHat, nur mit direkter Portangabe wie bei anderen Terminalprogrammen
+  ueblich, also zB "//2 Hallo!"
+
+//MHeard
+  Zeigt die Liste der gehoerten Stationen. Ausgabe wie Heardwindow ALT+S.
+  (Uebernahme der Original sel_heardlist() Routine von Mark Wahl)
+
+//MHeard 5
+  Zeigt die ersten 5 Eintraege der MH
+
+//Mheard <str>
+  Gibt alle Zeilen der MH aus, die <str> enthalten
+
+Interne Kommandos:
+ :TELL <text>
+  sendet <text> an alle connecteten Stationen. Nicht gesendet wird der Text
+  an Stationen zu denen gerade eine Datei uebertragen wird, oder auf einem
+  Kanal auf dem gerade ein Connectvorgang stattfindet (auch XConnect).
+  Der Text darf auch die speziellen Makros enthalten (s.u.)
+  Wird die Textzeile durch die Makros laenger als 78 Zeichen, so wird der
+  Rest abgeschnitten!
+
+ :MSG
+  zeigt den aktuellen Text fuer das Ctext-Makro an.
+
+ :MSG <text>
+  aendert den Text des Ctext-Makro in <text>.
+
+ :MSG 0
+ :MSG 1
+  loescht den Text des Ctext-Makros
+
+ Shortcut-Befehle:
+ :DA  - zB wenn man wieder da ist.
+ :WEG - zB wenn man laenger weg ist.
+ :600 - zB wenn man telefonieren muss.
+ :KLO - zB wenn man aufs WC muss.
+ :GND - zB wenn man mal fuer eine Zeit im Hintergrund ist.
+  Die Shortcut-Befehle koennen das senden beliebiger Text veranlassen und
+  das Ctext-Makro beliebig veraendern.
+  Die Texte werden in der tnt_tellfile Datei festgelegt. Diese Datei wird
+  bei jeder Benutzung der Shortcut-Befehle neu eingelesen.
+  Wie die Befehle eingesetzt werden, bleibt dem Benutzer selbst ueberlassen.
+  Bei der Benutzung muss ein Text nicht unbedingt veraendert werden, es
+  reicht die Angabe einer "0" (s. oben und Beispielfile).
+
+ :RXBEll [ON/OFF]
+  Dient zum ein-/ausschalten des Klingelsignals beim Dateiempfang.
+  Faehrt man auf anderen Kanaelen noch connects, so ertoent die Klingel
+  (bei eingeschalteter Infobell) nur noch wenn ein Text von einem anderen
+  QSO-Partner kommt, nicht wenn ein neues Packet beim RX-Transfer empfangen
+  wurde.
+
+Die Makros:
+Zusaetzlich zu den urspruenglichen Makros sind die folgenden (meist wenig
+sinnvollen, hi) Makros hinzugekommen:
+%a - Anzeige der letzten Sysopaktivitaet (kleinste Einheit Minuten).
+%s - Anzeige wie lange das TNT schon eingesetzt wird (OK, weniger sinnvoll).
+%m - Ctext-Makro. Gibt einen einzeiligen Text (der allerdings keine
+     weiteren Makros mehr enthalten darf) aus. Dieser Text wird entweder
+     durch den ":MSG"-Befehl (s.o.) oder auch durch einen Shortcut-Befehl
+     festgelegt. Die Grundeinstellung hierfuer sollte am besten in der
+     tnt.up vorgenommen werden, zB. "msg Ich freue mich auf ein QSO mit Dir!".
+%l - Zeigt die Connectdauer an (nur im Quittext sinnvoll, hi).
+
+Diese Makros koennen sowohl in den Ctext-Dateien, als auch in der Qtext-Datei
+benutzt werden.
+
+Die speziellen Makros:
+%n - Der Name der Gegenstation.
+%c - Das Rufzeichen der Gegenstation.
+%k - Der Kanal auf dem die Gegenstation connectet ist.
+%t - Die aktuelle Zeit.
+%g - Das beliebte Klingelzeichen (CTRL-G), hi.
+%b - Wirkt wie %g
+
+Diese speziellen Makros duerfen beim Tell-Befehl benutzt werden und in der
+jeweils ersten Zeile eines Shortcut-Befehls in der tnt_tellfile.
+
+Die MD2-Ueberpruefung:
+In keiner der mir vorliegenden Version, konnte die MD2-Passwortueberpruefung
+mit einer DP-Box vorgenommen werden. Bei einen Eintrag "MD2" in der pw.tnt,
+wurde als Reaktion auf den ":PRIV"-Befehl immer nur ein Return gesendet.
+Der Grund hierfuer ist mir unbekannt.
+In der vorliegenden Version wird nun anstatt eines Returns, der String
+"MD2" an die Gegenstation gesendet. So laesst sich auch bei der DP-Box
+eine automatische Passwortueberpruefung durchfuehren.
+
+
+Das Copyright:
+Der Autor des Hostmode Packet Radio Terminals TNT fuer Linux ist Mark
+Wahl, DL4YBG. Er hat dieses grossartige Programm entwickelt und erstellt.
+Auf der Basis von Version 1.1alpha3 (die aktuellste Version die ich er-
+halten habe), wurde das Programm von Matthias Hensler, WS1LS weiterentwickelt.
+Saemtliche Aenderungen wurden nach besten Wissen und Gewissen vorgenommen.
+Es wird keine Garantie fuer evtl. Schaeden uebernommen.
+<Zusatz: An TNT wurden von vielen weiteren Personen Änderungen vorgenommen,
+         da dieses File aber in zukünftigen Releases verschwinden wird,
+         verweise ich auf die doc/CHANGES>
+
+Der Autor von TNT ist erreichbar unter:
+Mark Wahl, DL4YBG
+eMail:    wahlm@berlin.snafu.de
+WWW:      http://www.snafu.de/~wahlm/
+HamRadio: DL4YBG @ DB0GR.#BLN.DEU.EU
+
+Der Autor des Updates von TNT ist erreichbar unter:
+Matthias Hensler, WS1LS
+eMail: wsp@gmx.de
+WWW:   http://excelsior.kullen.rwth-aachen.de
+CB-PR: WS1LS @ BX1ZGL.#LUED.MK.NRW.DEU.EU
+

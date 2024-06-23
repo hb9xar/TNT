@@ -1,0 +1,19 @@
+TNT bietet eine Schnittstelle zum direkten Support der AX25-Kernel
+Unterstuetzung an. Dieses funktioniert natuerlich nur auf Linux-System.
+Um dieses Feature nutzen zu koennen, muss der Kernel AX25 unter-
+stuetzen. Desweiteren muessen die AXutils installiert sein und die dazu-
+gehoerigen Includedateien vorhanden sein. Die AX25-Lib (Bestandteil der
+AXutils) muss korrekt installiert sein und durch den Dynamic-Loader auf-
+findbar sein.
+
+Die Optionen:
+AX25: Ein- und ausschalten des AX25-Supports (nur fuer Linux sinnvoll)
+PATH: Das Directory in dem sich die Includedateien der AX25-Utils
+      befinden. Die erforderlichen Header sind: "config.h", "axutils.h",
+      "axconfig.h", "nrconfig.h", "version.h" und "procutils.h"
+PORT: Der AX25-Port
+MONI: Aktivieren des Fullmoni-Flags. Bei deaktivierten Flag (Default)
+      zeigt TNT nur die empfangenen Frames an.
+      Um alle Frames anzuzeigen muss das Flag aktiviert werden, was aber
+      unter Umstaenden eine hohe Systembelastung verursacht, das TNT
+      ALLE Frames analysiert

@@ -1,0 +1,46 @@
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+MKDIR = mkdir -p
+
+prefix = @prefix@/tnt
+exec_prefix = @exec_prefix@
+includedir = @includedir@
+datadir = @datadir@
+infodir = @infodir@
+libdir = @libdir@
+libexecdir = @libexecdir@
+localstatedir = @localstatedir@
+mandir = @mandir@
+sbindir = @sbindir@
+sysconfdir = @sysconfdir@
+srcdir = @srcdir@
+VPATH = @srcdir@
+bindir = @bindir@
+
+CC              = @CC@
+CPP             = $(CC) -E
+CFLAGS          = @CFLAGS@ -funsigned-char -I../include
+LD              = $(CC)
+LDFLAGS         = @LDFLAGS@
+LIBS            = @LIBS@ 
+
+SRCS   = hilfe.c info.c logcall.c
+BIN    = hilfe info logcall
+
+all:
+	@for i in $(BIN); \
+	do \
+		$(CC) $(CFLAGS) -o $$i $$i.c; \
+	done
+
+clean:
+	$(RM) $(BIN) *.o *.orig *.bak *.core .depend TAGS
+
+install:
+	$(MKDIR)  ${bindir}; 
+	@for i in $(BIN); \
+	do \
+		$(INSTALL_PROGRAM) $$i ${bindir}; \
+		$(INSTALL_DATA) .$$i ${bindir}; \
+	done

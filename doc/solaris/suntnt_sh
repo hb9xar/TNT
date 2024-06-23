@@ -1,0 +1,19 @@
+:
+
+ARGUM=/tmp/.dptnt_argumente
+
+stty susp ''
+stty flush ''
+stty start ''
+
+echo par1: $1 > $ARGUM
+echo par2: $2 >> $ARGUM
+
+case $1 in 
+  -1k2|-y ) INI=tnt_96_1k2_tf.ini ;; 
+  -i ) INI=$2 ;; 
+  * ) INI=tnt_192_9k6_tf.ini ;; 
+esac 
+
+xterm -T TNT -sl 0 -geometry 80x35 -font 9x15bold -fg black -bg white -e tnt -i $INI &
+# xterm -T TNT -sl 0 -geometry 80x35 -font 8x13 -bg black -fg white -e tnt & 

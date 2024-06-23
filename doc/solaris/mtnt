@@ -1,0 +1,8 @@
+:
+
+# stty susp ''
+# stty flush ''
+# 
+cd /opt/tnt
+suntnt_sh $* 
+

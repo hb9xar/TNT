@@ -1,22 +1,22 @@
-INSTALL	= /usr/bin/install -c
-INSTALL_PROGRAM = ${INSTALL} 
-INSTALL_DATA = ${INSTALL} -m 644
+INSTALL	= @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@ 
+INSTALL_DATA = @INSTALL_DATA@
 MKDIR = mkdir -p
 
-prefix = /usr/local/tnt
-exec_prefix = ${prefix}
-includedir = ${prefix}/include
-datadir = ${prefix}/share
-infodir = ${prefix}/share/info
-libdir = ${exec_prefix}/lib
-libexecdir = ${exec_prefix}/libexec
-localstatedir = ${prefix}/var
-mandir = ${prefix}/share/man
-sbindir = ${exec_prefix}/sbin
-sysconfdir = ${prefix}/etc
-srcdir = .
-
-bindir = ${exec_prefix}/bin
+prefix = @prefix@/tnt
+exec_prefix = @exec_prefix@
+includedir = @includedir@
+datadir = @datadir@
+infodir = @infodir@
+libdir = @libdir@
+libexecdir = @libexecdir@
+localstatedir = @localstatedir@
+mandir = @mandir@
+sbindir = @sbindir@
+sysconfdir = @sysconfdir@
+srcdir = @srcdir@
+VPATH = @srcdir@
+bindir = @bindir@
 
 TARGET =        src .others include examples doc
 SUBDIR  =       7plus abin bcast/newmail bcast/save bin ctext \

@@ -1,0 +1,25 @@
+Die Einstellungen ueber das Unix-Benutzerverhalten benoetigt TNT fuer die
+Ausfuehrung von Run-Programmen. Da TNT jedes Programm ausfuehrt, welches
+Eingaben ueber "stdin" erwarten und die Ausgaben ueber "stdout" ausgibt,
+muss fuer die Laufzeit eines solchen Programms (welches als eigener
+Prozess laeuft) eine Benutzer-ID vorhanden sein.
+Grundsaetzlich gibt es zwei Moeglichkeiten:
+1) Sie legen einen festen Benutzer an, zB "guest" oder "prrun". In dem
+   Fall kann jeder PR-Benutzer Run-Programme benutzen, die dann immer
+   mit den Rechten des festen Benutzers (zB "guest") ablaufen.
+   Vorsicht bei der Angabe von "root". Hier erhaelt jedes Run-Programme
+   vollstaendige root-Rechte (natuerlich nur falls TNT als Root ausgefuehrt
+   wird) und ist dementsprechend keinerlei Beschraenkungen unterbunden.
+2) Sie legen eine feste Gruppe an, zB. "pr" und lassen fuer jeden PR-Benutzer
+   eine eigene User-ID erstellen (dies funktioniert automatisch).
+   Programme laufen dann mit den Rechten der bestimmten Gruppe und denen
+   des PR-Users.
+
+Bei Moeglichkeit 1): Geben Sie den Benutzernamen im Punkt "USER" an und
+stellen "CREATE" auf Nein. (Der Benutzer "USER" muss natuerlich existieren,
+damit die Run-Programme gestartet werden koennen).
+Bei Moeglichkeit 2): Stellen Sie "CREATE" auf Ja und legen Sie eine Gruppe
+fuer PR an. Tragen Sie die ID dieser Gruppe im Punkt "GID" ein. Sie
+muessen dann nur noch festlegen, welches die niedrigste User-ID ist, die
+TNT vergeben darf. Normalerweise fangen die User-IDs ab 400 an. Mit dem
+Wert "410" kann man normal nichts falsch machen.

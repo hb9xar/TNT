@@ -1,0 +1,327 @@
+
+                       TNT V1.6 Quick Reference
+                       -------------------------
+
+KEY-CODES
+--------
+Codes mit <ALT> sind nicht unter X moeglich.
+Bei Codes mit <ESC> wird erst <ESC> und dannach die andere Taste gedrueckt.
+
+Cursor Bewegung und Verschiedenes
+---------------------------------
+<CNTL>S, Linke Cursortaste              Cursor links
+<CNTL>D, Rechte Cursortaste             Cursor rechts
+<CNTL>E, Cursortaste hoch   (1)         Eine Zeile hoch
+<CNTL>X, Cursortaste runter (1)         Eine Zeile runter
+<CNTL>A                                 Anfang der Zeile
+<CNTL>F                                 Ende der Zeile
+<CNTL>L                                 Zeichen loeschen
+<CNTL>Y                                 Zeile ab Cursorposition loeschen
+<CNTL>N, INSERT                         Umschalten zwischen Insert/Replace
+<CNTL>H, DEL                            Zeichen loeschen
+<CTNL>M, <CNTL>J, CR, LF                Aktuelle Zeile senden
+<CNTL>V                                 Special Code (<CNTL>V + "Z" -> CTRL-Z)
+(1) Nur im Kommando, Connect, Mailbox und Erweiterter Monitor Screen
+
+Fenster Bewegung und Kontrolle
+------------------------------
+<CNTL>R, Cursortaste hoch   (2)         Im Fenster (4) eine Zeile hoch
+<CNTL>C, Cursortaste runter (2)         Im Fenster (4) eine Zeile runter
+<CNTL>W, Page up                        Im Fenster (4) eine Seite hoch
+<CNTL>Z, Page down                      Im Fenster (4) eine Seite runter
+HOME                                    Anfang des Fensters (4)
+END                                     Ende des Fensters (4)
+<CTNL>P, <ESC>P, <ALT>P                 Pausenmodus ein-/ausschalten (3)
+(2) nur im Mheard, Monitor, Hilfs und Boxlist Screen
+(3) nur im Monitor und Connect Screen
+(4) im Connect, Extended Monitor und Mailbox Screen wird der Text im
+    Empfangsfenster bewegt.
+
+Screen Umschaltung
+------------------
+<ESC>M, <ALT>M, F11                     Monitor Screen (umschalten)
+<ESC>C, <ALT>C, F12                     Command Screen
+<ESC>Q, <ALT>Q                          Connect Screen
+<ESC>B, <ALT>B                          Mailbox Screen
+<ESC>S, <ALT>S                          Mheardlist Screen
+<ESC>X, <ALT>X                          Extended Monitor Screen
+<ESC>H, <ALT>H                          Hilfsschirm
+<ESC>L, <ALT>L                          Boxlist Screen (umschalten)
+F1 - F9                                 Connect Screen (Kanal 1-9/11-19...)
+F10                                     Unproto Screen (Kanal 0/10...)
+<CNTL>I, TAB                            Kanal auswaehlen
+
+TASTATURMAKROS
+--------------
+<ESC>0 - <ESC>9, <ALT>0 - <ALT>9        Benutzerdefinierte Makros
+
+
+TNC-KOMMANDOS
+-------------
+DAMAdis,"B"     : DAMA timeout
+Version,"V"     : Version der TNC-Software
+CHeck,"@T3"     : Connection timer T3
+Connect,"C"     : Connect starten
+CText,"U"       : Ctext des TNCs
+DIGIpeat,"R"    : Digipeat Funktion
+Disconne,"D"    : Disconnect
+DAYTIme,"K"     : Zeit und Datum zeigen/einstellen
+Frack,"F"       : Fracktime (Retrytiming)
+FUlldup,"@D"    : Duplexbetrieb am Modem einstellen
+MAXframe,"O"    : Maxframes (maximal ausstehende Packete)
+Monitor,"M"     : Erlaubte Packettypen
+MYcall,"I"      : Rufzeichen
+                  Mit MYCALL wird das Rufzeichen fuer diesen Kanal festgelegt,
+                  mit "I" nur bis zum naechsten Disconnect.
+                  Ein dauerhaftes MYCALL kann mit "$" als Rufzeichen
+                  Abgeschaltet werden.
+Persist,"P"     : Persistance
+RESptime,"@T2"  : Verzoegerung fuer I-Frames (T2-Timer)
+REtry,"N"       : Retrycounter
+SLottime,"W"    : Slottime
+Txdelay,"T"     : TX-Delay
+USers,"Y"       : Anzahl der von aussen connectbaren Kanaele
+Xmitok,"X"      : PTT sperren/entsperren
+BUFfers,"@B"    : Freie Buffer im TNC
+A1SRTT,"@A1"    : A1-Timer
+A2SRTT,"@A2"    : A2-Timer
+A3SRTT,"@A3"    : A3-Timer
+IPOll,"@I"      : maximale Packetlaenge fuer I-Poll
+VALcall,"@V"    : Callcheck
+
+Die Eingabe der Grossbuchstaben ist ausreichend.
+
+
+EXTERNE KOMMANDOS
+-----------------
+
+Datenspeicherung
+----------------
+LOGQso <Dateiname>       : Empfangene und gesendete Daten speichern
+LOGRec <Dateiename>      : Empfangene Daten speichern
+LOGSnd <Dateiname>       : Gesendete Daten speichern
+READ <Dateiname>         : Empangene Daten speichern, nur CR->LF Konvertierung
+                           (fuer 7PLUS-Files)
+READBin <Dateiname>      : Empfangene Daten ohne Konvertierung
+                           speichern
+READAbin <Dateiname>     : Datei mit AutoBIN-Protokoll empfangen
+LOGAbin <Dateiname>      : Datei mit AutoBIN-Protokoll empfangen, aber
+                           ohne am Ende des Transfers eine Meldung zu senden
+                           (fuer BOX-BIN)
+READYapp [Dateiname]     : Datei mit YAPP-Protokoll empfangen
+CLose                    : Datei auf dem aktuellen Kanal schliessen
+LOGMon <Dateiname>       : Saemtliche Monitordaten speichern
+RDMON <Dateiname>        : Monitordaten nur mit CR->LF Konvertierung
+                           speichern
+RDMONBin <Dateiname>     : Alle Monitordaten ohne Konvertierung speichern
+CLOSEMon                 : Monitordatenfile schliessen
+LOGXmon <Dateiname> (auf den Extended Monitor Screen)
+LOGXmon <Xmon-Kanal> <Dateiname> (auf den anderen Schirmen)
+                         : Saemtliche empfangene Daten auf dem Extended
+                           Monitorkanal speichern
+RDXMON <Dateiname> (auf dem Extended Monitor Screen)
+RDXMON <Xmon-Kanal> <Dateiname> (auf den anderen Screens)
+                         : Empangene Daten auf dem Extended Monitor Kanal
+                           nur mit CR->LF Konvertierung speichern
+RDXMONBi <Dateiname> (auf dem Extended Monitor Screen)
+RDXMONBi <Xmon-Kanal> <Dateiname> (auf den anderen Schirmen)
+                         : Empfangene Daten auf dem Extended Monitor Kanal
+                           ohne Konvertierung speichern
+CLOSEXmo (auf dem Extended Monitor Screen)
+CLOSEXmo <Xmon-Kanal> (auf den anderen Schirmen)
+                         : Datei auf dem ExtendedMon Kanal schliessen
+APPend [ON/OFF]          : Flag ob die Daten bei existierenden Dateien ange-
+                           haengt werden sollen (nur bei LOGQSO,LOGREC,LOGSND,
+                           LOGMON und LOGXMON)
+AUTOBIn [ON/OFF]         : AutoBIN Empang ermoeglichen.
+AUTOYApp [ON/OFF]        : YAPP Empang ermoeglichen.
+AUTO7Pl [ON/OFF]         : 7Plus Empfnag ermoeglichen.
+
+Dateien senden
+---------------
+SENDLog  <Dateiname>     : Datei senden
+SEND     <Dateiname>     : Datei senden, nur LF-CR Konvertierung (7Plus)
+SENDBin  <Dateiname>     : Datei senden, keine Konvertierung
+SENDAbin <Dateiname>     : Datei per AutoBIN senden
+SENDQbin <Dateiname>     : Datei per AutoBIN senden (Quiet-Mode)
+SENDYapp <Dateiname>     : Datei per YAPP senden
+BReak                    : Dateisendung abbrechen
+FPACLen                  : Packetlaenge fuer senden
+
+Shell und Run
+-------------
+SHell                    : Shell oeffnen
+TSHell                   : Shell ohne CR-LF Konvertierung
+ROOTSH                   : Rootshell oeffnen
+TROOTSH                  : Rootshell ohne CR-LF Konvertierung
+ENDShell                 : Shell schliessen
+RUN <Programm>           : Programm starten
+RUNT <Programm>          : Programm ohne CR-LR Konvertierung
+ENDRun                   : laufendes Programm abbrechen
+REDir <Device>           : Ausgabe auf Device lenken
+ENDRedir                 : Umlenkung abbrechen
+SOCKCon <Socket Adresse>
+                         : Socket connecten
+TSOCKCon <Socket Adresse>
+                         : Socket ohne CR-LF Konvertierung connecten
+ENDSOCKC                 : Socketverbindung beenden
+SOCket AXSERV <Socket Adresse>
+                         : AX25 Server starten
+SOCket AXSPEC <Socket Adresse>
+                         : AX25 Server (Zeilen orientiert)
+SOCket NETCMD <Socket Adresse> <Default Callsign>
+                         : Wampes Kompatiblen Netcmd Server starten
+ENDSock <socket address> : Socketserver beenden
+
+Directory
+---------
+CD <Dir>                 : Directory wechseln
+CWD                      : Aktuelles Dir zeigen
+
+Verschiedenes
+-------------
+//<Kommando>             : Remotebefehl <Kommando> ausführen
+TNC <Kommando>           : Kommando zum TNC schicken
+CHANnel <x> oder S <x>   : Zum Kanal x wechseln
+CONCall <Rufzeichen>     : Rufzeichen in der Statuszeile updaten
+CStatus                  : Connectstatus mit Startzeit
+SENDCom <Dateiname>      : Kommandoscript ausfuehren
+CBell [ON/OFF/OTHER]     : Connectklingel
+INFObell [ON/OFF/OTHER]  : Klingel fuer Empfangene Packet
+RXBEll [ON/OFF]          : Klingel fuer Packete im RX-Fileempfang
+SOUnd [ON/OFF]           : Abspielen von Soundeffekten (nur in der Soundversion)
+COOKie [ON/OFF]          : Cookie beim Connect senden
+UMLaut [ON/OFF]          : Umlautkonvertierung
+CONText [ON/OFF]         : Speziellen Connecttext senden
+TXEcho [ON/OFF]          : Empfangene Daten zuruecksenden
+PTYEcho [ON/OFF]         : Daten bei SHELL, RUN, SOCKET oder REDIR echo'en
+NAME <Name>              : Setzt oder zeigt den Namen der Station
+STIme                    : Aktuelle Zeit setzen
+SCOokie                  : Cookie senden
+TIMESET                  : Zeit im TNC setzen lassen
+DATESET                  : Datum im TNC setzen lassen
+RESYnc                   : Anzahl der Resyncs seit Programmstart
+LAYer3 [ON/OFF]          : NETROM/TheNet Header analysieren
+HEArd [ON/OFF]           : MH aktiveren
+KMAcro                   : Keyboardmakro File neuladen
+MSEnd <Dateiname>        : Datei mit speziellen Makros senden
+WORDWrap [ON/OFF]        : Word-Wrap aktivieren
+WHOLElin [ON/OFF]        : Ganze Zeile oder nur bis zur Cursorpos senden
+LINelen <Wert>           : Laenge der Eingabezeile
+MONlines <Wert>          : Anzahl der Monitorzeilen auf dem Connectscreen
+CONDiv <Wert>            : Eingabe-Zeilen auf dem Connectscreen
+XMONDiv <Wert>           : Eingabezeilen auf dem Extended Monitor Screen
+MBOXDiv <Wert>           : Eingabe Zeilen auf dem Mailbox Screen
+COMP [ON/OFF]            : Huffman Kompression
+BSCRHold [ON/OFF]        : Fensterposition beim Scrollen halten
+TABExp [ON/OFF]          : TAB auf Spaces umrechnen
+FREE                     : Zahl der freien Buffer im TNC seit letztem Poll
+SIGNon                   : Copyright und Versionsinformationen
+LOGBOOK [ON/OFF]         : Logbuch ein/ausschalten
+CTRltx <char>            : Controlcode senden (Code 01 (^A) - 26 (^Z))
+EXit                     : TNT verlassen (Sicherheitsabfrage)
+QUIT                     : TNTC verlassen ohne den TNT-Daemon zu beenden
+MSG <Text>               : Ctext-Makro zeigen/setzen
+TEll <Text>              : Message an alle Kanel senden
+DA, WEG, 600, GND, KLO   : Spezielle Message (lt. tnt_tellfile)
+
+PGP / GnuPG
+-----------
+PGPAUTO [ON/OFF]          : einschalten von PGP/GPG
+USEGPG [ON/OFF]           : GPG anstatt von PGP benutzen
+PGPKEYAD [ON/OFF]         : Sollen PGP-Public Keys automatisch in den Keyring
+                            aufgenommen werden?
+PGPEDIT <pgp-password>    : oeffne einen Edition. Die editierte Datei wird
+                            signiert und uebermittelt.
+GPGEDIT <gpg-password>    : wie PGPEDIT, nur fuer GnuPG (GPG)
+
+Routing Scripte
+---------------
+XConnect [Portheader:]<Rufzeichen>
+                         : Connect mit Hilfe der Routesdatei aufbauen
+QRG [<Port> <Frequenz>] [Portheader:]
+                         : Anzeigen/definieren von Frequenzen
+LSNOTOWN                 : Rufzeichen die nicht erlaubt sind anzeigen
+LDNOTOWN                 : Datei fuer gesperrte Calls neuladen
+
+
+Extended Monitor und Boxlist
+----------------------------
+XMON [ON/OFF]            : Extended Monitor ein/ausschalten
+EXTmon <Call1> <Call2> [<Call3> <Call4>] (Extended Monitor Screen)
+EXTmon <Xmon-Kanal> <Call1> <Call2> [<Call3> <Call4>] (andere Schirme)
+                         : Spion starten
+EXTAmon <Call1> <Call2> [<Call3> <Call4>]
+                         : Spion auf dem naechsten freien Kanal starten
+ENDEXtm (Extended Monitor Screen)
+ENDEXtm <Xmon-Kanal> (andere Schirme)
+                         : Spion beenden
+EXTComp [ON/OFF]         : Huffman Kompression fuer Spion
+LOGBlist                 : Empfange Daten temporaer speichern (bei Boxcheck)
+BLIst [<filename>]       : Datei schliessen und in den Boxlist Screen laden
+XBList                   : Boxlist beenden
+
+Interface Kommandos
+-------------------
+IFAce <Socket-Name>      : Connect zum Socket starten
+ENDIFace <Socket-Name>   : Connect mit Socket beenden
+FINIFace <Socket-Name>   : Externes Programm und Connect mit Socket beenden
+ACTIf <Socket-Name>      : Programm auf aktuellen Kanal starten
+DEACtif <Socket-Name>    : Programm auf aktuellen Kanal beenden
+SNOCONN <String>         : Message, falls Aktiverung nicht erfolgreich
+
+DPBox-Interface Kommandos
+-------------------------
+ACTBox                   : Connect zur Box starten
+DEACTBox                 : Connect zur Box beenden (Socket bezogen)
+FINBox                   : Box und Connect beenden
+BOX                      : Box auf aktuellen Kanal starten
+ENDBox                   : Box auf aktuellen Kanal beenden
+AUTOBOx [ON/OFF]         : Mailscan fuer selbstgelesene Mails
+MONBox [ON/OFF]          : Mailscan fuer Monitor
+LMONbox                  : Anzeige der aktuellen Mailscans
+SNOBOX <String>          : Message, falls die Box nicht aktiviert werden kann
+SCANMBEA [<Source> <Destination> <eigenes Call> <Connectcall> [<Timeout>]] [$]
+                         : Mailbeaconscan und S&F-Start
+LDBOXFil                 : Alle Boxrelavanten Files neuladen
+ACCUIReq [ON/OFF]        : Empfang von Unprotolist-Requests erlauben
+ACCUICal <BBS-Call>      : Empanfgsrufzeichen fuer Unprotolist-Request
+
+Passwordgenerierung 
+-------------------
+PRIV                     : Passwortueberpruefung starten
+LISTPRIV                 : Passwortdaten zeigen
+LOADPRIV                 : Passwortdatei neuladen
+
+Remote-Befehle und Zugriffslevels
+---------------------------------
+REMOte [ON/OFF]          : Remoterechte aktivieren
+REMAllow [ON/OFF]        : Remoterechte auf dem aktuellen Kanal
+                           (nur waehrend eines Connects)
+SETACC <Remote-Befehl> [NORMAL/SYSOP/ROOT/ALWAYS]
+                         : Accesslevel fuer einen Remote-Befehl
+NOACC [ON/OFF]           : Connect nur fuer Sysops erlaubt
+SNOACC <string>          : Message fuer Nicht-Sysops, falls NOACC=ON
+LISTSYS                  : Sysopdaten zeigen
+LOADSYS                  : Sysopdatei neuladen
+LSTNOREM                 : Rufzeichen ohne Remoterechte anzeigen
+LDNOREM                  : No-Remote Datei neuladen
+LSTFLCHK                 : Rufzeichen mit Flexnet Connect-Quality-Check
+LDFLCHK                  : Flexnetcheck Datei neuladen
+LSEXTREM                 : Erweiterte Remote-Befehle zeigen
+LDEXTREM                 : Erweiterte Remote-Datei neuladen
+AUTOStrt [ON/OFF]        : Autostart aktivieren
+LSAUTOST                 : Rufzeichen mit Autostart anzeigen
+LDAUTOST                 : Autostartdatei neuladen
+
+Broadcast Sendung/Empfang
+-------------------------
+SENDBC <Dateiname>       : Datei per Broadcast senden
+BCRQST [ON/OFF]          : Broadcast-Request generieren
+SHPACSAT [ON/OFF]        : Broadcast-Frames zeigen
+DECBCAST [ON/OFF]        : Broadcast-Frames decodieren
+BCRXstat                 : Broadcast Empfangsstatus zeigen
+BCTXstat                 : Broadcast Sendestatus zeigen
+
+Uebersetzung: WS1LS, 5.6.98
+<EOF>

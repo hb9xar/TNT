@@ -1,0 +1,14 @@
+Runprogramme
+------------
+
+Compilieren der Sourcedateien im ".src"-Verzeichnis mit
+# gcc <name.c> -o <name>
+
+Installieren der entstandenen Objectdateien im "bin"-Verzeichnis von TNT.
+Installieren der Hilfstexte ".<name>" ebenfalls im "bin"-Verzeichnis.
+
+In der "tnt.ini" den Punkt "neue Benutzer anlegen" aktivieren, oder einen
+speziellen Benutzer (zB "guest") anlegen und dementsprechend die "tnt.ini"
+anpassen.
+
+WSPse 1998

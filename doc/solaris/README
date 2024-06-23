@@ -1,0 +1,42 @@
+
+
+vienna, 6th january 1999
+
+dptnt or simple tnt is a terminal packet radio programm.
+you need a serial connection to a tnc with hostmode.
+for example a tnc2 running thefirm. 
+it's also possible to communicate with a kiss-tnc.
+you have to run tfkiss as daemon. 
+
+***
+the solaris portation:
+i took dptnt, which was written by mark wahl DL4YBG,
+the latest version V1.3 by Jonny, DH3MB 
+modifications ware made, so that the source 
+code can be compiled on solaris. 
+i use solaris 2.5.1 on sun sparc with 
+gnu c-compiler 2.7.2 and should be also able to
+compile on intel solaris without any modifications.
+during compilation no warning occour.
+
+to compile dptnt, you need gmake, the gnu-make, 
+standard make doesn't work. do the following:
+  cd src
+  gmake dep 
+  gmake 
+
+i did some modifications on the keyboard setting, so 
+look also at the tnt.hlp file here. 
+some wrapper scripts should help you easy to start.
+start with mtnt.
+there is no install-script, you have to play around.
+
+source code is availble from  ftp://ftp.bfl.at 
+
+
+best regards 
+hans 
+oe1smc @ oe1xab.aut.eu 
+mayer@ping.at 
+
+

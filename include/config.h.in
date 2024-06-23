@@ -1,0 +1,179 @@
+/* config.h.in.  Generated automatically from configure.in by autoheader.  */
+
+/* Define to empty if the keyword does not work.  */
+#undef const
+
+/* Define if you have <sys/wait.h> that is POSIX.1 compatible.  */
+#undef HAVE_SYS_WAIT_H
+
+/* Define if utime(file, NULL) sets file's timestamp to the present.  */
+#undef HAVE_UTIME_NULL
+
+/* Define to `int' if <sys/types.h> doesn't define.  */
+#undef pid_t
+
+/* Define as the return type of signal handlers (int or void).  */
+#undef RETSIGTYPE
+
+/* Define to `unsigned' if <sys/types.h> doesn't define.  */
+#undef size_t
+
+/* Define if you have the ANSI C header files.  */
+#undef STDC_HEADERS
+
+/* Define if you can safely include both <sys/time.h> and <time.h>.  */
+#undef TIME_WITH_SYS_TIME
+
+/* Define if your <sys/time.h> declares struct tm.  */
+#undef TM_IN_SYS_TIME
+
+/* Define if you have the getcwd function.  */
+#undef HAVE_GETCWD
+
+/* Define if you have the gettimeofday function.  */
+#undef HAVE_GETTIMEOFDAY
+
+/* Define if you have the mkdir function.  */
+#undef HAVE_MKDIR
+
+/* Define if you have the mktime function.  */
+#undef HAVE_MKTIME
+
+/* Define if you have the select function.  */
+#undef HAVE_SELECT
+
+/* Define if you have the socket function.  */
+#undef HAVE_SOCKET
+
+/* Define if you have the strdup function.  */
+#undef HAVE_STRDUP
+
+/* Define if you have the strerror function.  */
+#undef HAVE_STRERROR
+
+/* Define if you have the strstr function.  */
+#undef HAVE_STRSTR
+
+/* Define if you have the strtoul function.  */
+#undef HAVE_STRTOUL
+
+/* Define if you have the <dirent.h> header file.  */
+#undef HAVE_DIRENT_H
+
+/* Define if you have the <errno.h> header file.  */
+#undef HAVE_ERRNO_H
+
+/* Define if you have the <fcntl.h> header file.  */
+#undef HAVE_FCNTL_H
+
+/* Define if you have the <ndir.h> header file.  */
+#undef HAVE_NDIR_H
+
+/* Define if you have the <sys/dir.h> header file.  */
+#undef HAVE_SYS_DIR_H
+
+/* Define if you have the <sys/ioctl.h> header file.  */
+#undef HAVE_SYS_IOCTL_H
+
+/* Define if you have the <sys/ndir.h> header file.  */
+#undef HAVE_SYS_NDIR_H
+
+/* Define if you have <sys/signal.h> header file */
+#undef HAVE_SYS_SIGNAL_H
+
+/* Define if you have the <sys/time.h> header file.  */
+#undef HAVE_SYS_TIME_H
+
+/* Define if you have the <termcap.h> header file.  */
+#undef HAVE_TERMCAP_H
+
+/* Define if you have the <termio.h> header file.  */
+#undef HAVE_TERMIO_H
+
+/* Define if you have the <unistd.h> header file.  */
+#undef HAVE_UNISTD_H
+
+/* Define if you have the usleep function.  */
+#undef HAVE_USLEEP
+
+/* Define if you have the srandom function.  */
+#undef HAVE_SRANDOM
+
+/* Define if you have the index.  */
+#undef HAVE_INDEX
+
+/* Define if you have the memmove.  */
+#undef HAVE_MEMMOVE
+
+/* Define if using ncurses library */
+#undef HAVE_NCURSES
+
+/* DEF_COLOR and DEF_TERMCAP must be set to the wanted default value,
+   both values can be overridden with color and termcap in tnt.ini */
+#undef DEF_TERMCAP
+#undef DEF_COLOR
+
+/* Define if you struct utmp has ut_host member.  */
+#undef HAVE_UT_HOST
+
+/* Define if you struct utmp has ut_exit member.  */
+#undef HAVE_UT_EXIT
+
+/* Define if CRTSCTS is available in tcsetattr.  */
+#undef HAVE_CRTSCTS
+
+/* Define TNT_SOUND for audio support.  */
+#undef TNT_SOUND
+
+/* Define DPBOXT to use code for dpboxt operation.  */
+#undef DPBOXT
+
+/* Define if compiling with the Linux AX25K.  */
+#undef USE_AX25K
+
+#ifndef DPBOXT
+/* Define BCASE to include code for pacsat-broadcast. */
+#undef BCAST
+#endif
+
+/* Define USE_IFACE if you want to compile in software interface.  */
+#undef USE_IFACE
+
+/* Define SPECIAL if if USE_SOCKET is defined and mail delivery 
+   feature shall be used.  */
+#undef SPECIAL
+
+/* Define GEN_NEW_USER for updating /etc/passwd on new user login.  */
+#undef GEN_NEW_USER
+
+/* Define PWD_NOT_EMPTY if password entry must contain :,./:.  */
+#undef PWD_NOT_EMPTY
+
+/* Define USE_HIBAUD if baudrates above 38400 (LINUX only)  */
+#undef USE_HIBAUD
+
+/* Define if terminal sets cursor in new line if
+   character in last column of the line is written.  */
+#undef DEF_AUTO_NEWLINE
+
+/* Define if DEF_AUTO_NEW is set and terminal doesn't display
+   character for the codes 128-160.  */
+#undef DEF_SUPP_HICNTL
+
+/* Define file descriptor size XXXXXX */
+#undef FD_SETSIZE
+
+/* DIR_STRING contains command line used for //DIR remote command.  */
+#undef DIR_STRING
+
+/* DIRL_STRING contains command line used for //DIRLONG remote command. */ 
+#undef DIRL_STRING
+
+/* DIRRUN_STRING contains command line used for //RUN remote command. */ 
+#undef DIRRUN_STRING
+
+/* FREE_STRING contains command line used for //FREE remote command.  */
+#undef FREE_STRING
+
+/* Define if on a POSIXised ISC UNIX.  */
+#undef _POSIX_SOURCE

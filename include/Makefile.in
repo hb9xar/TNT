@@ -1,0 +1,40 @@
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+MKDIR = mkdir -p
+
+prefix = @prefix@/tnt
+exec_prefix = @exec_prefix@
+includedir = @includedir@
+datadir = @datadir@
+infodir = @infodir@
+libdir = @libdir@
+libexecdir = @libexecdir@
+localstatedir = @localstatedir@
+mandir = @mandir@
+sbindir = @sbindir@
+sysconfdir = @sysconfdir@
+srcdir = @srcdir@
+VPATH = @srcdir@
+bindir = @bindir@
+
+CC              = @CC@
+CPP             = $(CC) -E
+CFLAGS          = @CFLAGS@ -funsigned-char -I..
+LD              = $(CC)
+LDFLAGS         = @LDFLAGS@
+LIBS            = @LIBS@ 
+
+SRCS   = tntrun.h
+
+all:
+
+clean:
+	$(RM) $(BIN) *.o *.orig *.bak *.core .depend TAGS
+
+install:
+	$(MKDIR)  ${includedir}; 
+	@for i in $(SRCS); \
+	do \
+		$(INSTALL_DATA) $$i ${includedir}; \
+	done

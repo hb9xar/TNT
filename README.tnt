@@ -1,0 +1,82 @@
+Note: This is release of TNT 1.7, originally developed by Mark Wahl.
+This release is the work of several people. Take a look in ./doc/CHANGES
+for more information.
+
+---------------------------------------------------------------------
+QUICK-INSTALLATION, please read carefully
+
+To install TNT:
+  1) Type "./configure --help" to see the options you may be want to
+     change (for example sound-support is defaultly compiled in).
+  2) Type "./configure" or "./configure --[ARGS]" to configure TNT.
+     (For example "./configure --disable-sound" to compile TNT without
+     sound).
+  3) Type "make" to build TNT.
+  4) Type "make install" to install TNT.
+  5) Good Luck ;-)
+
+---------------------------------------------------------------------
+Configure-Options:
+  There are three options for TNT:
+  a) sound
+  b) ax25k
+  c) dpboxt
+
+ Defaultly only sound is activated.
+ To disable sound: ./configure --disable-sound
+ To enable ax25k:  ./configure --enable-ax25k
+ To enable dpboxt: ./configure --enable-dpboxt
+ (Note: the dpbox-terminal is broken at the moment, so compilation with
+        DPBOXT will fail!)
+
+AX25-kernel support:
+If you want to use TNT with ax25-kernel support, the only thing to do, is
+configuring TNT with ax25k enabled.
+Please Note: you MUST have the axutils installed. TNT needs the ax25lib
+(libax25.a) and the include-files (there should exists in /usr/include/ax25
+for example). TNT searches for an include-dir named "ax25".
+
+Installation is easy: "./configure", "make" and "make install".
+After the installation is finished the program "tnt_setup" will be called.
+Here you can do some important settings for your tnc, boxsocket or your
+callsign. If you do not want this, just leave the program.
+
+-------------------------------------------------------------------------
+IMPORTANT:
+TNT can now used by more than one user. Just install TNT as normal, and
+than create a dir ".tnt" in your homedirectory and put ALL the Configuration-
+files in it (tnt.ini and the *.tnt files).
+
+If you don't start TNT with a given directory explizit (with the -i option),
+TNT will search "tnt.ini" (or ".tntrc") in these places:
+First in your $HOME/.tnt directory, e.g.  /home/you/.tnt/tnt.ini
+Then in the current directory.
+After this TNT will look in the directory you installed TNT in (Note: the
+path in configure.h "TNT_INSTALL_PATH" will be hardcoded into TNT).
+At last TNT looks in /etc/tnt.ini
+
+The same thing is the "tntc.ini" (or ".tntrc"),
+---------------------------------------------------------------------
+
+documentation of TNT can be found in /doc-dir.
+source-code is found in /src-dir.
+solaris-stuff is found in /doc/solaris-dir.
+examples-configuration files can be found in /examples-dir.
+
+for information about what has changed, take a look at /doc/CHANGES
+
+------------------------------------------------------------------------------
+You can find new versions of TNT here:
+http://excelsior.kullen.rwth-aachen.de
+ftp://excelsior.kullen.rwth-aachen.de/pub/packet_radio/tnt
+http://www.bfl.at/mayer/ham
+ftp://ftp.bfl.at/src/tnt
+
+The Original-Home of TNT is here:
+http://www.snafu.de/~wahlm
+
+NOTE: This release is no offical version of Mark Wahl (Author of TNT).
+      But there will be definitly no more versions from Mark Wahl!
+
+Contents last checked by Matthias Hensler.
+(WSPse, 13. Mar. 1999)

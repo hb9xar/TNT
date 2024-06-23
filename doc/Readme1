@@ -1,0 +1,22 @@
+MAIN: Dies ist der Pfad in dem TNT mit seinen Dateien und Unterver-
+      zeichnissen installiert wird.
+LOCK: Die Lockfiledatei fuer TNT
+TNTC: Die Adresse fuer den Frontend-Socket, fuer den Fall, das TNT als
+      Daemon-Prozess gestartet wird, und die Konsole spaeter extra aufge-
+      rufen wird. Dies kann entweder ein Unix-Socket oder ein Netzwerk
+      (TCP/IP) Socket sein.
+      Ein Unix-Socket wird durch einen gueltigen Dateinamen mit einem
+      gueltigen Pfad definiert, zB "/usr/local/tnt/tntc-socket".
+      Ein TCP/IP-Socket hat das Format "<rechner>:<port>", wobei Rechner
+      der eigene (localhost) oder ein Remoterechner (gueltige URL/Rechner-
+      name) sein kann. Fuer Port wird normal ein Wert ab 5000 verwendet.
+BOX:  Die Pfadangabe zum Box-Socket der DP-Box.
+COOKIE: Die Pfadangabe zu einer gueltigen Cookie-Datei. Falls das Packet
+        "Fortunes" installiert ist, kann hiervon zB eine Cookiedatei ge-
+        nommen werden.
+SOUND: TNT unterstuetzt seit Version 1.1alpha11 die Soundausgabe bei
+       Ereignissen wie Connect, Disconnect, etc. Der Sound kann spaeter
+       noch ueber einen Schalter deaktiviert werden.
+       Mit Hilfe dieses Flags kann TNT aber auch komplett ohne diese
+       Unterstuetzung compiliert werden, wodurch es ein wenig kleiner
+       wird.

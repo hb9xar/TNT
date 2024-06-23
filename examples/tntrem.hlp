@@ -1,0 +1,52 @@
+
+                          TNT-Remote-Hilfe
+                          ----------------
+
+Folgende Kommandos sind moeglich:
+
+ //n <text>             Text an Kanal n senden
+ //ACT                  Letzte Sysopaktivitaet zeigen.
+ //SESSION              Laufzeit dieser Session/Version anzeigen.
+ //ONACTIVITY <text>    Text festlegen, der bei Sysopaktivitaet gesendet wird
+ //CHat <ch/call><text> Text an bestimmten Kanal oder bestimmtes Call senden.
+ //MSG <ch/call> <text> Wie CHat.
+ //COMP on/off          Huffman Kompression ein-/ausschalten
+ //NAME <name>          Name speichern
+ //CSTAT                Aktive Connects anzeigen
+ //MHeard               Liste der gehoerten Stationen anzeigen
+ //MHeard <nr/str>      <nr> Eintraege der MH anzeigen oder <str> suchen
+ //SHELL                Eine UNIX-Shell oeffnen (wenn Rechte vorhanden!)
+ //TSHELL               UNIX-Shell ohne CR/LF Konvertierung
+ //RUN <program>        Ein Programm starten
+ //RUNT <program>       Programm ohne CR/LF Konvertierung ausfuehren
+ //RUN                  Alle vorhandenen Programme zeigen
+ //BOX                  Interne Mailbox connecten
+ //COOKIE               Ein Cookie senden
+ //DIR <filter>         Directory anzeigen
+ //DIRLONG <filter>     Dir im langen Format zeigen
+ //FREE                 Freien Plattenspeicher anzeigen
+ //INFO                 Info ueber diese Station
+ //HELP                 Diese Hilfsliste
+ //NEWS                 Aktuelle Neuigkeiten anzeigen
+ //READ <file>          Datei auslesen
+ //BREAK                Abrechen des Auslesevorgangs
+ //WRITE <file>         Datei speichern
+ //CLOSE                Speicherung beenden
+ //WPRG <file>          Datei mit Hilfe des AUTOBIN-Protokolls schreiben
+ //WPRG <file> <rfile>  Selbe wie oben, aber ein //RPRG <file> wird gesendet
+ //RPRG <file>          Datei mit Hilfe des AUTOBIN-Protokolls lesen
+ //RPRG <file> <rfile>  Selbe wie oben, aber ein //WPRG <file> wird gesendet
+ //WYAPP <file>         Datei mit Hilfe des YAPP-Protokolls senden (empfohlen)
+ //RYAPP [file]         Datei mit Hilfe des YAPP-Protokolls lesen
+ //VERSION              Version dieser Software anzeigen
+ //ECHO <string>        String zuruecksenden
+ //TIME                 Aktuelle Zeit anzeigen
+ //RTT [timestring]     Laufzeitmessung
+ //RING                 Sysop rufen
+ //QUIT                 Disconnect mit Verabschiedungstext
+ //DISC                 Sofortiger Disconnect
+
+Die beiden (//) muessen am Anfang der Zeile eingegeben werden.
+
+Ende des Hilftextes
+

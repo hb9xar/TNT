@@ -1,0 +1,13 @@
+// Header fuer TNT-Runprogramme
+
+/* Eincompilierter Run-Pfad, wird zB vom Runprogramm "hilfe" benoetigt */
+#undef TNT_RUN_PATH
+
+/* Eincompilierter Main-Pfad, wird zB vom Logbuchprogramm benoetigt */
+#undef TNT_MAIN_PATH
+
+/* Makrodefinitionen fuer Enviromentvariablen */
+#define GET_CALLSIGN (char *) getenv("CALLSIGN")
+#define GET_LOGNAME (char *) getenv("LOGNAME")
+#define GET_CALLSSID (char *) getenv("CALLSSID")
+

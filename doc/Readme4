@@ -1,0 +1,16 @@
+CALL: Ihr normales Terminalcall.
+BOX: Das Boxrufzeichen.
+COLOR: Die Farbeinstellungen. Bei "0" wird immer die Monochrome-
+       Darstellung benutzt. Bei "1" untersucht TNT die Eintraege in der
+       termcap und benutzt Farbattribute bei dem Terminaltyp "linux".
+       Bei "2" wird immer Farbdarstellung benutzt. Bei "3" zieht TNT
+       die termcap zur Hilfe und benutzt Farbattribute beim Terminal-
+       typ "xterm". Default: 2
+STAT: TNT kann zwei verschiedene Statuszeilen anzeigen. Die altmodische
+      (Typ 0) zeigt hauptsaechlich Informationen wie "Packet Reject", etc.,
+      waehrend der informative (Typ 1) ua. Namen und Rufzeichen der
+      Gegenstation zeigt. Default: Typ 1 (informativ).
+RESY: Hier kann ein-/ausgeschaltet werden, ob TNT ueber jeden notwendigen
+      Resync ein Logbuch mit ausfuehrlichen Informationen fuehren soll.
+      Dies ist zB. sinnvoll wenn man Probleme hat, und nach Fehlerloesungen
+      sucht.

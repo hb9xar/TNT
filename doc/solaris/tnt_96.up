@@ -1,0 +1,76 @@
+# connect-text
+ctext 1 willkommen bei n0call 
+# monitor
+# m iusc
+m u
+# number of connects
+y 9
+# bell for every received packet
+infobell on
+# no umlaut
+umlaut off
+# kein piepsen bei jeder zeile 
+info off
+# logfile append
+append on
+# execute word-wrap at end of line
+wordwrap on
+# send whole line
+wholelin on
+# sende connect text 
+context on
+# timestamp
+k 2
+# set time in tnc
+timeset
+# set date in tnc
+dateset
+#
+## qrg 0 438.600 /dev/cua/a
+qrg 0 438.600
+#
+channel 0
+mycall n0call-15
+c test
+#
+channel 1
+mycall n0call-11
+# f 16
+channel 2
+mycall n0call-12
+# tnc O 5 
+# f 17
+channel 3
+mycall n0call-11
+# tnc O 6 
+channel 4
+mycall n0call-12
+channel 5
+mycall n0call
+channel 6
+mycall n0call
+channel 8
+mycall n0call-13 
+channel 9
+mycall n0call-14
+#
+a 1 
+e 1
+# fracktime 
+# tnc f 16
+h 0
+# retry zaehler 
+n 15
+# tnc O 5 
+p 200
+r 0
+t 8
+u 0
+w 2
+y 10
+z 0
+@t2 1 
+@t3 6000
+#
+## socket axspec loopback:2222
+#

@@ -1,0 +1,14 @@
+TYP: Der TNC-Typ. Entweder ein echtes Hardware-TNC angeschlossen an einem
+     beliebigen Com-Port. Oder der TNC-Emulator TFKISS. Bei TFKISS gibt
+     es zwei Moeglichkeiten: die Connection via Unix-Socket und via Netz-
+     werksocket (Erklaerungen hierzu, s. HILFE-Globale Einstellungen).
+BAUD: Die Baudrate fuer die Kommunikation TNC<->Computer (nur bei einem
+      Hardware-TNC von Bedeutung, bei TFKISS unwichtig).
+DEVICE: Die Schnittstelle zum TNC (Hardware/Software). Bei einem Hardware-
+        TNC hat man die Auswahl zwischen den Com-Ports 1 bis 4.
+        Bei einem Software-TNC ist die Schnittstelle im selben Format wie
+        beim Frontend-Socket der Globalen Einstellungen anzugeben (s. Hilfe
+        dort).
+CHAN: Anzahl der TNC-Kanaele die TNT verwalten soll. Bei einem Hardware-TNC
+      sind dies standardmaessig 10 oder 27 (je nach Epromversion), TFKISS
+      hat standardmaessig 50 Kanaele.
